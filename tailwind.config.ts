@@ -99,13 +99,18 @@ export default {
   				'90%': {
   					transform: 'rotate(0deg)'
   				}
-  			}
+  			},
+			marquee: {
+				'0%': { transform: 'translateX(0%)' },
+				'100%': { transform: 'translateX(-100%)' }
+			}
   		},
   		animation: {
   			'slide-in-left': 'slide-in-left 0.9s ease-out forwards',
   			'slide-in-right': 'slide-in-right 0.9s ease-out forwards',
   			'spin-slow': 'rotate-360 8s linear infinite',
-  			'shake': 'shake 0.5s cubic-bezier(.36,.07,.19,.97) 2'
+  			'shake': 'shake 0.5s cubic-bezier(.36,.07,.19,.97) 2',
+			'marquee': 'marquee 120s linear infinite'
   		},
   		borderRadius: {
   			lg: 'var(--radius)',

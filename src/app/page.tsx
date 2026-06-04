@@ -269,12 +269,13 @@ export default function Home() {
                   />
                 </svg>
                 <p className="text-[12px] md:text-[14px] text-left max-w-[530px] text-[#43A3A3]">
-                  Transforming Lives Through Mindful Healing.
+                  Transforming Lives Through Integrated and Holistic Healing.
                 </p>
               </div>
               <h2 className="text-4xl md:text-[70px] font-[Outfit]">
-                Welcome to Alchemy
+                Alchemy
               </h2>
+              <h3 className="text-[1.5rem] md:text-[2rem] font-[Outfit]">Psychotherapy, Counselling and Mediation Services</h3>
               <p className="text-[1rem] max-w-[440px] text-wrap mb-4 font-[DM_Sans]">
                 Discover your path to healing and growth through personalized
                 therapy, mindful counseling, and transformative meditation
