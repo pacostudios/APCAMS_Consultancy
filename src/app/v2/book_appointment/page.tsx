@@ -5,10 +5,10 @@ import { useSearchParams, useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "motion/react";
 import { 
   Calendar as CalendarIcon, 
-  Clock, 
+  // Clock, 
   ArrowLeft, 
   ArrowRight,
-  CheckCircle2, 
+  // CheckCircle2, 
   Brain, 
   Heart, 
   Compass, 
@@ -103,7 +103,7 @@ function BookingContent() {
     };
   });
 
-  const [[stepPage, direction], setStepPage] = useState([1, 0]);
+  const [[, direction], setStepPage] = useState([1, 0]);
 
   const paginate = (newStep: number) => {
     setStepPage([newStep, newStep > currentStep ? 1 : -1]);
@@ -191,7 +191,7 @@ function BookingContent() {
                 <div className="space-y-12">
                   <div className="space-y-2">
                     <h2 className="text-3xl md:text-5xl font-bold text-slate-900 tracking-tight">Your Details</h2>
-                    <p className="text-slate-500 font-medium">Let's start with some basic information.</p>
+                    <p className="text-slate-500 font-medium">Let&apos;s start with some basic information.</p>
                   </div>
 
                   {/* Form Inputs */}

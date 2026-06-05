@@ -22,8 +22,25 @@ import {
 
 import { SITE_ASSETS } from "@/lib/site-assets";
 
+interface ServiceDimension {
+  name: string;
+  focus: string;
+  method: string;
+}
+
+interface ServiceDetailData {
+  title: string;
+  tagline: string;
+  description: string;
+  image: string;
+  icon: React.ReactNode;
+  dimensions: ServiceDimension[];
+  includes: string[];
+  emergencySupport?: boolean;
+}
+
 // Service Data Mapping
-const serviceData: Record<string, any> = {
+const serviceData: Record<string, ServiceDetailData> = {
   "psychotherapy": {
     title: "Psychotherapy",
     tagline: "Science-Backed Clinical Healing",
@@ -231,7 +248,7 @@ export default function ServiceDetail() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {data.dimensions.map((dim: any, i: number) => (
+          {data.dimensions.map((dim: ServiceDimension, i: number) => (
             <motion.div 
               initial={{ opacity: 0, scale: 0.95 }}
               whileInView={{ opacity: 1, scale: 1 }}
@@ -291,7 +308,7 @@ export default function ServiceDetail() {
               </div>
               <h3 className="text-3xl font-bold tracking-tight">Ready to begin your journey?</h3>
               <p className="text-slate-400 font-medium">
-                Book a confidential consultation today. Our practitioner sees the "whole person" rather than just a diagnosis.
+                Book a confidential consultation today. Our practitioner sees the &quot;whole person&quot; rather than just a diagnosis.
               </p>
               <Link href={`/v2/book_appointment?service=${slug}`} className="block w-full">
                 <button className="w-full py-4 bg-teal-600 text-white rounded-full font-bold hover:bg-white hover:text-teal-600 transition-all flex items-center justify-center gap-2 group/btn shadow-xl shadow-teal-900/20">

@@ -2,6 +2,7 @@
 
 import React from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { motion } from "motion/react";
 import { 
   ArrowUpRight, 
@@ -64,7 +65,7 @@ export default function V2About() {
           </h1>
           <p className="text-lg text-slate-500 leading-relaxed font-medium">
             Our comprehensive approach combines cutting-edge therapeutic techniques with ancient wisdom, 
-            creating a unique space where science meets soul, and where every individual's journey is 
+            creating a unique space where science meets soul, and where every individual&apos;s journey is 
             honored and supported with the utmost care and respect.
           </p>
           <div className="pt-4">

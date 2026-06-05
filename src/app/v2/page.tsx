@@ -229,7 +229,7 @@ export default function V2Home() {
           </h2>
           <p className="text-base md:text-lg text-slate-600 leading-relaxed font-medium">
             Our comprehensive approach combines evidence-based therapeutic techniques with holistic healing practices, 
-            creating a supportive space where science meets compassion. We honor each individual's unique journey, 
+            creating a supportive space where science meets compassion. We honor each individual&apos;s unique journey, 
             helping clients cultivate resilience, self-awareness, and lasting emotional well-being.
           </p>
           <a 
@@ -311,7 +311,7 @@ export default function V2Home() {
                     <span className="text-slate-900 font-bold tracking-wide uppercase text-xs">Client Testimonial</span>
                   </div>
                   <p className="text-slate-600 font-medium leading-relaxed text-sm md:text-base mb-8 italic">
-                    "{testimonial}"
+                    &quot;{testimonial}&quot;
                   </p>
                 </div>
                 <div className="flex items-center gap-1 mt-auto">
@@ -336,7 +336,7 @@ export default function V2Home() {
                     <span className="text-slate-900 font-bold tracking-wide uppercase text-xs">Client Testimonial</span>
                   </div>
                   <p className="text-slate-600 font-medium leading-relaxed text-sm md:text-base mb-8 italic">
-                    "{testimonial}"
+                    &quot;{testimonial}&quot;
                   </p>
                 </div>
                 <div className="flex items-center gap-1 mt-auto">
@@ -414,7 +414,7 @@ export default function V2Home() {
               <div className="absolute inset-0 bg-gradient-to-t from-slate-900/40 to-transparent"></div>
               <div className="absolute bottom-10 left-10 right-10 p-8 bg-white/10 backdrop-blur-md rounded-2xl border border-white/20">
                 <p className="text-white font-medium italic text-lg leading-relaxed">
-                  "The first step towards healing is understanding. We're here to guide you through every question."
+                  &quot;The first step towards healing is understanding. We&apos;re here to guide you through every question.&quot;
                 </p>
               </div>
             </div>
