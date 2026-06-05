@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { motion } from "motion/react";
 import { 
   ChevronRight, 
@@ -18,6 +19,7 @@ import {
   Quote
 } from "lucide-react";
 import { NumberTicker } from "@/components/magicui/number-ticker";
+import { SITE_ASSETS } from "@/lib/site-assets";
 
 export default function V2Home() {
   const [activeFaq, setActiveFaq] = useState<number | null>(null);
@@ -146,10 +148,12 @@ export default function V2Home() {
             mindful counseling, and transformative meditation practices.
           </p>
           <div className="flex items-center gap-6 pt-4">
-            <button className="px-6 py-3 md:px-8 md:py-4 bg-slate-900 text-white rounded-full font-bold text-sm md:text-base hover:bg-teal-600 transition-all flex items-center gap-2 group">
-              BOOK YOUR SESSION
-              <ArrowUpRight size={20} className="transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
-            </button>
+            <Link href="/v2/book_appointment">
+              <button className="px-6 py-3 md:px-8 md:py-4 bg-slate-900 text-white rounded-full font-bold text-sm md:text-base hover:bg-teal-600 transition-all flex items-center gap-2 group">
+                BOOK YOUR SESSION
+                <ArrowUpRight size={20} className="transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
+              </button>
+            </Link>
           </div>
         </motion.div>
 
@@ -162,8 +166,8 @@ export default function V2Home() {
         >
           <div className="aspect-[4/5] bg-slate-100 rounded-[3rem] md:rounded-[4rem] overflow-hidden relative z-10 shadow-2xl">
              <Image 
-                src="/landing2.webp"
-                alt="Wellness"
+                src={SITE_ASSETS.HOME.hero.src}
+                alt={SITE_ASSETS.HOME.hero.alt}
                 fill
                 className="object-cover"
              />
@@ -206,8 +210,8 @@ export default function V2Home() {
           className="relative aspect-[4/3] rounded-[2rem] md:rounded-[3rem] overflow-hidden shadow-2xl order-2 lg:order-1"
         >
           <Image 
-            src="/sofa_teal.webp" 
-            alt="Teal Sofa" 
+            src={SITE_ASSETS.HOME.aboutPreview.src} 
+            alt={SITE_ASSETS.HOME.aboutPreview.alt} 
             fill 
             className="object-cover"
           />
@@ -455,10 +459,12 @@ export default function V2Home() {
             </div>
 
             <div className="shrink-0 w-full lg:w-auto mt-4 lg:mt-0">
-              <button className="w-full lg:w-auto px-8 py-4 md:px-12 md:py-6 bg-slate-900 text-white rounded-full font-bold text-sm md:text-lg hover:bg-white hover:text-teal-600 transition-all shadow-xl hover:shadow-2xl flex items-center justify-center gap-3 group/btn">
-                SCHEDULE CONSULTATION
-                <ArrowUpRight size={20} className="md:w-6 md:h-6 transition-transform group-hover/btn:translate-x-1 group-hover/btn:-translate-y-1" />
-              </button>
+              <Link href="/v2/book_appointment">
+                <button className="w-full lg:w-auto px-8 py-4 md:px-12 md:py-6 bg-slate-900 text-white rounded-full font-bold text-sm md:text-lg hover:bg-white hover:text-teal-600 transition-all shadow-xl hover:shadow-2xl flex items-center justify-center gap-3 group/btn">
+                  SCHEDULE CONSULTATION
+                  <ArrowUpRight size={20} className="md:w-6 md:h-6 transition-transform group-hover/btn:translate-x-1 group-hover/btn:-translate-y-1" />
+                </button>
+              </Link>
             </div>
             
           </div>

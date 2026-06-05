@@ -16,6 +16,7 @@ import {
   Award,
   Users
 } from "lucide-react";
+import { SITE_ASSETS } from "@/lib/site-assets";
 
 export default function V2About() {
   const philosophy = [
@@ -43,12 +44,6 @@ export default function V2About() {
     { label: "Excellence", icon: <Star className="w-8 h-8 text-teal-700" /> }
   ];
 
-  const credentials = [
-    { label: "PhD in Clinical Psychology", icon: <GraduationCap className="w-6 h-6 text-teal-600" /> },
-    { label: "10+ Years of Experience", icon: <Award className="w-6 h-6 text-teal-600" /> },
-    { label: "500+ Lives Transformed", icon: <Users className="w-6 h-6 text-teal-600" /> }
-  ];
-
   return (
     <div className="space-y-24 md:space-y-32 pb-32 pt-10">
       
@@ -73,10 +68,12 @@ export default function V2About() {
             honored and supported with the utmost care and respect.
           </p>
           <div className="pt-4">
-            <a href="/v2/service" className="inline-flex px-8 py-4 bg-teal-600 text-white rounded-full font-bold text-sm hover:bg-slate-900 transition-all items-center gap-2 group shadow-lg shadow-teal-100">
-              EXPLORE OUR SERVICES
-              <ArrowUpRight size={18} className="transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
-            </a>
+            <Link href="/v2/service">
+              <button className="inline-flex px-8 py-4 bg-teal-600 text-white rounded-full font-bold text-sm hover:bg-slate-900 transition-all items-center gap-2 group shadow-lg shadow-teal-100">
+                EXPLORE OUR SERVICES
+                <ArrowUpRight size={18} className="transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
+              </button>
+            </Link>
           </div>
         </motion.div>
 
@@ -89,8 +86,8 @@ export default function V2About() {
           {/* Custom shaped image container (Arch style) */}
           <div className="relative aspect-[4/5] md:aspect-square w-full max-w-[500px] mx-auto lg:ml-auto rounded-t-full rounded-b-[3rem] overflow-hidden shadow-2xl bg-slate-100">
              <Image 
-                src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?auto=format&fit=crop&q=80&w=800"
-                alt="Alchemy Therapy Room"
+                src={SITE_ASSETS.ABOUT.hero.src}
+                alt={SITE_ASSETS.ABOUT.hero.alt}
                 fill
                 className="object-cover"
                 priority
@@ -180,8 +177,8 @@ export default function V2About() {
           <div className="relative w-full lg:w-[400px] shrink-0">
             <div className="aspect-[4/5] rounded-[2rem] overflow-hidden bg-slate-100 relative z-10">
               <Image 
-                src="https://images.unsplash.com/photo-1556157382-97eda2d62296?auto=format&fit=crop&q=80&w=800"
-                alt="Chacko (James) Vadayil Varkey"
+                src={SITE_ASSETS.ABOUT.team.drSarah.src}
+                alt={SITE_ASSETS.ABOUT.team.drSarah.alt}
                 fill
                 className="object-cover"
               />

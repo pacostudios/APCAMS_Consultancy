@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import React from "react";
 import Image from "next/image";
 import { motion } from "motion/react";
@@ -10,97 +11,91 @@ import {
   Leaf, 
   Sparkles, 
   Brain, 
-  MessageCircle,
-  CheckCircle2,
-  CalendarDays,
-  ChevronRight,
-  Clock
+  MessageCircle, 
+  CheckCircle2, 
+  CalendarDays, 
+  ChevronRight, 
+  Clock,
+  Zap,
+  ShieldAlert
 } from "lucide-react";
 
-export default function V2Service() {
-  const serviceCategories = [
+import { SITE_ASSETS } from "@/lib/site-assets";
+
+// CONFIGURATION: Content managed here, Images managed in @/lib/site-assets.ts
+const SERVICE_PAGE_CONTENT = {
+  hero: {
+    title: "Our Services",
+    description: "Comprehensive healing and wellness services designed to support your unique journey of growth, recovery, and transformation.",
+    image: SITE_ASSETS.SERVICES_LANDING.hero.src
+  },
+  services: [
     {
       title: "Personal Growth",
+      slug: "personal-growth",
       desc: "Our personal growth programs combine therapeutic insights with life coaching strategies to help you identify your values, set meaningful goals, and create the life you envision.",
       icon: <Target className="w-8 h-8 text-teal-600" />,
       includes: ["Life Coaching", "Goal Setting & Achievement", "Self-Discovery Sessions", "Confidence Building", "Career Guidance", "Personal Development"]
     },
     {
       title: "Addiction Support",
+      slug: "addiction-support",
       desc: "Our addiction support services provide evidence-based treatment for substance abuse and behavioral addictions with a focus on long-term recovery.",
       icon: <ShieldCheck className="w-8 h-8 text-teal-600" />,
       includes: ["Addiction Assessment", "Recovery Planning", "Relapse Prevention", "Support Groups", "Family Support", "Ongoing Monitoring"]
     },
     {
       title: "Meditation & Mindfulness",
+      slug: "meditation-programs",
       desc: "Learn the transformative power of mindfulness through our structured meditation programs designed for stress reduction and emotional balance.",
       icon: <Leaf className="w-8 h-8 text-teal-600" />,
       includes: ["Guided Meditation Sessions", "Mindfulness Training", "Stress Reduction Programs", "Wellness Retreats", "Breathwork Techniques", "Daily Practice Support"]
     },
     {
       title: "Healing & Recovery",
+      slug: "healing-recovery",
       desc: "Our healing and recovery programs provide compassionate support for those experiencing grief, trauma, or emotional distress.",
       icon: <Sparkles className="w-8 h-8 text-teal-600" />,
       includes: ["Grief Counseling", "Trauma Recovery", "PTSD Support", "Emotional Healing", "Loss & Bereavement", "Crisis Intervention"]
     },
     {
       title: "Psychotherapy",
+      slug: "psychotherapy",
       desc: "Our psychotherapy services utilize proven therapeutic approaches including CBT, DBT, and mindfulness-based interventions.",
       icon: <Brain className="w-8 h-8 text-teal-600" />,
       includes: ["Cognitive Behavioral Therapy (CBT)", "Dialectical Behavior Therapy (DBT)", "Mindfulness-Based Therapy", "Trauma-Informed Care", "Depression & Anxiety Treatment", "Stress Management"]
     },
     {
       title: "Counseling Services",
+      slug: "counselling-services",
       desc: "Our counseling services address relationship dynamics, family conflicts, and communication patterns for individuals and groups.",
       icon: <MessageCircle className="w-8 h-8 text-teal-600" />,
       includes: ["Individual Counseling", "Couples Therapy", "Family Counseling", "Group Sessions", "Relationship Issues", "Communication Skills"]
     }
-  ];
-
-  const processSteps = [
-    {
-      id: "01",
-      title: "Initial Consultation",
-      desc: "Comprehensive assessment to understand your unique needs and goals."
-    },
-    {
-      id: "02",
-      title: "Personalized Plan",
-      desc: "Tailored treatment plan aligning with your objectives and preferences."
-    },
-    {
-      id: "03",
-      title: "Active Sessions",
-      desc: "Regular meetings and skill-building exercises focused on growth."
-    },
-    {
-      id: "04",
-      title: "Ongoing Support",
-      desc: "Continuous guidance and plan adjustments throughout your journey."
-    }
-  ];
-
-  const blogPosts = [
+  ],
+  blogs: [
     {
       title: "Understanding Anxiety",
       subtitle: "A Guide to Finding Peace",
       date: "May 15, 2026",
-      image: "https://images.unsplash.com/photo-1474418397713-7ded61d96e18?auto=format&fit=crop&q=80&w=800"
+      image: SITE_ASSETS.SERVICES_LANDING.blogs[0].src
     },
     {
       title: "The Power of Mindfulness",
       subtitle: "In Healing Trauma",
       date: "May 10, 2026",
-      image: "https://images.unsplash.com/photo-1506126613408-eca07ce68773?auto=format&fit=crop&q=80&w=800"
+      image: SITE_ASSETS.SERVICES_LANDING.blogs[1].src
     },
     {
       title: "Building Healthy Relationships",
       subtitle: "Communication Tips",
       date: "May 05, 2026",
-      image: "https://images.unsplash.com/photo-1521791136064-7986c2953d75?auto=format&fit=crop&q=80&w=800"
+      image: SITE_ASSETS.SERVICES_LANDING.blogs[2].src
     }
-  ];
+  ]
+};
 
+export default function V2Service() {
   return (
     <div className="space-y-24 md:space-y-32 pb-32 pt-10">
       
@@ -118,16 +113,18 @@ export default function V2Service() {
             <span className="opacity-60">Services</span>
           </div>
           <h1 className="text-4xl md:text-7xl font-bold tracking-tight text-slate-900 leading-tight">
-            Our Services
+            {SERVICE_PAGE_CONTENT.hero.title}
           </h1>
           <p className="text-lg md:text-xl text-slate-500 leading-relaxed font-medium">
-            Comprehensive healing and wellness services designed to support your unique journey of growth, recovery, and transformation.
+            {SERVICE_PAGE_CONTENT.hero.description}
           </p>
           <div className="pt-4">
-            <button className="px-8 py-4 bg-slate-900 text-white rounded-full font-bold text-sm hover:bg-teal-600 transition-all flex items-center gap-2 group shadow-xl shadow-slate-100">
-              BOOK YOUR SESSION
-              <ArrowUpRight size={18} className="transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
-            </button>
+            <Link href="/v2/book_appointment">
+              <button className="px-8 py-4 bg-slate-900 text-white rounded-full font-bold text-sm hover:bg-teal-600 transition-all flex items-center gap-2 group shadow-xl shadow-slate-100">
+                BOOK YOUR SESSION
+                <ArrowUpRight size={18} className="transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
+              </button>
+            </Link>
           </div>
         </motion.div>
 
@@ -137,17 +134,19 @@ export default function V2Service() {
           transition={{ duration: 1 }}
           className="relative"
         >
-          {/* Custom shaped image container matching About page style */}
-          <div className="relative aspect-[4/5] md:aspect-square w-full max-w-[500px] mx-auto lg:ml-auto rounded-t-full rounded-b-[3rem] overflow-hidden shadow-2xl bg-slate-100">
-             <Image 
-                src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?auto=format&fit=crop&q=80&w=800"
-                alt="Alchemy Therapy Room"
-                fill
-                className="object-cover"
-                priority
-             />
+          <div className="relative aspect-[4/5] md:aspect-square w-full max-w-[500px] mx-auto lg:ml-auto rounded-t-full rounded-b-[3rem] overflow-hidden shadow-2xl bg-slate-100 flex items-center justify-center">
+             {SERVICE_PAGE_CONTENT.hero.image ? (
+               <Image 
+                  src={SERVICE_PAGE_CONTENT.hero.image}
+                  alt="Alchemy Therapy Room"
+                  fill
+                  className="object-cover"
+                  priority
+               />
+             ) : (
+               <span className="text-slate-400 font-bold p-8 text-center uppercase tracking-widest text-sm">Alchemy Therapy Room</span>
+             )}
           </div>
-          {/* Subtle background decoration */}
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] border border-slate-100 rounded-full -z-10"></div>
         </motion.div>
       </section>
@@ -155,7 +154,7 @@ export default function V2Service() {
       {/* 2. SERVICES DETAIL GRID */}
       <section className="max-w-7xl mx-auto px-6">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12">
-          {serviceCategories.map((service, i) => (
+          {SERVICE_PAGE_CONTENT.services.map((service, i) => (
             <motion.div 
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -193,49 +192,112 @@ export default function V2Service() {
               </div>
 
               <div className="pt-10">
-                <button className="flex items-center gap-2 text-slate-900 font-bold text-sm group/btn">
+                <Link 
+                  href={`/v2/service/${service.slug}`}
+                  className="flex items-center gap-2 text-slate-900 font-bold text-sm group/btn w-fit"
+                >
                   LEARN MORE 
                   <div className="w-8 h-8 rounded-full border border-slate-200 flex items-center justify-center transition-all duration-300 group-hover/btn:bg-slate-900 group-hover/btn:border-slate-900 group-hover/btn:text-white">
                     <ArrowUpRight size={16} />
                   </div>
-                </button>
+                </Link>
               </div>
             </motion.div>
           ))}
         </div>
       </section>
 
-      {/* 3. OUR PROCESS */}
-      <section className="bg-slate-900 py-24 md:py-32">
-        <div className="max-w-7xl mx-auto px-6 space-y-16 md:space-y-24">
-          <div className="text-center space-y-4">
-            <div className="text-teal-400 font-bold tracking-[0.2em] uppercase text-xs">Our Workflow</div>
-            <h2 className="text-3xl md:text-5xl font-bold text-white tracking-tight">Our Process</h2>
-            <p className="text-slate-400 max-w-xl mx-auto text-base md:text-lg">
-              A structured approach to your healing journey, ensuring support at every step.
+      {/* 3. OUR PROCESS (JOURNEY PATH) */}
+      <section className="bg-slate-50 py-24 md:py-32 relative overflow-hidden">
+        {/* Background Text Decoration */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 select-none pointer-events-none opacity-[0.03] whitespace-nowrap">
+          <span className="text-[20vw] font-bold text-slate-900 leading-none">THE JOURNEY</span>
+        </div>
+
+        <div className="max-w-7xl mx-auto px-6 relative z-10">
+          <div className="text-center space-y-6 mb-20 md:mb-32">
+            <div className="inline-flex items-center gap-2 px-4 py-2 bg-teal-100/50 text-teal-700 rounded-full text-xs font-bold tracking-widest uppercase">
+              <Zap size={14} className="animate-pulse" />
+              Path of Transformation
+            </div>
+            <h2 className="text-4xl md:text-6xl font-bold text-slate-900 tracking-tight">Our Healing Process</h2>
+            <p className="text-slate-500 max-w-2xl mx-auto text-lg md:text-xl font-medium">
+              We follow a structured four-phase evolutionary path, guiding you from psychological safety to sustained resilience.
             </p>
           </div>
 
           <div className="relative">
-            {/* Connection Line (Desktop) */}
-            <div className="hidden lg:block absolute top-12 left-0 w-full h-px bg-slate-800 z-0"></div>
-            
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 relative z-10">
-              {processSteps.map((step, i) => (
+            {/* Visual Flow Line (Desktop) - Adjusted to span between centers of blocks */}
+            <div className="hidden lg:block absolute top-[56px] left-[5.5%] w-[75%] h-1 bg-slate-200/50 z-0">
+              <motion.div 
+                initial={{ width: 0 }}
+                whileInView={{ width: "100%" }}
+                transition={{ duration: 2, ease: "easeInOut" }}
+                viewport={{ once: true }}
+                className="h-full bg-teal-500"
+              />
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-8">
+              {[
+                {
+                  id: "01",
+                  title: "The Container",
+                  subtitle: "Safety & Neuroplasticity",
+                  desc: "Creating a clinical space of unconditional positive regard where your nervous system can move out of survival mode.",
+                  icon: <ShieldCheck className="w-6 h-6" />,
+                  color: "bg-teal-500"
+                },
+                {
+                  id: "02",
+                  title: "The Blueprint",
+                  subtitle: "Strength-Based Strategy",
+                  desc: "Co-creating a tailored assessment focusing on 'What is right with you' using your unique internal resources.",
+                  icon: <Target className="w-6 h-6" />,
+                  color: "bg-teal-600"
+                },
+                {
+                  id: "03",
+                  title: "The Work",
+                  subtitle: "4D Integration",
+                  desc: "Active integration across Cognitive, Somatic, Emotional, and Spiritual dimensions for holistic healing.",
+                  icon: <Sparkles className="w-6 h-6" />,
+                  color: "bg-slate-800"
+                },
+                {
+                  id: "04",
+                  title: "The Growth",
+                  subtitle: "Sustained Resilience",
+                  desc: "Ongoing support ensuring tools for resilience are integrated into your daily life for long-term well-being.",
+                  icon: <Zap className="w-6 h-6" />,
+                  color: "bg-slate-900"
+                }
+              ].map((step, i) => (
                 <motion.div 
-                  initial={{ opacity: 0, y: 20 }}
+                  initial={{ opacity: 0, y: 30 }}
                   whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ delay: i * 0.1, duration: 0.5 }}
+                  transition={{ delay: i * 0.2, duration: 0.6 }}
                   viewport={{ once: true }}
                   key={i} 
-                  className="space-y-6 text-center lg:text-left"
+                  className="relative space-y-8 group"
                 >
-                  <div className="w-24 h-24 mx-auto lg:mx-0 bg-slate-800 rounded-full flex items-center justify-center border-4 border-slate-900 shadow-xl shadow-black/20 group hover:border-teal-500/30 transition-all duration-500">
-                    <span className="text-3xl font-bold text-teal-400">{step.id}</span>
+                  {/* Step Marker */}
+                  <div className="relative z-10 flex flex-col items-center lg:items-start">
+                    <div className={`w-28 h-28 rounded-[2rem] ${step.color} flex items-center justify-center text-white shadow-xl group-hover:scale-110 transition-transform duration-500 group-hover:rotate-6`}>
+                      <div className="flex flex-col items-center gap-1">
+                        <span className="text-3xl font-bold">{step.id}</span>
+                        <div className="opacity-60">{step.icon}</div>
+                      </div>
+                    </div>
                   </div>
-                  <div className="space-y-3">
-                    <h3 className="text-xl font-bold text-white">{step.title}</h3>
-                    <p className="text-slate-400 text-sm md:text-base leading-relaxed">
+
+                  {/* Content */}
+                  <div className="text-center lg:text-left space-y-4">
+                    <div>
+                      <h4 className="text-xs font-bold text-teal-600 uppercase tracking-widest mb-1">{step.subtitle}</h4>
+                      <h3 className="text-2xl font-bold text-slate-900">{step.title}</h3>
+                    </div>
+                    <p className="text-slate-500 text-sm md:text-base leading-relaxed font-medium">
                       {step.desc}
                     </p>
                   </div>
@@ -243,6 +305,30 @@ export default function V2Service() {
               ))}
             </div>
           </div>
+        </div>
+
+        {/* 24/7 Support Banner */}
+        <div className="max-w-4xl mx-auto px-6 mt-32 relative z-10">
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="bg-white border border-red-100 rounded-3xl p-8 flex flex-col md:flex-row items-center gap-8 shadow-2xl shadow-red-500/5"
+          >
+            <div className="w-16 h-16 bg-red-500 rounded-2xl flex items-center justify-center text-white shrink-0 animate-pulse">
+              <ShieldAlert size={28} />
+            </div>
+            <div className="flex-1 text-center md:text-left">
+              <h4 className="text-slate-900 font-bold text-xl mb-2 flex items-center justify-center md:justify-start gap-2">
+                24/7 Crisis Support
+                <span className="px-2 py-0.5 bg-red-100 text-red-600 text-[10px] uppercase tracking-widest rounded-md">Immediate Help</span>
+              </h4>
+              <p className="text-slate-500 text-sm font-medium">APCAMS is committed to providing 24/7 suicide prevention support. If you are in immediate distress, please reach out.</p>
+            </div>
+            <button className="px-8 py-4 bg-red-500 text-white rounded-full font-bold text-sm hover:bg-red-600 transition-all">
+              GET HELP NOW
+            </button>
+          </motion.div>
         </div>
       </section>
 
@@ -259,7 +345,7 @@ export default function V2Service() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {blogPosts.map((post, i) => (
+          {SERVICE_PAGE_CONTENT.blogs.map((post, i) => (
             <motion.div 
               initial={{ opacity: 0, scale: 0.95 }}
               whileInView={{ opacity: 1, scale: 1 }}
@@ -268,13 +354,17 @@ export default function V2Service() {
               key={i} 
               className="group cursor-pointer"
             >
-              <div className="relative aspect-[16/10] rounded-[2rem] overflow-hidden mb-6 shadow-lg">
-                <Image 
-                  src={post.image} 
-                  alt={post.title} 
-                  fill 
-                  className="object-cover group-hover:scale-110 transition-transform duration-700"
-                />
+              <div className="relative aspect-[16/10] rounded-[2rem] overflow-hidden mb-6 shadow-lg bg-slate-100 flex items-center justify-center">
+                {post.image ? (
+                  <Image 
+                    src={post.image} 
+                    alt={post.title} 
+                    fill 
+                    className="object-cover group-hover:scale-110 transition-transform duration-700"
+                  />
+                ) : (
+                  <span className="text-slate-400 font-bold text-center p-4 uppercase tracking-widest text-xs">{post.title}</span>
+                )}
                 <div className="absolute top-4 left-4 px-4 py-2 bg-white/90 backdrop-blur-md rounded-full flex items-center gap-2 shadow-sm">
                   <Clock size={14} className="text-teal-600" />
                   <span className="text-[10px] font-bold text-slate-900 uppercase tracking-widest">{post.date}</span>
