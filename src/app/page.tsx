@@ -273,7 +273,7 @@ export default function Home() {
                 </p>
               </div>
               <h2 className="text-4xl md:text-[70px] font-[Outfit]">
-                Alchemy
+                APCAMS
               </h2>
               <h3 className="text-[1.5rem] md:text-[2rem] font-[Outfit]">Psychotherapy, Counselling and Mediation Services</h3>
               <p className="text-[1rem] max-w-[440px] text-wrap mb-4 font-[DM_Sans]">

@@ -13,7 +13,7 @@ const Navbar = () => {
     <nav className="border-b border-[#43A3A3]">
       <nav className="text-black py-3  max-w-screen-2xl mx-auto px-4 lg:px-16 w-full">
       <div className="w-full flex justify-between items-center">
-        <div className="text-[35px] font-medium" onClick={handleNavigate}>ALCHEMY</div>
+        <div className="text-[35px] font-medium" onClick={handleNavigate}>APCAMS</div>
 
         {/* Desktop Navigation */}
         <div className="hidden lg:flex space-x-12">

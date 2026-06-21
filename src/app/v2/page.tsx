@@ -138,10 +138,10 @@ export default function V2Home() {
             TRANSFORMING LIVES THROUGH INTEGRATED AND HOLISTIC HEALING
           </div>
           <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold tracking-tight text-slate-900 leading-[1.1] md:leading-[0.9]">
-            Alchemy<span className="text-teal-600">.</span>
+            APCAMS<span className="text-teal-600">.</span>
           </h1>
           <h2 className="text-xl md:text-3xl font-medium text-slate-600">
-            Psychotherapy, Counselling and Mediation Services
+           Alchemy Psychotherapy, Counselling and Mediation Services
           </h2>
           <p className="text-lg md:text-xl text-slate-500 max-w-lg leading-relaxed font-normal">
             Discover your path to healing and growth through personalized therapy, 
@@ -200,7 +200,7 @@ export default function V2Home() {
         </motion.div>
       </section>
 
-      {/* ABOUT ALCHEMY SECTION */}
+      {/* ABOUT APCAMS SECTION */}
       <section className="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-12 md:gap-16 items-center">
         <motion.div 
           initial={{ opacity: 0, x: -30 }}
@@ -223,9 +223,9 @@ export default function V2Home() {
           viewport={{ once: true }}
           className="space-y-6 md:space-y-8 order-1 lg:order-2"
         >
-          <div className="text-teal-600 font-bold tracking-widest uppercase text-xs md:text-sm">About Alchemy</div>
+          <div className="text-teal-600 font-bold tracking-widest uppercase text-xs md:text-sm">About APCAMS</div>
           <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-slate-900 leading-tight tracking-tight">
-            At Alchemy, we believe that true healing is a transformative process that touches every aspect of your being.
+            At APCAMS, we believe that true healing is a transformative process that touches every aspect of your being.
           </h2>
           <p className="text-base md:text-lg text-slate-600 leading-relaxed font-medium">
             Our comprehensive approach combines evidence-based therapeutic techniques with holistic healing practices, 

@@ -31,7 +31,7 @@ export default function V2Navbar({ forceSolid = false }: { forceSolid?: boolean 
     { name: "Counseling", href: "/v2/service/counselling-services", icon: <Heart size={16} /> },
     { name: "Meditation", href: "/v2/service/meditation-programs", icon: <Compass size={16} /> },
     { name: "Personal Growth", href: "/v2/service/personal-growth", icon: <Target size={16} /> },
-    { name: "Addiction Support", href: "/v2/service/addiction-support", icon: <ShieldCheck size={16} /> },
+    { name: "Addiction Recovery Support", href: "/v2/service/addiction-support", icon: <ShieldCheck size={16} /> },
     { name: "Healing & Recovery", href: "/v2/service/healing-recovery", icon: <Sparkles size={16} /> },
   ];
 
@@ -48,7 +48,7 @@ export default function V2Navbar({ forceSolid = false }: { forceSolid?: boolean 
       <div className="max-w-7xl mx-auto px-6 flex justify-between items-center">
         {/* Logo */}
         <Link href="/v2" className="text-2xl font-bold tracking-tighter text-slate-900">
-          ALCHEMY<span className="text-teal-600">.</span>
+          APCAMS<span className="text-teal-600">.</span>
         </Link>
 
         {/* Desktop Links */}

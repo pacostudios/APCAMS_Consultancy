@@ -17,7 +17,7 @@ export default function V2Footer() {
       <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-4 gap-12">
         <div className="space-y-4">
           <Link href="/v2" className="text-2xl font-bold tracking-tighter text-white hover:opacity-80 transition-opacity">
-            ALCHEMY<span className="text-teal-500">.</span>
+            APCAMS<span className="text-teal-500">.</span>
           </Link>
           <p className="text-slate-400 text-sm leading-relaxed">
             Integrating holistic healing and modern science to transform lives through psychotherapy and meditation.

@@ -58,7 +58,7 @@ export default function V2About() {
         >
           <div className="inline-flex items-center gap-2 px-4 py-2 bg-teal-50 text-teal-700 rounded-full text-xs font-bold tracking-wide">
             <Leaf size={16} />
-            ABOUT ALCHEMY
+            ABOUT APCAMS
           </div>
           <h1 className="text-4xl md:text-6xl font-bold tracking-tight text-slate-900 leading-tight">
             Healing Through <br className="hidden md:block" /> Integrated Care

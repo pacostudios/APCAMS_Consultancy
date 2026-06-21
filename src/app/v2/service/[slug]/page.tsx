@@ -127,7 +127,7 @@ const serviceData: Record<string, ServiceDetailData> = {
     ]
   },
   "addiction-support": {
-    title: "Addiction Support",
+    title: "Addiction Recovery Support",
     tagline: "Sustainable Path to Recovery",
     description: "Evidence-based treatment for substance abuse and behavioral addictions, focusing on reclaiming your agency and rebuilding your life.",
     image: SITE_ASSETS.SERVICE_DETAILS.addictionSupport.hero,
@@ -240,7 +240,7 @@ export default function ServiceDetail() {
       {/* 4-Dimensional Integration */}
       <section className="max-w-7xl mx-auto px-6 space-y-16">
         <div className="text-center space-y-4">
-          <div className="text-teal-600 font-bold tracking-[0.2em] uppercase text-xs">The Alchemy Framework</div>
+          <div className="text-teal-600 font-bold tracking-[0.2em] uppercase text-xs">The APCAMS Framework</div>
           <h2 className="text-3xl md:text-5xl font-bold text-slate-900 tracking-tight">Four-Dimensional Integration</h2>
           <p className="text-slate-500 max-w-2xl mx-auto text-base md:text-lg">
             We address the whole person by bridging distinct yet overlapping dimensions of your identity and experience.
