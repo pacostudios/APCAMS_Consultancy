@@ -23,7 +23,7 @@ import { SITE_ASSETS } from "@/lib/site-assets";
 // CONFIGURATION: Update contact info here
 const CONTACT_INFO = {
   phones: ["755-336-6545", "765-393-6845"],
-  email: "hello@alchemy-healing.com",
+  email: "hello@APCAMS-healing.com",
   address: "123 Wellness Street, Sydney, Australia",
   officeHours: [
     { day: "Monday - Friday", hours: "9:00 AM - 8:00 PM" },

@@ -394,7 +394,7 @@ export default function Home() {
 
           <div className="flex flex-col item-center justify-center gap-4">
             <TextAnimate animation="blurIn" className="text-base lg:text-2xl">
-              At Alchemy, we believe that true healing is a transformative
+              At APCAMS, we believe that true healing is a transformative
               process that touches every aspect of your being
             </TextAnimate>
             .

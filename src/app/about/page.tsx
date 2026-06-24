@@ -161,7 +161,7 @@ export default function AboutPage() {
             </div>
             <div className="flex items-center justify-center">
               <div className="flex flex-col gap-[12px]">
-                <p className="text-4xl text-[#43A3A3]">About Alchemy</p>
+                <p className="text-4xl text-[#43A3A3]">About APCAMS</p>
                 {/* <h2 className="text-[42px]">Lorem Ipsum is simply dummy.</h2> */}
                 <p className="text-[16px] lg:text-lg leading-[24px] max-w-[559px]">
                   Our comprehensive approach combines cutting-edge therapeutic

@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
 import { Menu, X, ChevronDown, Sparkles, Brain, Heart, Compass, Target, ShieldCheck } from "lucide-react";
@@ -47,8 +48,9 @@ export default function V2Navbar({ forceSolid = false }: { forceSolid?: boolean 
     >
       <div className="max-w-7xl mx-auto px-6 flex justify-between items-center">
         {/* Logo */}
-        <Link href="/v2" className="text-2xl font-bold tracking-tighter text-slate-900">
-          APCAMS<span className="text-teal-600">.</span>
+        <Link href="/v2" className="flex items-center gap-2">
+          <Image src="/logo.webp" alt="APCAMS" width={48} height={48} className="h-10 w-auto object-contain" />
+          <span className="text-2xl font-bold tracking-tighter text-slate-900">APCAMS</span>
         </Link>
 
         {/* Desktop Links */}

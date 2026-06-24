@@ -51,7 +51,7 @@ const Sidebar = () => {
         ))}
       </nav>
       <div className="mt-auto px-6 py-6 border-t border-white/10 text-xs text-white/60">
-        &copy; {new Date().getFullYear()} Alchemy Consultancy
+        &copy; {new Date().getFullYear()} APCAMS Consultancy
       </div>
     </aside>
   );

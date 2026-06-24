@@ -138,7 +138,7 @@ export default function V2Home() {
             TRANSFORMING LIVES THROUGH INTEGRATED AND HOLISTIC HEALING
           </div>
           <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold tracking-tight text-slate-900 leading-[1.1] md:leading-[0.9]">
-            APCAMS<span className="text-teal-600">.</span>
+            APCAMS
           </h1>
           <h2 className="text-xl md:text-3xl font-medium text-slate-600">
            Alchemy Psychotherapy, Counselling and Mediation Services

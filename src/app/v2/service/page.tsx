@@ -138,13 +138,13 @@ export default function V2Service() {
              {SERVICE_PAGE_CONTENT.hero.image ? (
                <Image 
                   src={SERVICE_PAGE_CONTENT.hero.image}
-                  alt="Alchemy Therapy Room"
+                  alt="APCAMS Therapy Room"
                   fill
                   className="object-cover"
                   priority
                />
              ) : (
-               <span className="text-slate-400 font-bold p-8 text-center uppercase tracking-widest text-sm">Alchemy Therapy Room</span>
+               <span className="text-slate-400 font-bold p-8 text-center uppercase tracking-widest text-sm">APCAMS Therapy Room</span>
              )}
           </div>
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] border border-slate-100 rounded-full -z-10"></div>

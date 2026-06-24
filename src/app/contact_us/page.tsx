@@ -203,7 +203,7 @@ export default function ContactUsPage() {
                       Mail
                     </div>
                     <div className="text-sm text-gray-600">
-                      hello@alchemy-healing.com
+                      hello@APCAMS-healing.com
                     </div>
                   </div>
                 </div>

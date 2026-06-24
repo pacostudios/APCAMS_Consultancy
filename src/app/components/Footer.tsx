@@ -1,7 +1,7 @@
 import React from 'react';
 import { Phone, Mail, MapPin } from 'lucide-react';
 
-export default function AlchemyFooter() {
+export default function APCAMSFooter() {
   return (
     <footer className="bg-slate-700 text-white mt-[128px] lg:rounded-tr-[2rem] lg:rounded-tl-[2rem] rounded-bl-none rounded-br-none">
       {/* Main Footer Content */}
@@ -10,7 +10,7 @@ export default function AlchemyFooter() {
           
           {/* Brand Section */}
           <div className="lg:col-span-1">
-            <h2 className="text-2xl font-bold tracking-wide">ALCHEMY</h2>
+            <h2 className="text-2xl font-bold tracking-wide">APCAMS</h2>
           </div>
 
           {/* Quick Links */}
@@ -73,10 +73,10 @@ export default function AlchemyFooter() {
               <li className="flex items-center">
                 <Mail size={16} className="text-teal-400 mr-3 flex-shrink-0" />
                 <a 
-                  href="mailto:hello@alchemy-healing.com" 
+                  href="mailto:hello@APCAMS-healing.com" 
                   className="text-gray-300 hover:text-white transition-colors duration-200"
                 >
-                  hello@alchemy-healing.com
+                  hello@APCAMS-healing.com
                 </a>
               </li>
               <li className="flex items-center">
@@ -93,7 +93,7 @@ export default function AlchemyFooter() {
         <div className="max-w-screen-2xl mx-auto px-4 lg:px-16 py-4">
           <div className="flex flex-col md:flex-row justify-between items-center text-sm text-gray-400">
             <div className="mb-2 md:mb-0">
-              © 2024 Alchemy. All rights reserved.
+              © 2024 APCAMS. All rights reserved.
             </div>
             <div className="flex space-x-6">
               <a href="#" className="hover:text-white transition-colors duration-200">
