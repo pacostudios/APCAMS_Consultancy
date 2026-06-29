@@ -104,8 +104,16 @@ export const SITE_ASSETS = {
       alt: "Support Group Circle"
     },
     healingRecovery: {
-      hero: "https://images.unsplash.com/photo-1516589174184-c68536575802?auto=format&fit=crop&q=80&w=1200",
+      hero: "/healing.webp",
       alt: "Emotional Healing Support"
+    },
+    mediation: {
+      hero: "https://images.unsplash.com/photo-1521791136064-7986c2920216?auto=format&fit=crop&q=80&w=1200",
+      alt: "Professional Mediation & Conflict Resolution"
+    },
+    residentialCouplesTherapy: {
+      hero: "https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?auto=format&fit=crop&q=80&w=1200",
+      alt: "Residential Couples Therapy Retreat"
     }
   },
 

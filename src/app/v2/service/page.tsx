@@ -4,20 +4,22 @@ import Link from "next/link";
 import React from "react";
 import Image from "next/image";
 import { motion } from "motion/react";
-import { 
-  ArrowUpRight, 
-  Target, 
-  ShieldCheck, 
-  Leaf, 
-  Sparkles, 
-  Brain, 
-  MessageCircle, 
-  CheckCircle2, 
-  CalendarDays, 
-  ChevronRight, 
+import {
+  ArrowUpRight,
+  Target,
+  ShieldCheck,
+  Leaf,
+  Sparkles,
+  Brain,
+  MessageCircle,
+  CheckCircle2,
+  CalendarDays,
+  ChevronRight,
   Clock,
   Zap,
-  ShieldAlert
+  ShieldAlert,
+  Scale,
+  Home
 } from "lucide-react";
 
 import { SITE_ASSETS } from "@/lib/site-assets";
@@ -71,7 +73,21 @@ const SERVICE_PAGE_CONTENT = {
       desc: "Our counseling services address relationship dynamics, family conflicts, and communication patterns for individuals and groups.",
       icon: <MessageCircle className="w-8 h-8 text-teal-600" />,
       includes: ["Individual Counseling", "Couples Therapy", "Family Counseling", "Group Sessions", "Relationship Issues", "Communication Skills"]
-    }
+    },
+    {
+      title: "Mediation & Out-of-Court Settlement",
+      slug: "mediation",
+      desc: "We provide professional facilitation to help resolve conflicts constructively, offering an effective alternative to costly and stressful court proceedings.",
+      icon: <Scale className="w-8 h-8 text-teal-600" />,
+      includes: ["Family & Marital Disputes", "Financial & Property Disagreements", "Social & Community Conflicts", "Workplace Environment Disputes", "Out-of-Court Settlement", "Conflict Resolution"]
+    },
+    {
+      title: "Residential Couples Therapy",
+      slug: "residential-couples-therapy",
+      desc: "An immersive, limited-availability residential program for couples seeking a deeper breakthrough — escape distractions and focus entirely on your relationship. Pre-booking required.",
+      icon: <Home className="w-8 h-8 text-teal-600" />,
+      includes: ["Intensive Couples Therapy", "Structured Retreat Environment", "Planned Meals & Activities", "Expert Senior Therapist Guidance", "Proven Communication Strategies", "Personalised Relationship Program"]
+    },
   ],
   blogs: [
     {

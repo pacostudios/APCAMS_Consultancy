@@ -7,12 +7,14 @@ export default function ScrollToTop() {
   const pathname = usePathname();
 
   useEffect(() => {
-    // Scroll to top instantly on pathname change
-    window.scrollTo({
-      top: 0,
-      left: 0,
-      behavior: "instant",
-    });
+    // Prevent browser from restoring previous scroll position on navigation
+    if ("scrollRestoration" in window.history) {
+      window.history.scrollRestoration = "manual";
+    }
+  }, []);
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: "instant" });
   }, [pathname]);
 
   return null;

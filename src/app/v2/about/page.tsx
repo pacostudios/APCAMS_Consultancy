@@ -23,26 +23,28 @@ export default function V2About() {
   const philosophy = [
     {
       title: "Safety First",
-      desc: "We prioritize creating a secure, non-judgmental environment where vulnerability is honored and authentic expression is welcomed.",
+      desc: "We prioritize creating a secure, non-judgmental and unbiased environment where vulnerability is unconditionally respected and authentic expression is welcomed to promote strength.",
       icon: <ShieldCheck className="w-8 h-8 text-teal-600" />
     },
     {
-      title: "Personalized Approach",
+      title: "Client-Centered & Strength-Based Approach",
       desc: "No two healing journeys are alike. We carefully tailor our interventions to match your unique needs, preferences, and goals.",
       icon: <UserCircle className="w-8 h-8 text-teal-600" />
     },
     {
-      title: "Holistic Integration",
-      desc: "We address the whole person - mind, body, and spirit. Our approach integrates cognitive, emotional, somatic, and spiritual dimensions.",
+      title: "Holistic & Integrative Approach",
+      desc: "We address the whole person - mind, body, soul and spirit — the four-dimensional human existence. Our approach integrates somatic, cognitive, emotional, and spiritual dimensions.",
       icon: <Leaf className="w-8 h-8 text-teal-600" />
     }
   ];
 
   const values = [
-    { label: "Compassion", icon: <HeartHandshake className="w-8 h-8 text-teal-700" /> },
-    { label: "Growth Mindset", icon: <Lightbulb className="w-8 h-8 text-teal-700" /> },
-    { label: "Authenticity", icon: <Sparkles className="w-8 h-8 text-teal-700" /> },
-    { label: "Excellence", icon: <Star className="w-8 h-8 text-teal-700" /> }
+    { label: "Curious Compassion", icon: <HeartHandshake className="w-8 h-8 text-teal-700" /> },
+    { label: "Commitment & Dedication", icon: <Lightbulb className="w-8 h-8 text-teal-700" /> },
+    { label: "Authenticity in Everything", icon: <Sparkles className="w-8 h-8 text-teal-700" /> },
+    { label: "Driving for Excellence", icon: <Star className="w-8 h-8 text-teal-700" /> },
+    { label: "Unconditional Positive Regard", icon: <Users className="w-8 h-8 text-teal-700" /> },
+    { label: "Unconditional Love", icon: <Award className="w-8 h-8 text-teal-700" /> },
   ];
 
   return (
@@ -154,7 +156,7 @@ export default function V2About() {
               </div>
             </div>
 
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-4 divide-y md:divide-y-0 md:divide-x divide-slate-200/50">
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-8 md:gap-4 divide-y md:divide-y-0 divide-slate-200/50">
               {values.map((value, i) => (
                 <div key={i} className="flex flex-col items-center justify-center text-center space-y-4 pt-8 md:pt-0 first:pt-0 md:first:pt-0">
                   <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center shadow-sm border border-slate-100">

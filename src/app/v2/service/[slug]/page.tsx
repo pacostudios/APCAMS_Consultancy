@@ -5,19 +5,21 @@ import { useParams, useRouter } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "motion/react";
-import { 
-  ArrowLeft, 
-  ArrowUpRight, 
-  Brain, 
-  Heart, 
-  Compass, 
-  Target, 
-  ShieldCheck, 
+import {
+  ArrowLeft,
+  ArrowUpRight,
+  Brain,
+  Heart,
+  Compass,
+  Target,
+  ShieldCheck,
   Sparkles,
   CheckCircle2,
   Activity,
   Zap,
-  ShieldAlert
+  ShieldAlert,
+  Scale,
+  Home
 } from "lucide-react";
 
 import { SITE_ASSETS } from "@/lib/site-assets";
@@ -169,6 +171,48 @@ const serviceData: Record<string, ServiceDetailData> = {
       "Somatic Healing"
     ],
     emergencySupport: true
+  },
+  "mediation": {
+    title: "Mediation & Out-of-Court Settlement",
+    tagline: "Professional Conflict Resolution",
+    description: "We provide professional facilitation to help resolve conflicts constructively, offering a dignified and effective alternative to costly and stressful court proceedings.",
+    image: SITE_ASSETS.SERVICE_DETAILS.mediation.hero,
+    icon: <Scale className="w-12 h-12" />,
+    dimensions: [
+      { name: "Neutral", focus: "Impartial, unbiased facilitation.", method: "Structured Mediation" },
+      { name: "Relational", focus: "Communication and boundaries.", method: "Conflict Mapping" },
+      { name: "Legal", focus: "Rights, agreements, and settlement.", method: "Out-of-Court Settlement" },
+      { name: "Restorative", focus: "Repairing relationships and trust.", method: "Reconciliation Support" }
+    ],
+    includes: [
+      "Family & Marital Disputes",
+      "Financial & Property Disagreements",
+      "Social & Community Conflicts",
+      "Workplace Environment Disputes",
+      "Out-of-Court Settlement",
+      "Conflict Resolution Facilitation"
+    ]
+  },
+  "residential-couples-therapy": {
+    title: "Residential Couples Therapy",
+    tagline: "Immersive Relationship Transformation",
+    description: "An immersive, limited-availability residential program for couples seeking a deeper breakthrough. Escape external distractions and focus entirely on rebuilding love, connection, and understanding. Pre-booking required.",
+    image: SITE_ASSETS.SERVICE_DETAILS.residentialCouplesTherapy.hero,
+    icon: <Home className="w-12 h-12" />,
+    dimensions: [
+      { name: "Emotional", focus: "Reconnection, empathy, and safety.", method: "Emotionally Focused Therapy" },
+      { name: "Communication", focus: "Listening and expression patterns.", method: "Gottman Method" },
+      { name: "Relational", focus: "Trust, intimacy, and attachment.", method: "Attachment-Based Therapy" },
+      { name: "Renewal", focus: "Shared vision and future goals.", method: "Couples Goal Setting" }
+    ],
+    includes: [
+      "Intensive Couples Therapy",
+      "Structured Retreat Environment",
+      "Planned Meals & Activities",
+      "Expert Senior Therapist Guidance",
+      "Proven Communication Strategies",
+      "Personalised Relationship Program"
+    ]
   }
 };
 

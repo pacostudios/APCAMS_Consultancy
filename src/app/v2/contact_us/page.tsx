@@ -3,11 +3,11 @@
 import React, { useState, ChangeEvent, FormEvent } from "react";
 import Image from "next/image";
 import { motion } from "motion/react";
-import { 
-  Phone, 
-  Mail, 
-  MapPin, 
-  Clock, 
+import {
+  Phone,
+  Mail,
+  MapPin,
+  Clock,
   Send,
   ChevronRight,
   MessageCircle,
@@ -16,14 +16,22 @@ import {
   AtSign,
   Smartphone,
   Sparkles,
-  ArrowUpRight
+  ArrowUpRight,
+  Globe
 } from "lucide-react";
 import { SITE_ASSETS } from "@/lib/site-assets";
 
 // CONFIGURATION: Update contact info here
 const CONTACT_INFO = {
-  phones: ["755-336-6545", "765-393-6845"],
-  email: "hello@APCAMS-healing.com",
+  landline: "0490 2082731",
+  mobile: "+91 6282584049",
+  whatsapp: "+61 498289780",
+  emails: [
+    { label: "General", address: "info@apcamservices.com" },
+    { label: "James Varkey", address: "jmsvarkey@gmail.com" },
+    { label: "Bookings", address: "admin@apcamservices.com" },
+  ],
+  website: "www.apcamservices.com",
   address: "123 Wellness Street, Sydney, Australia",
   officeHours: [
     { day: "Monday - Friday", hours: "9:00 AM - 8:00 PM" },
@@ -112,30 +120,65 @@ export default function V2ContactUs() {
             </h2>
             
             <div className="space-y-6">
+              {/* Phone */}
               <div className="flex items-start gap-5 group">
-                <div className="w-12 h-12 bg-teal-50 rounded-2xl flex items-center justify-center text-teal-600 border border-teal-100 group-hover:bg-teal-600 group-hover:text-white transition-all duration-300">
+                <div className="w-12 h-12 bg-teal-50 rounded-2xl flex items-center justify-center text-teal-600 border border-teal-100 group-hover:bg-teal-600 group-hover:text-white transition-all duration-300 shrink-0">
                   <Phone size={20} />
                 </div>
                 <div>
                   <h4 className="font-bold text-slate-900 mb-1">Phone</h4>
-                  {CONTACT_INFO.phones.map((phone, i) => (
-                    <p key={i} className="text-slate-500 font-medium">{phone}</p>
+                  <p className="text-slate-500 font-medium">
+                    <span className="text-slate-400 text-xs uppercase tracking-wide">Landline: </span>
+                    {CONTACT_INFO.landline}
+                  </p>
+                  <p className="text-slate-500 font-medium">
+                    <span className="text-slate-400 text-xs uppercase tracking-wide">Mobile: </span>
+                    {CONTACT_INFO.mobile}
+                  </p>
+                </div>
+              </div>
+
+              {/* WhatsApp */}
+              <div className="flex items-start gap-5 group">
+                <div className="w-12 h-12 bg-teal-50 rounded-2xl flex items-center justify-center text-teal-600 border border-teal-100 group-hover:bg-teal-600 group-hover:text-white transition-all duration-300 shrink-0">
+                  <MessageCircle size={20} />
+                </div>
+                <div>
+                  <h4 className="font-bold text-slate-900 mb-1">WhatsApp</h4>
+                  <p className="text-slate-500 font-medium">{CONTACT_INFO.whatsapp}</p>
+                </div>
+              </div>
+
+              {/* Email */}
+              <div className="flex items-start gap-5 group">
+                <div className="w-12 h-12 bg-teal-50 rounded-2xl flex items-center justify-center text-teal-600 border border-teal-100 group-hover:bg-teal-600 group-hover:text-white transition-all duration-300 shrink-0">
+                  <Mail size={20} />
+                </div>
+                <div>
+                  <h4 className="font-bold text-slate-900 mb-2">Email</h4>
+                  {CONTACT_INFO.emails.map((e, i) => (
+                    <p key={i} className="text-slate-500 font-medium">
+                      <span className="text-slate-400 text-xs uppercase tracking-wide">{e.label}: </span>
+                      <a href={`mailto:${e.address}`} className="hover:text-teal-600 transition-colors">{e.address}</a>
+                    </p>
                   ))}
                 </div>
               </div>
 
+              {/* Website */}
               <div className="flex items-start gap-5 group">
-                <div className="w-12 h-12 bg-teal-50 rounded-2xl flex items-center justify-center text-teal-600 border border-teal-100 group-hover:bg-teal-600 group-hover:text-white transition-all duration-300">
-                  <Mail size={20} />
+                <div className="w-12 h-12 bg-teal-50 rounded-2xl flex items-center justify-center text-teal-600 border border-teal-100 group-hover:bg-teal-600 group-hover:text-white transition-all duration-300 shrink-0">
+                  <Globe size={20} />
                 </div>
                 <div>
-                  <h4 className="font-bold text-slate-900 mb-1">Email</h4>
-                  <p className="text-slate-500 font-medium">{CONTACT_INFO.email}</p>
+                  <h4 className="font-bold text-slate-900 mb-1">Website</h4>
+                  <p className="text-slate-500 font-medium">{CONTACT_INFO.website}</p>
                 </div>
               </div>
 
+              {/* Address */}
               <div className="flex items-start gap-5 group">
-                <div className="w-12 h-12 bg-teal-50 rounded-2xl flex items-center justify-center text-teal-600 border border-teal-100 group-hover:bg-teal-600 group-hover:text-white transition-all duration-300">
+                <div className="w-12 h-12 bg-teal-50 rounded-2xl flex items-center justify-center text-teal-600 border border-teal-100 group-hover:bg-teal-600 group-hover:text-white transition-all duration-300 shrink-0">
                   <MapPin size={20} />
                 </div>
                 <div>

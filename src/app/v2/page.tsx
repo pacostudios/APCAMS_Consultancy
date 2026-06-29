@@ -42,21 +42,6 @@ export default function V2Home() {
     "I have just begun therapy but it’s going well. Chacko (James) is respectful and uses our time well. He is helping me communicate better with my family and helps me understand my feelings and situation."
   ];
 
-  useEffect(() => {
-    // Force scroll to top on mount
-    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
-    
-    // Also handle browser-specific scroll restoration
-    if ('scrollRestoration' in window.history) {
-      window.history.scrollRestoration = 'manual';
-    }
-
-    return () => {
-      if ('scrollRestoration' in window.history) {
-        window.history.scrollRestoration = 'auto';
-      }
-    };
-  }, []);
 
   const stats = [
     { icon: <Users className="text-teal-600" />, value: 500, suffix: "+", label: "Lives Transformed" },
@@ -78,7 +63,7 @@ export default function V2Home() {
       id: "02",
       title: "Counseling",
       tagline: "Compassionate Guidance",
-      desc: "Comprehensive support for individuals, couples, and families to address relationship dynamics, communication patterns, and various life transitions.",
+      desc: "Comprehensive support tailored for individuals, couples, and families to address relationship dynamics, communication patterns, crisis interventions and various life transitions.",
       icon: <Heart className="w-8 h-8 text-teal-600" />,
       color: "from-slate-50/50 to-white",
       hoverColor: "hover:bg-slate-900"
@@ -225,12 +210,13 @@ export default function V2Home() {
         >
           <div className="text-teal-600 font-bold tracking-widest uppercase text-xs md:text-sm">About APCAMS</div>
           <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-slate-900 leading-tight tracking-tight">
-            At APCAMS, we believe that true healing is a transformative process that touches every aspect of your being.
+            Find Your Path to Healing, Wholeness, and Transformation
           </h2>
           <p className="text-base md:text-lg text-slate-600 leading-relaxed font-medium">
-            Our comprehensive approach combines evidence-based therapeutic techniques with holistic healing practices, 
-            creating a supportive space where science meets compassion. We honor each individual&apos;s unique journey, 
-            helping clients cultivate resilience, self-awareness, and lasting emotional well-being.
+            We are a dedicated team of licensed therapists providing compassionate psychotherapy, counselling, and
+            professional mediation services. Whether you are navigating mental health challenges like depression,
+            anxiety, and ADHD, or seeking relationship-building, empowerment, and conflict resolution, we are here
+            to support you every step of the way.
           </p>
           <a 
             href="/v2/about" 

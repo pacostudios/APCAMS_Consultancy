@@ -33,7 +33,7 @@ export default function V2Navbar({ forceSolid = false }: { forceSolid?: boolean 
     { name: "Meditation", href: "/v2/service/meditation-programs", icon: <Compass size={16} /> },
     { name: "Personal Growth", href: "/v2/service/personal-growth", icon: <Target size={16} /> },
     { name: "Addiction Recovery Support", href: "/v2/service/addiction-support", icon: <ShieldCheck size={16} /> },
-    { name: "Healing & Recovery", href: "/v2/service/healing-recovery", icon: <Sparkles size={16} /> },
+    { name: "Healing & Transformation", href: "/v2/service/healing-recovery", icon: <Sparkles size={16} /> },
   ];
 
   const isActive = (path: string) => pathname === path;
@@ -48,9 +48,12 @@ export default function V2Navbar({ forceSolid = false }: { forceSolid?: boolean 
     >
       <div className="max-w-7xl mx-auto px-6 flex justify-between items-center">
         {/* Logo */}
-        <Link href="/v2" className="flex items-center gap-2">
+        <Link href="/v2" className="flex items-center gap-3">
           <Image src="/logo.webp" alt="APCAMS" width={48} height={48} className="h-10 w-auto object-contain" />
-          <span className="text-2xl font-bold tracking-tighter text-slate-900">APCAMS</span>
+          <div className="flex flex-col leading-tight">
+            <span className="text-xl font-extrabold tracking-tight text-slate-900">APCAMS</span>
+            <span className="text-[10px] font-semibold text-slate-500 tracking-wide leading-tight">Alchemy, Psychotherapy, Counselling and Mediation Services</span>
+          </div>
         </Link>
 
         {/* Desktop Links */}
