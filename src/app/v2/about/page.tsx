@@ -39,12 +39,36 @@ export default function V2About() {
   ];
 
   const values = [
-    { label: "Curious Compassion", icon: <HeartHandshake className="w-8 h-8 text-teal-700" /> },
-    { label: "Commitment & Dedication", icon: <Lightbulb className="w-8 h-8 text-teal-700" /> },
-    { label: "Authenticity in Everything", icon: <Sparkles className="w-8 h-8 text-teal-700" /> },
-    { label: "Driving for Excellence", icon: <Star className="w-8 h-8 text-teal-700" /> },
-    { label: "Unconditional Positive Regard", icon: <Users className="w-8 h-8 text-teal-700" /> },
-    { label: "Unconditional Love", icon: <Award className="w-8 h-8 text-teal-700" /> },
+    {
+      label: "Curious Compassion",
+      desc: "Approaching every individual's unique story with deep empathy and an open, non-judgmental desire to understand.",
+      icon: <HeartHandshake className="w-8 h-8 text-teal-700" />
+    },
+    {
+      label: "Commitment & Dedication",
+      desc: "Showing unwavering support and presence throughout your entire journey of healing and transformation.",
+      icon: <Lightbulb className="w-8 h-8 text-teal-700" />
+    },
+    {
+      label: "Authenticity in Everything",
+      desc: "Fostering an environment built on genuine connection, honesty, and transparent care.",
+      icon: <Sparkles className="w-8 h-8 text-teal-700" />
+    },
+    {
+      label: "Driving for Excellence",
+      desc: "Combining evidence-based therapeutic science with high-quality holistic practices to deliver the best possible care.",
+      icon: <Star className="w-8 h-8 text-teal-700" />
+    },
+    {
+      label: "Unconditional Positive Regard",
+      desc: "Providing complete acceptance and support, ensuring you always feel safe, respected, and valued exactly as you are.",
+      icon: <Users className="w-8 h-8 text-teal-700" />
+    },
+    {
+      label: "Unconditional Love",
+      desc: "The ultimate foundation of our practice, bringing deep compassion and warmth to the healing process.",
+      icon: <Award className="w-8 h-8 text-teal-700" />
+    },
   ];
 
   return (
@@ -163,6 +187,7 @@ export default function V2About() {
                     {value.icon}
                   </div>
                   <span className="font-bold text-slate-900">{value.label}</span>
+                  <p className="text-sm text-slate-500 leading-relaxed">{value.desc}</p>
                 </div>
               ))}
             </div>
@@ -194,8 +219,11 @@ export default function V2About() {
               <div className="text-teal-600 font-bold tracking-widest uppercase text-xs">Meet Our Founder</div>
               <h2 className="text-3xl md:text-5xl font-bold text-slate-900 tracking-tight">Chacko (James) Vadayil Varkey</h2>
               <p className="text-xl text-slate-500 font-medium">Clinical Psychotherapist & Accredited FDRP</p>
+              <p className="text-sm text-slate-400 font-medium leading-relaxed">
+                B.Ph. &middot; B.A (English) &middot; LL.B &middot; Cert CPE &middot; Master of Criminal Justice (MCJ) &middot; M.A (Theology) &middot; Master of Psychotherapy &amp; Counselling &middot; Grad Dip. in Family Law (FDRP)
+              </p>
             </div>
-            
+
             <div className="h-px w-full max-w-[200px] bg-slate-100"></div>
 
             <div className="space-y-4 text-slate-600 leading-relaxed">

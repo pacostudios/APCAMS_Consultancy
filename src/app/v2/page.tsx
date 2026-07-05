@@ -4,19 +4,22 @@ import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "motion/react";
-import { 
-  ChevronRight, 
-  Plus, 
-  Minus, 
-  Users, 
-  Award, 
-  Star, 
+import {
+  ChevronRight,
+  Plus,
+  Minus,
+  Users,
+  Award,
+  Star,
   ArrowUpRight,
   Sparkles,
   Heart,
   Compass,
   CalendarDays,
-  Quote
+  Quote,
+  GraduationCap,
+  Wrench,
+  TrendingUp
 } from "lucide-react";
 import { NumberTicker } from "@/components/magicui/number-ticker";
 import { SITE_ASSETS } from "@/lib/site-assets";
@@ -79,6 +82,24 @@ export default function V2Home() {
     }
   ];
 
+  const whyChooseUs = [
+    {
+      title: "Qualified Expertise",
+      desc: "Our team holds the relevant qualifications, specialized skills, and diverse experience required to support you efficiently and effectively.",
+      icon: <GraduationCap className="w-8 h-8 text-teal-600" />
+    },
+    {
+      title: "Tailored Tools",
+      desc: "We don't believe in one-size-fits-all solutions; we provide practical tools that integrate seamlessly into your daily life.",
+      icon: <Wrench className="w-8 h-8 text-teal-600" />
+    },
+    {
+      title: "Empowering Outcomes",
+      desc: "Our clients consistently report feeling deeply understood, respected, and empowered to make positive changes.",
+      icon: <TrendingUp className="w-8 h-8 text-teal-600" />
+    }
+  ];
+
   const faqs = [
     {
       id: 1,
@@ -120,13 +141,13 @@ export default function V2Home() {
         >
           <div className="inline-flex items-center gap-2 px-4 py-2 bg-teal-50 text-teal-700 rounded-full text-[10px] md:text-xs font-bold tracking-wide">
             <Sparkles size={16} />
-            TRANSFORMING LIVES THROUGH INTEGRATED AND HOLISTIC HEALING
+            ALCHEMY PSYCHOTHERAPY, COUNSELLING AND MEDIATION SERVICES
           </div>
-          <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold tracking-tight text-slate-900 leading-[1.1] md:leading-[0.9]">
-            APCAMS
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-slate-900 leading-[1.15]">
+            Transforming Lives Through Integrated and Holistic Healing
           </h1>
           <h2 className="text-xl md:text-3xl font-medium text-slate-600">
-           Alchemy Psychotherapy, Counselling and Mediation Services
+           APCAMS
           </h2>
           <p className="text-lg md:text-xl text-slate-500 max-w-lg leading-relaxed font-normal">
             Discover your path to healing and growth through personalized therapy, 
@@ -270,6 +291,36 @@ export default function V2Home() {
                   <ChevronRight size={16} className="transition-transform group-hover/btn:translate-x-1" />
                 </div>
               </button>
+            </motion.div>
+          ))}
+        </div>
+      </section>
+
+      {/* WHY CHOOSE US */}
+      <section className="max-w-7xl mx-auto px-6 space-y-12 md:space-y-16">
+        <div className="text-center space-y-4">
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-slate-900 tracking-tight">Why Choose Us?</h2>
+          <p className="text-slate-500 max-w-xl mx-auto text-base md:text-lg">
+            We believe in a holistic, integrative approach to mental wellness. When you choose our practice, you benefit from:
+          </p>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
+          {whyChooseUs.map((item, i) => (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ delay: i * 0.1, duration: 0.5 }}
+              viewport={{ once: true }}
+              key={i}
+              className="bg-white border border-slate-100 rounded-[2rem] p-8 md:p-10 text-center space-y-6 hover:shadow-xl hover:-translate-y-2 transition-all duration-300"
+            >
+              <div className="w-16 h-16 mx-auto bg-teal-50/50 rounded-full flex items-center justify-center border border-teal-100">
+                {item.icon}
+              </div>
+              <h3 className="text-xl md:text-2xl font-bold text-slate-900">{item.title}</h3>
+              <p className="text-sm md:text-base text-slate-600 leading-relaxed font-medium">
+                {item.desc}
+              </p>
             </motion.div>
           ))}
         </div>

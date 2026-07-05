@@ -53,12 +53,12 @@ export default function V2Footer() {
           <h4 className="font-bold mb-6 text-slate-100 uppercase tracking-widest text-xs">Contact</h4>
           <ul className="space-y-4 text-sm text-slate-400 font-medium">
             <li>
-              <a href="mailto:hello@APCAMS-healing.com" className="hover:text-teal-400 transition-colors">
-                hello@APCAMS-healing.com
+              <a href="mailto:info@apcamservices.com" className="hover:text-teal-400 transition-colors">
+                info@apcamservices.com
               </a>
             </li>
-            <li className="hover:text-teal-400 transition-colors">755-336-6545</li>
-            <li className="text-slate-500">123 Wellness Street</li>
+            <li className="hover:text-teal-400 transition-colors">0490 2082731</li>
+            <li className="text-slate-500">Sydney, Australia</li>
           </ul>
         </div>
       </div>

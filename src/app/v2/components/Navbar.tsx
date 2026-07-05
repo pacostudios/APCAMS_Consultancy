@@ -51,8 +51,8 @@ export default function V2Navbar({ forceSolid = false }: { forceSolid?: boolean 
         <Link href="/v2" className="flex items-center gap-3">
           <Image src="/logo.webp" alt="APCAMS" width={48} height={48} className="h-10 w-auto object-contain" />
           <div className="flex flex-col leading-tight">
-            <span className="text-xl font-extrabold tracking-tight text-slate-900">APCAMS</span>
-            <span className="text-[10px] font-semibold text-slate-500 tracking-wide leading-tight">Alchemy, Psychotherapy, Counselling and Mediation Services</span>
+            <span className="text-xl font-extrabold tracking-tight text-slate-900">Alchemy</span>
+            <span className="text-[10px] font-semibold text-slate-500 tracking-wide leading-tight">Psychotherapy, Counselling and Mediation Services</span>
           </div>
         </Link>
 
