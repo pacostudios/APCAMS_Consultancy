@@ -19,7 +19,10 @@ import {
   Quote,
   GraduationCap,
   Wrench,
-  TrendingUp
+  TrendingUp,
+  PhoneCall,
+  Scale,
+  Home
 } from "lucide-react";
 import { NumberTicker } from "@/components/magicui/number-ticker";
 import { SITE_ASSETS } from "@/lib/site-assets";
@@ -55,30 +58,63 @@ export default function V2Home() {
   const services = [
     {
       id: "01",
-      title: "Psychotherapy",
-      tagline: "Science-Backed Healing",
-      desc: "Individual sessions using evidence-based approaches like CBT, DBT, and mindfulness-based interventions to help you navigate complex mental health challenges.",
-      icon: <Sparkles className="w-8 h-8 text-teal-600" />,
-      color: "from-teal-50/50 to-white",
-      hoverColor: "hover:bg-teal-600"
+      title: "24/7 Suicide Prevention Hotline",
+      tagline: "Around-the-Clock Support",
+      desc: "We provide around-the-clock crisis support because your safety and well-being are our highest priorities. If you or a loved one needs immediate help, our compassionate team is always available.",
+      icon: <PhoneCall className="w-8 h-8 text-red-600" />,
+      link: "/v2/contact_us",
+      color: "from-red-50/50 to-white",
+      hoverColor: "hover:bg-red-600 hover:shadow-[0_30px_60px_-15px_rgba(220,38,38,0.35)]"
     },
     {
       id: "02",
-      title: "Counseling",
-      tagline: "Compassionate Guidance",
-      desc: "Comprehensive support tailored for individuals, couples, and families to address relationship dynamics, communication patterns, crisis interventions and various life transitions.",
-      icon: <Heart className="w-8 h-8 text-teal-600" />,
-      color: "from-slate-50/50 to-white",
-      hoverColor: "hover:bg-slate-900"
+      title: "Psychotherapy",
+      tagline: "Science-Backed Healing",
+      desc: "Using evidence-based and strength-based approaches, we tailor depth-level psychotherapies to fit your unique individual and family needs, helping you build resilience and long-term coping strategies.",
+      icon: <Sparkles className="w-8 h-8 text-teal-600" />,
+      link: "/v2/service/psychotherapy",
+      color: "from-teal-50/50 to-white",
+      hoverColor: "hover:bg-teal-600 hover:shadow-[0_30px_60px_-15px_rgba(20,184,166,0.35)]"
     },
     {
       id: "03",
-      title: "Meditation",
+      title: "Counselling Services",
+      tagline: "Compassionate Guidance",
+      desc: "We offer individual, couple, and family counselling sessions focused on relationship dynamics, communication patterns, crisis interventions, and promoting overall mental wellness.",
+      icon: <Heart className="w-8 h-8 text-teal-600" />,
+      link: "/v2/service/counselling-services",
+      color: "from-slate-50/50 to-white",
+      hoverColor: "hover:bg-slate-900 hover:shadow-[0_30px_60px_-15px_rgba(15,23,42,0.35)]"
+    },
+    {
+      id: "04",
+      title: "Meditation Programs",
       tagline: "Mindful Resilience",
-      desc: "Guided mindfulness training, breathwork, and wellness retreats designed to help you cultivate inner peace, focus, and lasting emotional resilience.",
+      desc: "Guided mindfulness training, breathwork, and wellness retreats designed to help cultivate inner peace, focus, and lasting emotional resilience.",
       icon: <Compass className="w-8 h-8 text-teal-600" />,
+      link: "/v2/service/meditation-programs",
       color: "from-teal-50/50 to-white",
-      hoverColor: "hover:bg-teal-600"
+      hoverColor: "hover:bg-teal-600 hover:shadow-[0_30px_60px_-15px_rgba(20,184,166,0.35)]"
+    },
+    {
+      id: "05",
+      title: "Mediation & Out-of-Court Settlement",
+      tagline: "Constructive Conflict Resolution",
+      desc: "We provide professional facilitation to resolve family, marital, financial, property, community, and workplace disputes constructively and peacefully.",
+      icon: <Scale className="w-8 h-8 text-teal-600" />,
+      link: "/v2/service/mediation",
+      color: "from-slate-50/50 to-white",
+      hoverColor: "hover:bg-slate-900 hover:shadow-[0_30px_60px_-15px_rgba(15,23,42,0.35)]"
+    },
+    {
+      id: "06",
+      title: "Residential Couples Therapy",
+      tagline: "Immersive Relationship Retreat",
+      desc: "An intensive, structured retreat at our peaceful facility with planned meals, activities, and expert guidance to escape distractions, resolve conflicts, and rebuild love. (Pre-Booking Required)",
+      icon: <Home className="w-8 h-8 text-teal-600" />,
+      link: "/v2/service/residential-couples-therapy",
+      color: "from-teal-50/50 to-white",
+      hoverColor: "hover:bg-teal-600 hover:shadow-[0_30px_60px_-15px_rgba(20,184,166,0.35)]"
     }
   ];
 
@@ -131,57 +167,54 @@ export default function V2Home() {
   return (
     <div className="space-y-20 md:space-y-32 pb-32">
       {/* HERO SECTION */}
-      <section className="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center min-h-[80vh]">
-        <motion.div 
-          initial={{ opacity: 0, x: -30 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.8 }}
-          viewport={{ once: true }}
-          className="space-y-6 md:space-y-8"
-        >
-          <div className="inline-flex items-center gap-2 px-4 py-2 bg-teal-50 text-teal-700 rounded-full text-[10px] md:text-xs font-bold tracking-wide">
-            <Sparkles size={16} />
-            ALCHEMY PSYCHOTHERAPY, COUNSELLING AND MEDIATION SERVICES
-          </div>
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-slate-900 leading-[1.15]">
-            Transforming Lives Through Integrated and Holistic Healing
-          </h1>
-          <h2 className="text-xl md:text-3xl font-medium text-slate-600">
-           APCAMS
-          </h2>
-          <p className="text-lg md:text-xl text-slate-500 max-w-lg leading-relaxed font-normal">
-            Discover your path to healing and growth through personalized therapy, 
-            mindful counseling, and transformative meditation practices.
-          </p>
-          <div className="flex items-center gap-6 pt-4">
-            <Link href="/v2/book_appointment">
-              <button className="px-6 py-3 md:px-8 md:py-4 bg-slate-900 text-white rounded-full font-bold text-sm md:text-base hover:bg-teal-600 transition-all flex items-center gap-2 group">
-                BOOK YOUR SESSION
-                <ArrowUpRight size={20} className="transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
-              </button>
-            </Link>
-          </div>
-        </motion.div>
+      <section className="w-full relative min-h-[75vh] md:min-h-[85vh] flex items-center bg-slate-950 overflow-hidden">
+        {/* Background Image with Overlay */}
+        <div className="absolute inset-0 z-0">
+          <Image
+            src="/background_image_2.webp"
+            alt="Healing and Holistic Services"
+            fill
+            priority
+            className="object-cover object-center"
+          />
+          {/* Overlay to ensure readability while maintaining image visibility */}
+          <div className="absolute inset-0 bg-slate-950/50 md:bg-gradient-to-r md:from-slate-950/80 md:via-slate-950/40 md:to-transparent"></div>
+        </div>
 
-        <motion.div 
-          initial={{ opacity: 0, scale: 0.9 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 1 }}
-          viewport={{ once: true }}
-          className="relative mt-8 lg:mt-0"
-        >
-          <div className="aspect-[4/5] bg-slate-100 rounded-[3rem] md:rounded-[4rem] overflow-hidden relative z-10 shadow-2xl">
-             <Image 
-                src={SITE_ASSETS.HOME.hero.src}
-                alt={SITE_ASSETS.HOME.hero.alt}
-                fill
-                className="object-cover"
-             />
+        {/* Hero Content */}
+        <div className="max-w-7xl mx-auto w-full px-6 relative z-10">
+          <div className="max-w-2xl py-16 md:py-24 flex flex-col justify-center space-y-6 md:space-y-8">
+            <motion.div 
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8 }}
+              className="space-y-6"
+            >
+              <h1 className="text-3xl md:text-4xl lg:text-5xl font-extrabold tracking-tight text-white leading-[1.15] font-outfit">
+                "Transforming Lives Through Integrated and Holistic Healing Services"
+              </h1>
+              
+              <p className="text-lg md:text-xl text-slate-200 max-w-lg leading-relaxed font-normal">
+                Discover your path to healing and growth through personalized therapy, 
+                mindful counseling, and transformative meditation practices.
+              </p>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+              className="flex items-center gap-6"
+            >
+              <Link href="/v2/book_appointment">
+                <button className="px-6 py-3.5 md:px-8 md:py-4 bg-teal-600 text-white rounded-full font-bold text-sm md:text-base hover:bg-white hover:text-slate-900 transition-all flex items-center gap-2 group shadow-lg hover:shadow-teal-500/20">
+                  BOOK YOUR SESSION
+                  <ArrowUpRight size={20} className="transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
+                </button>
+              </Link>
+            </motion.div>
           </div>
-          {/* Decorative Elements */}
-          <div className="absolute -top-10 -right-10 w-40 h-40 bg-teal-100 rounded-full blur-3xl opacity-60"></div>
-          <div className="absolute -bottom-10 -left-10 w-64 h-64 bg-slate-200 rounded-full blur-3xl opacity-60"></div>
-        </motion.div>
+        </div>
       </section>
 
       {/* STATS BAR */}
@@ -234,10 +267,7 @@ export default function V2Home() {
             Find Your Path to Healing, Wholeness, and Transformation
           </h2>
           <p className="text-base md:text-lg text-slate-600 leading-relaxed font-medium">
-            We are a dedicated team of licensed therapists providing compassionate psychotherapy, counselling, and
-            professional mediation services. Whether you are navigating mental health challenges like depression,
-            anxiety, and ADHD, or seeking relationship-building, empowerment, and conflict resolution, we are here
-            to support you every step of the way.
+            APCAMS is a multidisciplinary, holistic psychotherapy and counselling practice led by a PACFA-credentialed Clinical Psychotherapist and accredited Family Dispute Resolution Practitioner (FDRP) with over 12 years of experience. We provide individual, couples, and family therapy alongside professional mediation services. Our approach blends evidence-based psychology with holistic care, creating a safe, respectful, and non-judgmental space that supports healing, connection, and wholeness.
           </p>
           <a 
             href="/v2/about" 
@@ -257,7 +287,7 @@ export default function V2Home() {
             Comprehensive healing and wellness services designed to support your unique journey of growth, recovery, and transformation.
           </p>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
           {services.map((service, i) => (
             <motion.div 
               whileHover={{ y: -10 }}
@@ -270,27 +300,34 @@ export default function V2Home() {
               }}
               viewport={{ once: true }}
               key={i} 
-              className={`group relative p-8 md:p-10 rounded-[2rem] space-y-6 transition-all duration-300 ease-out border border-slate-100 bg-white hover:bg-teal-600 hover:shadow-[0_30px_60px_-15px_rgba(20,184,166,0.3)] cursor-default`}
             >
-              <div className="w-14 h-14 md:w-16 md:h-16 bg-white border border-slate-50 rounded-2xl flex items-center justify-center shadow-sm transition-transform duration-300 group-hover:scale-110">
-                <div className="text-teal-600">
-                  {service.icon}
+              <Link 
+                href={service.link}
+                className={`block group relative h-full p-8 md:p-10 rounded-[2rem] space-y-6 transition-all duration-300 ease-out border border-slate-100 bg-white ${service.hoverColor} cursor-pointer`}
+              >
+                <div className="w-14 h-14 md:w-16 md:h-16 bg-white border border-slate-50 rounded-2xl flex items-center justify-center shadow-sm transition-transform duration-300 group-hover:scale-110">
+                  <div className={service.title === "24/7 Suicide Prevention Hotline" ? "text-red-600" : "text-teal-600"}>
+                    {service.icon}
+                  </div>
                 </div>
-              </div>
-              <div className="space-y-3 md:space-y-4">
-                <h3 className="text-xl md:text-2xl font-bold text-slate-900 transition-colors duration-300 group-hover:text-white">
-                  {service.title}
-                </h3>
-                <p className="text-sm md:text-base text-slate-600 leading-relaxed font-medium transition-colors duration-300 group-hover:text-teal-50">
-                  {service.desc}
-                </p>
-              </div>
-              <button className="text-teal-600 font-bold text-xs md:text-sm flex items-center gap-2 group/btn transition-colors duration-300 group-hover:text-white pt-2">
-                LEARN MORE 
-                <div className="w-8 h-8 rounded-full border border-teal-100 flex items-center justify-center transition-all duration-300 group-hover:border-white/40 group-hover:bg-white/10">
-                  <ChevronRight size={16} className="transition-transform group-hover/btn:translate-x-1" />
+                <div className="space-y-3 md:space-y-4">
+                  <span className="text-teal-600 text-xs font-bold uppercase tracking-widest block transition-colors duration-300 group-hover:text-white/80">
+                    {service.tagline}
+                  </span>
+                  <h3 className="text-xl md:text-2xl font-bold text-slate-900 transition-colors duration-300 group-hover:text-white leading-tight">
+                    {service.title}
+                  </h3>
+                  <p className="text-sm md:text-base text-slate-600 leading-relaxed font-medium transition-colors duration-300 group-hover:text-white/90">
+                    {service.desc}
+                  </p>
                 </div>
-              </button>
+                <div className="text-teal-600 font-bold text-xs md:text-sm flex items-center gap-2 group/btn transition-colors duration-300 group-hover:text-white pt-2">
+                  LEARN MORE 
+                  <div className="w-8 h-8 rounded-full border border-teal-100 flex items-center justify-center transition-all duration-300 group-hover:border-white/40 group-hover:bg-white/10">
+                    <ChevronRight size={16} className="transition-transform group-hover/btn:translate-x-1" />
+                  </div>
+                </div>
+              </Link>
             </motion.div>
           ))}
         </div>

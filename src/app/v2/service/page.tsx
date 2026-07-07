@@ -113,7 +113,7 @@ const SERVICE_PAGE_CONTENT = {
 
 export default function V2Service() {
   return (
-    <div className="space-y-24 md:space-y-32 pb-32 pt-10">
+    <div className="space-y-24 md:space-y-32 pb-32 pt-28 md:pt-36">
       
       {/* 1. HERO SECTION */}
       <section className="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">

@@ -238,7 +238,7 @@ export default function ServiceDetail() {
   return (
     <div className="space-y-20 md:space-y-32 pb-32">
       {/* Hero Section - Solid Navbar adjustment */}
-      <section className="relative min-h-[60vh] flex items-center bg-slate-900 overflow-hidden flex items-center justify-center">
+      <section className="relative min-h-[60vh] pt-28 md:pt-36 flex items-center bg-slate-900 overflow-hidden flex items-center justify-center">
         <div className="absolute inset-0 z-0">
           {data.image ? (
             <Image 

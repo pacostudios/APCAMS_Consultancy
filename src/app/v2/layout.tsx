@@ -15,7 +15,7 @@ export default function V2Layout({ children }: { children: React.ReactNode }) {
     <div className="v2-redesign min-h-screen flex flex-col font-[family-name:var(--font-dm-sans)]">
       <ScrollToTop />
       <V2Navbar forceSolid={isServiceDetailPage} />
-      <main className="flex-grow pt-24">
+      <main className="flex-grow">
         {children}
       </main>
       <V2Footer />

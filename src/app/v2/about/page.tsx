@@ -72,7 +72,7 @@ export default function V2About() {
   ];
 
   return (
-    <div className="space-y-24 md:space-y-32 pb-32 pt-10">
+    <div className="space-y-24 md:space-y-32 pb-32 pt-28 md:pt-36">
       
       {/* 1. HERO / ABOUT INTRO */}
       <section className="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
@@ -90,9 +90,7 @@ export default function V2About() {
             Healing Through <br className="hidden md:block" /> Integrated Care
           </h1>
           <p className="text-lg text-slate-500 leading-relaxed font-medium">
-            Our comprehensive approach combines cutting-edge therapeutic techniques with ancient wisdom, 
-            creating a unique space where science meets soul, and where every individual&apos;s journey is 
-            honored and supported with the utmost care and respect.
+            We are a multidisciplinary holistic psychotherapy and counselling practice led by a PACFA (Psychotherapy and Counselling Federation of Australia) - credentialed Clinical Psychotherapist and accredited Family Dispute Resolution Practitioner (FDRP), with over 12 years of professional experience. We provide individual, couples, and family therapy while also providing family mediation services, supporting clients and families from diverse cultural, spiritual, and linguistic backgrounds. Our approach blends evidence-based psychology with holistic and integrative care (Bio-psycho-socio-spiritual), creating a safe, respectful, and non-judgmental space that supports healing, connection, and wholeness.
           </p>
           <div className="pt-4">
             <Link href="/v2/service">
@@ -128,7 +126,7 @@ export default function V2About() {
       {/* 2. TREATMENT PHILOSOPHY */}
       <section className="max-w-7xl mx-auto px-6 space-y-16">
         <div className="text-center space-y-4">
-          <h2 className="text-3xl md:text-5xl font-bold text-slate-900 tracking-tight">Our Treatment Philosophy</h2>
+          <h2 className="text-3xl md:text-5xl font-bold text-slate-900 tracking-tight">Our Philosophy</h2>
           <div className="flex items-center justify-center gap-4 text-teal-200">
             <div className="h-px w-12 bg-slate-200"></div>
             <Leaf size={20} className="text-teal-600" />

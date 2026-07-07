@@ -130,7 +130,7 @@ function BookingContent() {
   );
 
   return (
-    <div className="max-w-7xl mx-auto px-6 py-12 md:py-20 min-h-[80vh]">
+    <div className="max-w-7xl mx-auto px-6 pt-28 md:pt-36 pb-12 md:pb-20 min-h-[80vh]">
       
       {/* PROGRESS STEPPER */}
       <div className="max-w-3xl mx-auto mb-16 md:mb-24 relative">
