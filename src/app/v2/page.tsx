@@ -22,7 +22,10 @@ import {
   TrendingUp,
   PhoneCall,
   Scale,
-  Home
+  Home,
+  Brain,
+  Activity,
+  Network
 } from "lucide-react";
 import { NumberTicker } from "@/components/magicui/number-ticker";
 import { SITE_ASSETS } from "@/lib/site-assets";
@@ -184,7 +187,7 @@ export default function V2Home() {
         {/* Hero Content */}
         <div className="max-w-7xl mx-auto w-full px-6 relative z-10">
           <div className="max-w-2xl py-16 md:py-24 flex flex-col justify-center space-y-6 md:space-y-8">
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
@@ -193,9 +196,9 @@ export default function V2Home() {
               <h1 className="text-3xl md:text-4xl lg:text-5xl font-extrabold tracking-tight text-white leading-[1.15] font-outfit">
                 "Transforming Lives Through Integrated and Holistic Healing Services"
               </h1>
-              
-              <p className="text-lg md:text-xl text-slate-200 max-w-lg leading-relaxed font-normal">
-                Discover your path to healing and growth through personalized therapy, 
+
+              <p className="text-base md:text-lg text-slate-200 max-w-lg leading-relaxed font-normal">
+                Discover your path to healing and growth through personalized therapy,
                 mindful counseling, and transformative meditation practices.
               </p>
             </motion.div>
@@ -219,7 +222,7 @@ export default function V2Home() {
 
       {/* STATS BAR */}
       <section className="max-w-6xl mx-auto px-6">
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
@@ -241,21 +244,21 @@ export default function V2Home() {
 
       {/* ABOUT APCAMS SECTION */}
       <section className="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-12 md:gap-16 items-center">
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, x: -30 }}
           whileInView={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.8 }}
           viewport={{ once: true }}
           className="relative aspect-[4/3] rounded-[2rem] md:rounded-[3rem] overflow-hidden shadow-2xl order-2 lg:order-1"
         >
-          <Image 
-            src={SITE_ASSETS.HOME.aboutPreview.src} 
-            alt={SITE_ASSETS.HOME.aboutPreview.alt} 
-            fill 
+          <Image
+            src={SITE_ASSETS.HOME.aboutPreview.src}
+            alt={SITE_ASSETS.HOME.aboutPreview.alt}
+            fill
             className="object-cover"
           />
         </motion.div>
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, x: 30 }}
           whileInView={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.8 }}
@@ -267,16 +270,92 @@ export default function V2Home() {
             Find Your Path to Healing, Wholeness, and Transformation
           </h2>
           <p className="text-base md:text-lg text-slate-600 leading-relaxed font-medium">
-            APCAMS is a multidisciplinary, holistic psychotherapy and counselling practice led by a PACFA-credentialed Clinical Psychotherapist and accredited Family Dispute Resolution Practitioner (FDRP) with over 12 years of experience. We provide individual, couples, and family therapy alongside professional mediation services. Our approach blends evidence-based psychology with holistic care, creating a safe, respectful, and non-judgmental space that supports healing, connection, and wholeness.
+            Welcome to APCAMS. We are a dedicated team of licensed therapists providing compassionate psychotherapy, counselling, and professional mediation services.
           </p>
-          <a 
-            href="/v2/about" 
+          <p className="text-base md:text-lg text-slate-600 leading-relaxed font-medium">Whether you are navigating mental health challenges like depression, anxiety, and ADHD, or
+            seeking relationship-building, empowerment, and conflict resolution, we are here to support
+            you every step of the way.</p>
+          <a
+            href="/v2/about"
             className="inline-flex items-center gap-2 px-6 py-3 md:px-8 md:py-4 bg-slate-900 text-white rounded-full font-bold text-sm md:text-base hover:bg-teal-600 transition-all group w-fit"
           >
             EXPLORE MORE
             <ArrowUpRight size={20} className="transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
           </a>
         </motion.div>
+      </section>
+
+      {/* PHILOSOPHY TEASER SECTION */}
+      <section className="max-w-7xl mx-auto px-6 space-y-12 md:space-y-16">
+        <div className="text-center space-y-4 max-w-3xl mx-auto">
+          <div className="text-teal-600 font-bold tracking-widest uppercase text-xs md:text-sm">Our Philosophy</div>
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-slate-900 tracking-tight font-outfit">
+            The Bio-Psycho-Socio-Spiritual Framework
+          </h2>
+          <p className="text-slate-500 max-w-2xl mx-auto text-base md:text-lg">
+            We practice through an integrative lens that recognizes four essential dimensions of the human experience.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          {[
+            {
+              title: "Biological",
+              subtitle: "The Body / The Soma",
+              desc: "Nervous system regulation, somatic awareness, and breathwork to calm trauma and anxiety storage.",
+              icon: <Activity className="w-6 h-6 text-teal-600" />
+            },
+            {
+              title: "Psychological",
+              subtitle: "The Mind / The Psyche",
+              desc: "Evidence-based tools (CBT, DBT) and mindfulness to break negative thought patterns and build resilience.",
+              icon: <Brain className="w-6 h-6 text-teal-600" />
+            },
+            {
+              title: "Social",
+              subtitle: "The System / Relationships",
+              desc: "Restoring healthy boundaries, improving communication, and resolving family or marital conflicts.",
+              icon: <Network className="w-6 h-6 text-teal-600" />
+            },
+            {
+              title: "Spiritual",
+              subtitle: "The Essence / The Soul",
+              desc: "Existential exploration, values clarification, and honoring your unique cultural and linguistic heritage.",
+              icon: <Sparkles className="w-6 h-6 text-teal-600" />
+            }
+          ].map((item, i) => (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ delay: i * 0.1, duration: 0.5 }}
+              viewport={{ once: true }}
+              key={i}
+              className="bg-white border border-slate-100 rounded-[2rem] p-8 space-y-4 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between"
+            >
+              <div className="space-y-3">
+                <div className="w-12 h-12 bg-teal-50/50 rounded-xl flex items-center justify-center border border-teal-100">
+                  {item.icon}
+                </div>
+                <div>
+                  <h3 className="text-lg font-bold text-slate-900 font-outfit">{item.title}</h3>
+                  <span className="text-xs text-slate-400 font-bold tracking-wider uppercase block">{item.subtitle}</span>
+                </div>
+                <p className="text-sm text-slate-500 leading-relaxed font-medium">
+                  {item.desc}
+                </p>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+
+        <div className="flex justify-center pt-4">
+          <Link href="/v2/about#philosophy">
+            <button className="inline-flex items-center gap-2 px-8 py-4 bg-slate-950 text-white rounded-full font-bold text-sm md:text-base hover:bg-teal-600 transition-all group shadow-lg">
+              EXPLORE OUR PHILOSOPHY
+              <ArrowUpRight size={20} className="transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
+            </button>
+          </Link>
+        </div>
       </section>
 
       {/* SERVICES GRID */}
@@ -289,19 +368,19 @@ export default function V2Home() {
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
           {services.map((service, i) => (
-            <motion.div 
+            <motion.div
               whileHover={{ y: -10 }}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
-              transition={{ 
+              transition={{
                 layout: { duration: 0.3, ease: "easeOut" },
                 opacity: { delay: i * 0.1 },
-                y: { delay: i * 0.1 } 
+                y: { delay: i * 0.1 }
               }}
               viewport={{ once: true }}
-              key={i} 
+              key={i}
             >
-              <Link 
+              <Link
                 href={service.link}
                 className={`block group relative h-full p-8 md:p-10 rounded-[2rem] space-y-6 transition-all duration-300 ease-out border border-slate-100 bg-white ${service.hoverColor} cursor-pointer`}
               >
@@ -322,7 +401,7 @@ export default function V2Home() {
                   </p>
                 </div>
                 <div className="text-teal-600 font-bold text-xs md:text-sm flex items-center gap-2 group/btn transition-colors duration-300 group-hover:text-white pt-2">
-                  LEARN MORE 
+                  LEARN MORE
                   <div className="w-8 h-8 rounded-full border border-teal-100 flex items-center justify-center transition-all duration-300 group-hover:border-white/40 group-hover:bg-white/10">
                     <ChevronRight size={16} className="transition-transform group-hover/btn:translate-x-1" />
                   </div>
@@ -369,14 +448,14 @@ export default function V2Home() {
           <div className="text-teal-600 font-bold tracking-[0.2em] uppercase text-xs md:text-sm mb-4">Client Stories</div>
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-slate-900 tracking-tight">What Our Clients Say</h2>
         </div>
-        
+
         {/* Container with Mask for fading edges */}
         <div className="relative flex overflow-x-hidden group rounded-[3rem] border border-slate-100 bg-slate-50/50 py-6 md:py-8" style={{ maskImage: 'linear-gradient(to right, transparent, black 10%, black 90%, transparent)' }}>
           {/* First Track */}
           <div className="animate-marquee flex gap-6 md:gap-8 px-3 md:px-4 w-max shrink-0 group-hover:[animation-play-state:paused]">
             {testimonials.map((testimonial, i) => (
-              <div 
-                key={`t1-${i}`} 
+              <div
+                key={`t1-${i}`}
                 className="w-[300px] md:w-[400px] bg-white border border-slate-100 rounded-[2rem] p-8 md:p-10 shadow-sm shrink-0 flex flex-col justify-between hover:shadow-md transition-shadow"
               >
                 <div>
@@ -396,12 +475,12 @@ export default function V2Home() {
               </div>
             ))}
           </div>
-          
+
           {/* Second Track (Duplicate for seamless loop) */}
           <div className="animate-marquee flex gap-6 md:gap-8 px-3 md:px-4 w-max shrink-0 group-hover:[animation-play-state:paused]" aria-hidden="true">
             {testimonials.map((testimonial, i) => (
-              <div 
-                key={`t2-${i}`} 
+              <div
+                key={`t2-${i}`}
                 className="w-[300px] md:w-[400px] bg-white border border-slate-100 rounded-[2rem] p-8 md:p-10 shadow-sm shrink-0 flex flex-col justify-between hover:shadow-md transition-shadow"
               >
                 <div>
@@ -434,32 +513,29 @@ export default function V2Home() {
               <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-slate-900 tracking-tight">Frequently Asked Questions</h2>
               <p className="text-slate-500 text-base md:text-lg lg:text-xl max-w-xl mx-auto lg:mx-0">Real support for real concerns. Find answers to common questions about our therapeutic process.</p>
             </div>
-            
+
             <div className="space-y-4">
               {faqs.map((faq, i) => (
-                <div 
-                  key={faq.id} 
-                  className={`border rounded-[1.25rem] md:rounded-[1.5rem] overflow-hidden transition-colors duration-300 ${
-                    activeFaq === i ? "border-teal-200 bg-teal-50/30" : "border-slate-100 bg-white"
-                  }`}
+                <div
+                  key={faq.id}
+                  className={`border rounded-[1.25rem] md:rounded-[1.5rem] overflow-hidden transition-colors duration-300 ${activeFaq === i ? "border-teal-200 bg-teal-50/30" : "border-slate-100 bg-white"
+                    }`}
                 >
-                  <button 
+                  <button
                     onClick={() => setActiveFaq(activeFaq === i ? null : i)}
                     className="w-full p-5 md:p-8 text-left flex justify-between items-center hover:bg-slate-50/50 transition-colors"
                   >
-                    <span className={`text-base md:text-lg lg:text-xl font-bold transition-colors ${
-                      activeFaq === i ? "text-teal-800" : "text-slate-900"
-                    }`}>
+                    <span className={`text-base md:text-lg lg:text-xl font-bold transition-colors ${activeFaq === i ? "text-teal-800" : "text-slate-900"
+                      }`}>
                       {faq.q}
                     </span>
-                    <div className={`p-1.5 md:p-2 rounded-full transition-all shrink-0 ml-4 ${
-                      activeFaq === i ? "bg-teal-600 text-white rotate-180" : "bg-slate-100 text-slate-400"
-                    }`}>
+                    <div className={`p-1.5 md:p-2 rounded-full transition-all shrink-0 ml-4 ${activeFaq === i ? "bg-teal-600 text-white rotate-180" : "bg-slate-100 text-slate-400"
+                      }`}>
                       {activeFaq === i ? <Minus size={16} className="md:w-[18px] md:h-[18px]" /> : <Plus size={16} className="md:w-[18px] md:h-[18px]" />}
                     </div>
                   </button>
                   {activeFaq === i && (
-                    <motion.div 
+                    <motion.div
                       initial={{ height: 0, opacity: 0 }}
                       animate={{ height: "auto", opacity: 1 }}
                       transition={{ duration: 0.25, ease: "circOut" }}
@@ -474,14 +550,14 @@ export default function V2Home() {
               ))}
             </div>
           </div>
-          
+
           {/* Right Side: Sticky Image */}
           <div className="hidden lg:block sticky top-32 w-full max-w-[460px] self-start transform-gpu">
             <div className="relative aspect-[4/5] rounded-[3rem] overflow-hidden shadow-2xl bg-slate-100">
-              <Image 
-                src="/table_tea.webp" 
-                alt="Frequently Asked Questions" 
-                fill 
+              <Image
+                src="/table_tea.webp"
+                alt="Frequently Asked Questions"
+                fill
                 className="object-cover"
                 priority
               />
@@ -497,10 +573,10 @@ export default function V2Home() {
           {/* Mobile Image (Non-sticky) */}
           <div className="lg:hidden w-full mt-8">
             <div className="relative aspect-[4/5] rounded-[2rem] overflow-hidden shadow-xl">
-              <Image 
-                src="/table_tea.webp" 
-                alt="Frequently Asked Questions" 
-                fill 
+              <Image
+                src="/table_tea.webp"
+                alt="Frequently Asked Questions"
+                fill
                 className="object-cover"
               />
             </div>
@@ -513,15 +589,15 @@ export default function V2Home() {
         <div className="bg-teal-600 rounded-[2rem] md:rounded-[3rem] p-8 md:p-16 relative shadow-2xl overflow-hidden group">
           {/* Subtle background accent */}
           <div className="absolute top-0 right-0 w-96 h-96 bg-white/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 transition-transform duration-700 group-hover:scale-110"></div>
-          
+
           <div className="relative z-10 flex flex-col lg:flex-row items-center justify-between gap-12">
-            
+
             <div className="flex flex-col items-center lg:items-start text-center lg:text-left gap-6 md:gap-8 flex-1 max-w-2xl">
               {/* Calendar Icon */}
               <div className="w-16 h-16 md:w-20 md:h-20 bg-white/10 backdrop-blur-md rounded-[1.5rem] md:rounded-[2rem] flex items-center justify-center shrink-0 border border-white/20 transition-transform duration-500 group-hover:scale-110">
                 <CalendarDays className="text-white w-8 h-8 md:w-10 md:h-10" />
               </div>
-              
+
               <div className="space-y-4">
                 <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white tracking-tight leading-tight">
                   Ready to begin your healing journey?
@@ -540,7 +616,7 @@ export default function V2Home() {
                 </button>
               </Link>
             </div>
-            
+
           </div>
         </div>
       </section>

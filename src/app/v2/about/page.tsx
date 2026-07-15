@@ -15,26 +15,63 @@ import {
   Star,
   GraduationCap,
   Award,
-  Users
+  Users,
+  User,
+  Compass,
+  Brain,
+  Activity,
+  Network
 } from "lucide-react";
 import { SITE_ASSETS } from "@/lib/site-assets";
 
 export default function V2About() {
-  const philosophy = [
+  const dimensionsOfConnection = [
     {
-      title: "Safety First",
-      desc: "We prioritize creating a secure, non-judgmental and unbiased environment where vulnerability is unconditionally respected and authentic expression is welcomed to promote strength.",
-      icon: <ShieldCheck className="w-8 h-8 text-teal-600" />
+      title: "Connection to Yourself",
+      desc: "Understanding your inner world and uncovering your true voice.",
+      icon: <User className="w-6 h-6" />
     },
     {
-      title: "Client-Centered & Strength-Based Approach",
-      desc: "No two healing journeys are alike. We carefully tailor our interventions to match your unique needs, preferences, and goals.",
-      icon: <UserCircle className="w-8 h-8 text-teal-600" />
+      title: "Connection to Others",
+      desc: "Building healthier relationships and resolving conflict with empathy.",
+      icon: <Users className="w-6 h-6" />
     },
     {
-      title: "Holistic & Integrative Approach",
-      desc: "We address the whole person - mind, body, soul and spirit — the four-dimensional human existence. Our approach integrates somatic, cognitive, emotional, and spiritual dimensions.",
-      icon: <Leaf className="w-8 h-8 text-teal-600" />
+      title: "Connection to Nature",
+      desc: "Grounding your healing journey in the world around you.",
+      icon: <Leaf className="w-6 h-6" />
+    },
+    {
+      title: "Connection to a Higher Reality",
+      desc: "Engaging with the broader energy, power, or purpose that gives life meaning.",
+      icon: <Compass className="w-6 h-6" />
+    }
+  ];
+
+  const frameworkPillars = [
+    {
+      number: "1",
+      title: "Biological (The Body / The Soma)",
+      desc: "We honour the nervous system. Mental health is deeply connected to physiological well-being, trauma storage in the body, and neurodiversity (such as ADHD). Our practice incorporates somatic awareness, breathwork, and nervous system regulation to calm the physical manifestations of anxiety, stress, and trauma.",
+      icon: <Activity className="w-7 h-7 text-teal-600" />
+    },
+    {
+      number: "2",
+      title: "Psychological (The Mind / The Psyche)",
+      desc: "We utilize rigorous, evidence-based modern psychology. Drawing from modalities like Cognitive Behavioural Therapy (CBT), Dialectical Behavioural Therapy (DBT), and mindfulness-based interventions, we provide practical cognitive tools to break negative thought patterns, build emotional resilience, and process deep-seated wounds.",
+      icon: <Brain className="w-7 h-7 text-teal-600" />
+    },
+    {
+      number: "3",
+      title: "Social (The System)",
+      desc: "Humans do not exist in a vacuum. We are profoundly shaped by our families, cultures, relationships, and societal structures. Whether we are navigating family conflict through Family Dispute Resolution (FDR) or working with couples, our philosophy emphasizes restoring healthy boundaries, improving communication, and breaking generational cycles of trauma.",
+      icon: <Network className="w-7 h-7 text-teal-600" />
+    },
+    {
+      number: "4",
+      title: "Spiritual (The Essence / The Soul)",
+      desc: "We respect and welcome your inner world, regardless of your background. Spirituality to us is broad and inclusive—it encompasses your core values, your search for meaning, existential exploration, and your connection to something larger than yourself. We provide a space where your cultural, spiritual, and linguistic heritage is not just tolerated, but deeply honoured as a source of strength and vitality.",
+      icon: <Sparkles className="w-7 h-7 text-teal-600" />
     }
   ];
 
@@ -124,36 +161,128 @@ export default function V2About() {
       </section>
 
       {/* 2. TREATMENT PHILOSOPHY */}
-      <section className="max-w-7xl mx-auto px-6 space-y-16">
-        <div className="text-center space-y-4">
-          <h2 className="text-3xl md:text-5xl font-bold text-slate-900 tracking-tight">Our Philosophy</h2>
+      <section id="philosophy" className="max-w-7xl mx-auto px-6 space-y-20 md:space-y-28">
+        {/* Header Block */}
+        <div className="text-center space-y-6 max-w-3xl mx-auto">
+          <div className="text-teal-600 font-bold tracking-widest uppercase text-xs md:text-sm">Our Philosophy</div>
+          <h2 className="text-3xl md:text-5xl font-bold text-slate-900 tracking-tight leading-tight font-outfit">
+            The Alchemy of Healing
+          </h2>
           <div className="flex items-center justify-center gap-4 text-teal-200">
             <div className="h-px w-12 bg-slate-200"></div>
             <Leaf size={20} className="text-teal-600" />
             <div className="h-px w-12 bg-slate-200"></div>
           </div>
+          <p className="text-base md:text-lg text-slate-600 leading-relaxed font-medium">
+            At Alchemy Psychotherapy, Counselling, and Mediation Services (APCAMS), we believe that true healing goes far beyond the reduction of symptoms. It is a profound journey toward wholeness, self-discovery, and reclaiming your inherent worth.
+          </p>
         </div>
-        
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {philosophy.map((item, i) => (
-            <motion.div 
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ delay: i * 0.1, duration: 0.5 }}
-              viewport={{ once: true }}
-              key={i} 
-              className="bg-white border border-slate-100 rounded-[2.5rem] p-10 text-center space-y-6 hover:shadow-xl hover:-translate-y-2 transition-all duration-300"
-            >
-              <div className="w-20 h-20 mx-auto bg-teal-50/50 rounded-full flex items-center justify-center border border-teal-100">
-                {item.icon}
-              </div>
-              <h3 className="text-xl font-bold text-slate-900">{item.title}</h3>
-              <p className="text-slate-500 leading-relaxed text-sm md:text-base">
-                {item.desc}
+
+        {/* Four Dimensions of Connection */}
+        <div className="space-y-12">
+          <div className="text-center space-y-4 max-w-3xl mx-auto">
+            <h3 className="text-2xl md:text-3xl font-bold text-slate-900 font-outfit">Four Dimensions of Connection</h3>
+            <p className="text-slate-600 text-sm md:text-base leading-relaxed font-medium">
+              Real transformation occurs when we stop viewing challenges in isolation and begin honouring the entire ecosystem of who you are. We guide you in cultivating connection:
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {dimensionsOfConnection.map((dim, i) => (
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ delay: i * 0.1, duration: 0.5 }}
+                viewport={{ once: true }}
+                key={i}
+                className="bg-white border border-slate-100 rounded-[2rem] p-8 space-y-5 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between"
+              >
+                <div className="space-y-4">
+                  <div className="w-12 h-12 bg-teal-50/50 rounded-xl flex items-center justify-center border border-teal-100 text-teal-600">
+                    {dim.icon}
+                  </div>
+                  <h4 className="font-bold text-slate-950 text-lg leading-tight font-outfit">{dim.title}</h4>
+                  <p className="text-sm text-slate-600 leading-relaxed font-medium">{dim.desc}</p>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+
+        {/* The Bio-Psycho-Socio-Spiritual Framework */}
+        <div className="space-y-12">
+          <div className="text-center space-y-4 max-w-3xl mx-auto">
+            <h3 className="text-2xl md:text-3xl font-bold text-slate-900 font-outfit">The Bio-Psycho-Socio-Spiritual Framework</h3>
+            <p className="text-slate-600 text-sm md:text-base leading-relaxed font-medium">
+              We practice through an integrative lens that recognizes four essential dimensions of the human experience. Your care is personalized by exploring how these pillars intertwine:
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            {frameworkPillars.map((pillar, i) => (
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ delay: i * 0.1, duration: 0.6 }}
+                viewport={{ once: true }}
+                key={i}
+                className="bg-slate-50/50 border border-slate-100/80 rounded-[2.5rem] p-8 md:p-10 flex gap-6 hover:bg-white hover:shadow-xl hover:border-teal-50 transition-all duration-300"
+              >
+                <div className="w-14 h-14 bg-white rounded-2xl flex items-center justify-center shrink-0 shadow-sm border border-slate-100 text-teal-600">
+                  {pillar.icon}
+                </div>
+                <div className="space-y-3">
+                  <div className="flex items-center gap-2">
+                    <span className="text-xs font-bold text-teal-600 uppercase tracking-widest">{pillar.number}</span>
+                    <h4 className="font-bold text-slate-950 text-xl leading-tight font-outfit">{pillar.title}</h4>
+                  </div>
+                  <p className="text-sm md:text-base text-slate-600 leading-relaxed font-medium">
+                    {pillar.desc}
+                  </p>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+
+        {/* Sanctuary and Collaborative Approach Banner */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+          viewport={{ once: true }}
+          className="bg-teal-600 rounded-[2rem] md:rounded-[3rem] p-8 md:p-14 relative shadow-xl overflow-hidden group text-white"
+        >
+          {/* Background decoration */}
+          <div className="absolute top-0 right-0 w-80 h-80 bg-white/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
+          
+          <div className="relative z-10 grid grid-cols-1 lg:grid-cols-5 gap-10 items-center">
+            <div className="lg:col-span-3 space-y-4">
+              <span className="text-teal-100 font-bold uppercase tracking-widest text-xs">Collaborative Sanctuary</span>
+              <p className="text-xl md:text-2xl font-serif italic text-teal-50 leading-relaxed">
+                &quot;The first step towards healing is understanding.&quot;
               </p>
-            </motion.div>
-          ))}
-        </div>
+              <p className="text-sm md:text-base text-teal-50 leading-relaxed opacity-95">
+                We do not offer one-size-fits-all solutions. Our philosophy is rooted in collaboration; we walk alongside you as a guide, helping you discover your own path to healing and empowering you to make lasting, positive changes.
+              </p>
+            </div>
+            
+            <div className="lg:col-span-2 bg-white/10 backdrop-blur-md rounded-2xl p-6 md:p-8 border border-white/20 space-y-4">
+              <h4 className="font-bold text-lg text-white font-outfit">A Safe, Non-Judgmental Sanctuary</h4>
+              <p className="text-xs md:text-sm text-teal-50 leading-relaxed opacity-90">
+                Anxiety, conflict, and shame thrive in isolation. Our core commitment is to provide a space that feels genuinely safe, respectful, and free of judgment. Guided by over 12 years of experience, we blend clinical authority with authentic warmth.
+              </p>
+              <div className="pt-2">
+                <Link href="/v2/book_appointment">
+                  <button className="w-full py-3 bg-white text-teal-700 rounded-full font-bold text-xs md:text-sm hover:bg-slate-900 hover:text-white transition-all flex items-center justify-center gap-2 group/btn">
+                    BEGIN YOUR JOURNEY FORWARD
+                    <ArrowUpRight size={16} className="transition-transform group-hover/btn:translate-x-1 group-hover/btn:-translate-y-1" />
+                  </button>
+                </Link>
+              </div>
+            </div>
+          </div>
+        </motion.div>
       </section>
 
       {/* 3. CORE VALUES */}
@@ -252,6 +381,88 @@ export default function V2About() {
                 </div>
                 <span className="text-sm font-bold text-slate-800">Family<br/>Mediation</span>
               </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Detailed Credentials, Accreditations & Specializations */}
+        <div className="mt-8 md:mt-12 grid grid-cols-1 lg:grid-cols-3 gap-6 md:gap-8">
+          {/* Column 1: Credentials & Education */}
+          <div className="bg-white border border-slate-100 rounded-[2rem] p-8 md:p-10 shadow-lg shadow-slate-100/30 flex flex-col space-y-6">
+            <h3 className="text-lg md:text-xl font-bold text-slate-900 flex items-center gap-3 border-b border-slate-50 pb-4 font-outfit">
+              <GraduationCap className="text-teal-600 w-5 h-5 shrink-0" />
+              Credentials & Education
+            </h3>
+            <ul className="space-y-3.5 flex-grow">
+              {[
+                "Master of Psychotherapy & Counselling",
+                "Grad Dip. in Family Law (Family Dispute Resolution Practitioner - FDRP)",
+                "Master of Criminal Justice (MCJ)",
+                "M.A. in Theology",
+                "LL.B. (Bachelor of Laws)",
+                "B.A. in English",
+                "B.Ph. (Bachelor of Philosophy)",
+                "Cert CPE (Clinical Pastoral Education)"
+              ].map((degree, i) => (
+                <li key={i} className="flex items-start gap-3 text-sm text-slate-600 font-medium leading-relaxed">
+                  <div className="w-1.5 h-1.5 rounded-full bg-teal-500 mt-2 shrink-0"></div>
+                  <span>{degree}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Column 2: Professional Accreditations */}
+          <div className="bg-white border border-slate-100 rounded-[2rem] p-8 md:p-10 shadow-lg shadow-slate-100/30 flex flex-col space-y-6">
+            <h3 className="text-lg md:text-xl font-bold text-slate-900 flex items-center gap-3 border-b border-slate-50 pb-4 font-outfit">
+              <Award className="text-teal-600 w-5 h-5 shrink-0" />
+              Professional Accreditations
+            </h3>
+            <div className="space-y-6 flex-grow">
+              <div className="space-y-2">
+                <h4 className="font-bold text-slate-950 text-sm md:text-base flex items-center gap-2 font-outfit">
+                  <div className="w-1.5 h-1.5 rounded-full bg-teal-500"></div>
+                  Clinical Psychotherapist
+                </h4>
+                <p className="text-xs md:text-sm text-slate-500 leading-relaxed pl-3.5 font-medium">
+                  Credentialed with the Psychotherapy and Counselling Federation of Australia (PACFA).
+                </p>
+              </div>
+              <div className="space-y-2">
+                <h4 className="font-bold text-slate-950 text-sm md:text-base flex items-center gap-2 font-outfit">
+                  <div className="w-1.5 h-1.5 rounded-full bg-teal-500"></div>
+                  Accredited FDRP
+                </h4>
+                <p className="text-xs md:text-sm text-slate-500 leading-relaxed pl-3.5 font-medium">
+                  Certified Family Dispute Resolution Practitioner, qualified to provide family mediation and dispute resolution services.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* Column 3: Areas of Specialization */}
+          <div className="bg-white border border-slate-100 rounded-[2rem] p-8 md:p-10 shadow-lg shadow-slate-100/30 flex flex-col space-y-6">
+            <h3 className="text-lg md:text-xl font-bold text-slate-900 flex items-center gap-3 border-b border-slate-50 pb-4 font-outfit">
+              <Sparkles className="text-teal-600 w-5 h-5 shrink-0" />
+              Specialization & Approach
+            </h3>
+            <div className="grid grid-cols-1 gap-5 flex-grow">
+              {[
+                { title: "Diverse Clientele", desc: "Specializes in working with individuals, couples, and families from a wide range of cultural, spiritual, and linguistic backgrounds." },
+                { title: "Spiritually Integrative Care", desc: "Blends psychological frameworks with a spiritually inclusive perspective to support holistic healing." },
+                { title: "Clinical Focus", desc: "Focuses on guiding clients through trauma, anxiety, and complex interpersonal or familial relationship dynamics." },
+                { title: "Therapeutic Environment", desc: "Emphasizes building a safe, unbiased, and deeply respectful space for authentic healing." }
+              ].map((spec, i) => (
+                <div key={i} className="space-y-1">
+                  <h4 className="font-bold text-slate-950 text-xs md:text-sm flex items-center gap-2 font-outfit">
+                    <div className="w-1.5 h-1.5 rounded-full bg-teal-500"></div>
+                    {spec.title}
+                  </h4>
+                  <p className="text-xs text-slate-500 leading-relaxed pl-3.5 font-medium">
+                    {spec.desc}
+                  </p>
+                </div>
+              ))}
             </div>
           </div>
         </div>
