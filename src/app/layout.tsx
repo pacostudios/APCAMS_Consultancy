@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { DM_Sans, Outfit } from "next/font/google";
 import "./globals.css";
 import ReactLenis from "lenis/react";
-import LayoutWrapper from "./components/LayoutWrapper";
 
 export const metadata: Metadata = {
   title: "APCAMS",
@@ -29,7 +28,7 @@ export default function RootLayout({
     <ReactLenis root >
     <html lang="en">
       <body className={`${outfit.variable} ${dmsans.variable} antialiased`}>
-        <LayoutWrapper>{children}</LayoutWrapper>
+        {children}
       </body>
     </html>
     </ReactLenis>
