@@ -7,8 +7,12 @@ import { authClient } from "@/lib/auth-client";
 
 function LoginForm() {
   const router = useRouter();
-  const forbidden = useSearchParams().get("error") === "forbidden";
-  const [error, setError] = useState(forbidden ? "This account doesn't have admin access." : "");
+  const reason = useSearchParams().get("error");
+  const [error, setError] = useState(
+    reason === "forbidden" ? "This account doesn't have admin or staff access."
+      : reason === "inactive" ? "This staff account has been deactivated. Please contact the admin."
+      : "",
+  );
   const [loading, setLoading] = useState(false);
 
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
@@ -22,7 +26,7 @@ function LoginForm() {
     });
     setLoading(false);
     if (error) return setError(error.message ?? "Sign in failed.");
-    router.push("/dashboard");
+    router.push("/dashboard"); // staff are sent on to /staff
     router.refresh();
   }
 
@@ -59,8 +63,8 @@ export default function LoginPage() {
           <span className="mb-3 rounded-full bg-[#43A3A3]/10 p-3 text-[#2B6F6F]">
             <Lock size={22} />
           </span>
-          <h1 className="text-xl font-bold text-slate-900">APCAMS Admin</h1>
-          <p className="mt-1 text-sm text-slate-500">Sign in to manage bookings</p>
+          <h1 className="text-xl font-bold text-slate-900">APCAMS Team</h1>
+          <p className="mt-1 text-sm text-slate-500">Admin and staff sign in</p>
         </div>
         <Suspense>
           <LoginForm />

@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { Plus, Trash2 } from "lucide-react";
-import { ActionForm, SubmitButton } from "../../_components/ActionForm";
+import { ActionForm, SubmitButton, type ActionResult } from "../../_components/ActionForm";
 import { buttonClass, inputClass } from "../../_components/ui";
 import { saveHoursAction } from "../actions";
 
@@ -14,7 +14,13 @@ const DAYS = [
   { n: 4, label: "Thursday" }, { n: 5, label: "Friday" }, { n: 6, label: "Saturday" }, { n: 0, label: "Sunday" },
 ];
 
-export default function HoursEditor({ initial }: { initial: Block[] }) {
+/** Weekly hours editor. Saves the default business hours unless given another `action` (e.g. one staff member's hours). */
+export default function HoursEditor({ initial, action = saveHoursAction, hidden = {}, submitLabel = "Save working hours" }: {
+  initial: Block[];
+  action?: (prev: ActionResult, formData: FormData) => Promise<ActionResult>;
+  hidden?: Record<string, string>;
+  submitLabel?: string;
+}) {
   const [blocks, setBlocks] = useState(initial);
 
   const update = (i: number, patch: Partial<Block>) => setBlocks((bs) => bs.map((b, j) => (j === i ? { ...b, ...patch } : b)));
@@ -25,8 +31,9 @@ export default function HoursEditor({ initial }: { initial: Block[] }) {
   };
 
   return (
-    <ActionForm action={saveHoursAction}>
+    <ActionForm action={action}>
       <input type="hidden" name="hours" value={JSON.stringify(blocks)} />
+      {Object.entries(hidden).map(([k, v]) => <input key={k} type="hidden" name={k} value={v} />)}
       <ul className="divide-y divide-slate-100">
         {DAYS.map((day) => {
           const dayBlocks = blocks.map((b, i) => ({ ...b, i })).filter((b) => b.weekday === day.n);
@@ -55,7 +62,7 @@ export default function HoursEditor({ initial }: { initial: Block[] }) {
           );
         })}
       </ul>
-      <div className="mt-4 flex justify-end"><SubmitButton>Save working hours</SubmitButton></div>
+      <div className="mt-4 flex justify-end"><SubmitButton>{submitLabel}</SubmitButton></div>
     </ActionForm>
   );
 }

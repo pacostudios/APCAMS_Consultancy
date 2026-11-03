@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
+import { Video } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { BookingStatus, PaymentStatus } from "@/db/schema";
 
@@ -159,5 +160,34 @@ export function FilterTabs({ options, current, param, searchParams, basePath }: 
         );
       })}
     </div>
+  );
+}
+
+/**
+ * "Join" link for an active booking's meeting, shown until the session ends.
+ * Opening the link while signed in to the host's Zoom account starts the meeting as host.
+ */
+export function JoinMeetingButton({
+  booking: b,
+  size = "md",
+}: {
+  booking: { meetingUrl: string | null; status: BookingStatus; endsAt: Date };
+  size?: "sm" | "md";
+}) {
+  const active = b.status === "pending" || b.status === "confirmed";
+  if (!b.meetingUrl || !active || b.endsAt < new Date()) return null;
+  return (
+    <a
+      href={b.meetingUrl}
+      target="_blank"
+      rel="noreferrer"
+      className={
+        size === "sm"
+          ? "inline-flex items-center gap-1 rounded-md bg-[#2B6F6F] px-2.5 py-1 text-xs font-semibold text-white hover:bg-[#245d5d]"
+          : buttonClass.primary
+      }
+    >
+      <Video size={size === "sm" ? 12 : 16} /> {size === "sm" ? "Join" : "Join meeting"}
+    </a>
   );
 }

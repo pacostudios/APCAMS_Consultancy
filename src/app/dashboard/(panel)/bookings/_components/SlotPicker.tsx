@@ -11,8 +11,10 @@ type Slot = { local: string; label: string };
  * chosen, but the admin can still type any time (e.g. to fit someone in after hours).
  * Submits a single "YYYY-MM-DDTHH:mm" business-time value under `name`.
  */
-export default function SlotPicker({ serviceId, defaultValue = "", name = "startsAt" }: {
+export default function SlotPicker({ serviceId, staffId = "", defaultValue = "", name = "startsAt" }: {
   serviceId: string;
+  /** Suggest only this staff member's free times. Empty: any staff member who provides the service. */
+  staffId?: string;
   defaultValue?: string;
   name?: string;
 }) {
@@ -23,14 +25,14 @@ export default function SlotPicker({ serviceId, defaultValue = "", name = "start
   useEffect(() => {
     if (!serviceId || date.length !== 10) return setSlots(null);
     let cancelled = false;
-    fetch(`/api/slots?date=${date}&service=${serviceId}`)
+    fetch(`/api/slots?date=${date}&service=${serviceId}${staffId ? `&staff=${staffId}` : ""}`)
       .then((r) => r.json())
       .then((data) => !cancelled && setSlots(data.slots ?? []))
       .catch(() => !cancelled && setSlots(null));
     return () => {
       cancelled = true;
     };
-  }, [date, serviceId]);
+  }, [date, serviceId, staffId]);
 
   return (
     <div className="space-y-2">

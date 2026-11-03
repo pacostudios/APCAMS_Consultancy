@@ -3,9 +3,10 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useState, useEffect } from "react";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { Menu, X, ChevronDown, Sparkles, Brain, Heart, Compass, Target, ShieldCheck } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
+import { authClient } from "@/lib/auth-client";
 
 export default function V2Navbar({ forceSolid = false }: { forceSolid?: boolean }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -13,6 +14,25 @@ export default function V2Navbar({ forceSolid = false }: { forceSolid?: boolean 
   const [scrolled, setScrolled] = useState(false);
   const [isServicesOpen, setIsServicesOpen] = useState(false);
   const pathname = usePathname();
+  const { data: session, isPending: sessionLoading } = authClient.useSession();
+
+  // Signed-in admins go to the admin dashboard, customers to their account.
+  const role = (session?.user as { role?: string } | undefined)?.role;
+  const accountLink = !session
+    ? { name: "Login", href: "/login" }
+    : role === "admin"
+      ? { name: "Dashboard", href: "/dashboard" }
+      : role === "staff"
+        ? { name: "Staff Portal", href: "/staff" }
+        : { name: "My Account", href: "/account" };
+
+  const router = useRouter();
+  const signOut = async () => {
+    setIsOpen(false);
+    await authClient.signOut();
+    router.push("/");
+    router.refresh();
+  };
 
   useEffect(() => {
     const handleScroll = () => {
@@ -40,17 +60,25 @@ export default function V2Navbar({ forceSolid = false }: { forceSolid?: boolean 
 
   const isLandingPage = pathname === "/";
   const isSolid = scrolled || forceSolid || isOpen || !isLandingPage;
+  const islandClass = "bg-white border border-slate-100 shadow-[0_8px_32px_0_rgba(0,0,0,0.06)]";
 
   return (
     <div className="fixed top-0 left-0 right-0 z-50 flex justify-center w-full pointer-events-none">
+      {/* Floating: two islands (site links | account + booking). Solid: they merge into one full-width bar. */}
       <nav
-        className={`pointer-events-auto transition-all duration-500 ease-in-out ${
+        // Only size and spacing animate. Background, border and shadow switch instantly: fading them while the bar
+        // shrinks left a white strip and the bottom border visible mid-transition.
+        className={`pointer-events-auto flex items-stretch border-b transition-[width,max-width,margin,padding,gap] duration-500 ease-in-out ${
           isSolid
-            ? "w-full max-w-full bg-white/95 backdrop-blur-lg shadow-md py-3 px-6 md:px-12 rounded-none mt-0 border-b border-slate-100"
-            : "w-[calc(100%-2rem)] max-w-6xl bg-white border border-slate-100 shadow-[0_8px_32px_0_rgba(0,0,0,0.06)] rounded-2xl md:rounded-full py-2 px-6 md:px-8 mt-3 md:mt-4"
+            ? "w-full max-w-full bg-white/95 backdrop-blur-lg shadow-md py-3 px-6 md:px-12 rounded-none mt-0 border-slate-100 gap-5 xl:gap-8"
+            : "w-[calc(100%-2rem)] max-w-7xl mt-3 md:mt-4 gap-3 border-transparent"
         }`}
       >
-        <div className="w-full flex justify-between items-center">
+        <div
+          className={`flex-1 min-w-0 flex justify-between items-center transition-[padding,border-radius] duration-500 ${
+            isSolid ? "" : `${islandClass} rounded-2xl md:rounded-full py-2 px-6 md:px-8`
+          }`}
+        >
         {/* Logo */}
         <Link href="/" className={`flex items-center transition-all duration-500 ${isSolid ? "gap-3" : "gap-2"}`}>
           <Image 
@@ -64,14 +92,14 @@ export default function V2Navbar({ forceSolid = false }: { forceSolid?: boolean 
             <span className={`font-extrabold tracking-tight text-slate-900 transition-all duration-500 ${isSolid ? "text-xl md:text-2xl" : "text-lg md:text-xl"}`}>
               APCAMS
             </span>
-            <span className={`font-bold tracking-wide text-teal-700 transition-all duration-500 ${isSolid ? "text-[8px] md:text-[10px]" : "text-[7px] md:text-[8px]"}`}>
+            <span className={`font-bold tracking-wide text-teal-700 lg:hidden xl:block transition-all duration-500 ${isSolid ? "text-[8px] md:text-[10px]" : "text-[7px] md:text-[8px]"}`}>
               ALCHEMY PSYCHOTHERAPY, COUNSELLING AND MEDIATION SERVICES
             </span>
           </div>
         </Link>
 
         {/* Desktop Links */}
-        <div className="hidden md:flex items-center space-x-6 lg:space-x-10">
+        <div className="hidden lg:flex items-center gap-5 xl:gap-8 whitespace-nowrap">
           {navLinks.map((link) => (
             <Link
               key={link.name}
@@ -144,10 +172,10 @@ export default function V2Navbar({ forceSolid = false }: { forceSolid?: boolean 
             CONTACT US
           </Link>
 
-          <Link 
+          <Link
             href="/book_appointment"
-            className={`bg-slate-900 text-white font-bold rounded-full hover:bg-teal-600 transition-all transform hover:scale-105 transition-all duration-500 whitespace-nowrap flex items-center justify-center ${
-              isSolid ? "px-6 py-2.5 text-sm" : "px-4 md:px-5 py-1.5 md:py-2 text-xs md:text-sm"
+            className={`bg-slate-900 text-white font-bold rounded-full hover:bg-teal-600 transition-all transform hover:scale-105 duration-500 whitespace-nowrap flex items-center justify-center ${
+              isSolid ? "px-6 py-2.5 text-sm" : "px-5 py-2 text-sm"
             }`}
           >
             BOOK YOUR SESSION
@@ -155,10 +183,34 @@ export default function V2Navbar({ forceSolid = false }: { forceSolid?: boolean 
         </div>
 
         {/* Mobile Toggle */}
-        <button className="md:hidden" onClick={() => setIsOpen(!isOpen)}>
+        <button className="lg:hidden" onClick={() => setIsOpen(!isOpen)}>
           {isOpen ? <X size={28} /> : <Menu size={28} />}
         </button>
       </div>
+
+        {/* Account island: Login, or My Account + Sign out */}
+        <div
+          className={`hidden lg:flex shrink-0 items-center whitespace-nowrap transition-[padding,border-radius] duration-500 ${
+            isSolid ? "" : `${islandClass} rounded-full py-2 px-6 xl:px-8`
+          }`}
+        >
+          <div className={`flex items-center gap-5 xl:gap-6 transition-opacity ${sessionLoading ? "opacity-0" : "opacity-100"}`}>
+            <Link
+              href={accountLink.href}
+              aria-busy={sessionLoading}
+              className={`text-sm font-semibold transition-colors hover:text-teal-600 uppercase ${
+                pathname.startsWith(accountLink.href) ? "text-teal-600" : "text-slate-600"
+              }`}
+            >
+              {accountLink.name}
+            </Link>
+            {session && (
+              <button type="button" onClick={signOut} className="text-sm font-semibold text-slate-600 hover:text-teal-600 transition-colors uppercase">
+                Sign out
+              </button>
+            )}
+          </div>
+        </div>
 
       {/* Mobile Menu */}
       <AnimatePresence>
@@ -167,7 +219,7 @@ export default function V2Navbar({ forceSolid = false }: { forceSolid?: boolean 
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
-            className="md:hidden absolute top-full left-0 right-0 bg-white border-b overflow-hidden shadow-xl"
+            className="lg:hidden absolute top-full left-0 right-0 bg-white border-b overflow-hidden shadow-xl"
           >
             <div className="p-6 flex flex-col space-y-4">
               {navLinks.map((link) => (
@@ -234,6 +286,24 @@ export default function V2Navbar({ forceSolid = false }: { forceSolid?: boolean 
               >
                 Contact Us
               </Link>
+
+              {!sessionLoading && (
+                <Link
+                  href={accountLink.href}
+                  className={`text-lg font-bold ${
+                    pathname.startsWith(accountLink.href) ? "text-teal-600" : "text-slate-900"
+                  }`}
+                  onClick={() => setIsOpen(false)}
+                >
+                  {accountLink.name}
+                </Link>
+              )}
+
+              {session && (
+                <button type="button" onClick={signOut} className="text-left text-lg font-bold text-slate-900 hover:text-teal-600">
+                  Sign out
+                </button>
+              )}
 
               <Link 
                 href="/book_appointment"

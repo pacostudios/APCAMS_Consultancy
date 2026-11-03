@@ -20,7 +20,9 @@ export async function GET(request: NextRequest) {
   const { from, to } = resolveRange(range);
 
   const tz = BUSINESS.timezone;
-  const header = ["Reference", "Date", "Time", "Client", "Email", "Phone", "Service", "Format", "Status", "Payment", "Amount (AUD)"];
+  const header = ["Reference", "Date", "Time", "Client", "Email", "Phone", "Service", "Format", "Status", "Payment", "Price (AUD)",
+    "Amount paid (AUD)", "Paid on", "Payment method", "Stripe payment ID", "Refunded on"];
+  const stamp = (d: Date | null) => (d ? formatInTimeZone(d, tz, "yyyy-MM-dd HH:mm") : "");
   const lines = bookingsInRange(from, to).map((b) =>
     [
       b.reference,
@@ -34,6 +36,11 @@ export async function GET(request: NextRequest) {
       b.status,
       b.paymentStatus,
       (b.priceCents / 100).toFixed(2),
+      b.amountPaidCents == null ? "" : (b.amountPaidCents / 100).toFixed(2),
+      stamp(b.paidAt),
+      b.paymentMethod,
+      b.stripePaymentIntentId,
+      stamp(b.refundedAt),
     ].map(csvCell).join(","),
   );
 

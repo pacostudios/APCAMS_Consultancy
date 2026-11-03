@@ -3,25 +3,36 @@
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
-import { BarChart3, CalendarClock, CalendarDays, Briefcase, LayoutDashboard, LogOut, Menu, Users, X } from "lucide-react";
+import { BarChart3, CalendarClock, CalendarDays, Briefcase, History, LayoutDashboard, LogOut, Menu, Settings, UserCog, Users, X } from "lucide-react";
 import { authClient } from "@/lib/auth-client";
 import { cn } from "@/lib/utils";
 
-const NAV = [
-  { href: "/dashboard", label: "Overview", icon: LayoutDashboard },
-  { href: "/dashboard/bookings", label: "Bookings", icon: CalendarDays },
-  { href: "/dashboard/clients", label: "Clients", icon: Users },
-  { href: "/dashboard/services", label: "Services", icon: Briefcase },
-  { href: "/dashboard/availability", label: "Availability", icon: CalendarClock },
-  { href: "/dashboard/reports", label: "Reports", icon: BarChart3 },
-];
+const NAV = {
+  admin: [
+    { href: "/dashboard", label: "Overview", icon: LayoutDashboard },
+    { href: "/dashboard/bookings", label: "Bookings", icon: CalendarDays },
+    { href: "/dashboard/clients", label: "Clients", icon: Users },
+    { href: "/dashboard/staff", label: "Staff", icon: UserCog },
+    { href: "/dashboard/services", label: "Services", icon: Briefcase },
+    { href: "/dashboard/availability", label: "Availability", icon: CalendarClock },
+    { href: "/dashboard/reports", label: "Reports", icon: BarChart3 },
+    { href: "/dashboard/audit", label: "Audit log", icon: History },
+    { href: "/dashboard/settings", label: "Settings", icon: Settings },
+  ],
+  staff: [
+    { href: "/staff", label: "My bookings", icon: CalendarDays },
+    { href: "/staff/schedule", label: "My hours", icon: CalendarClock },
+  ],
+};
 
-export default function Sidebar({ adminName, adminEmail }: { adminName: string; adminEmail: string }) {
+export default function Sidebar({ adminName, adminEmail, portal = "admin" }: { adminName: string; adminEmail: string; portal?: "admin" | "staff" }) {
+  const home = portal === "admin" ? "/dashboard" : "/staff";
+  const badge = portal === "admin" ? "Admin" : "Staff";
   const pathname = usePathname();
   const router = useRouter();
   const [open, setOpen] = useState(false);
 
-  const isActive = (href: string) => (href === "/dashboard" ? pathname === href : pathname.startsWith(href));
+  const isActive = (href: string) => (href === home ? pathname === href || (portal === "staff" && pathname.startsWith("/staff/bookings")) : pathname.startsWith(href));
 
   async function signOut() {
     await authClient.signOut();
@@ -33,7 +44,7 @@ export default function Sidebar({ adminName, adminEmail }: { adminName: string; 
     <>
       {/* Mobile top bar */}
       <div className="sticky top-0 z-30 flex items-center justify-between bg-[#2B6F6F] px-4 py-3 text-white lg:hidden">
-        <span className="font-bold">APCAMS Admin</span>
+        <span className="font-bold">APCAMS {badge}</span>
         <button onClick={() => setOpen(true)} aria-label="Open menu" className="rounded p-1 hover:bg-white/10">
           <Menu size={22} />
         </button>
@@ -48,9 +59,9 @@ export default function Sidebar({ adminName, adminEmail }: { adminName: string; 
         )}
       >
         <div className="flex items-center justify-between border-b border-white/10 px-6 py-5">
-          <Link href="/dashboard" className="text-xl font-extrabold tracking-wide">
+          <Link href={home} className="text-xl font-extrabold tracking-wide">
             APCAMS
-            <span className="ml-2 rounded bg-white/15 px-1.5 py-0.5 align-middle text-[10px] font-semibold uppercase tracking-wider">Admin</span>
+            <span className="ml-2 rounded bg-white/15 px-1.5 py-0.5 align-middle text-[10px] font-semibold uppercase tracking-wider">{badge}</span>
           </Link>
           <button onClick={() => setOpen(false)} aria-label="Close menu" className="rounded p-1 hover:bg-white/10 lg:hidden">
             <X size={20} />
@@ -58,7 +69,7 @@ export default function Sidebar({ adminName, adminEmail }: { adminName: string; 
         </div>
 
         <nav className="mt-4 flex flex-col gap-1 px-3">
-          {NAV.map(({ href, label, icon: Icon }) => (
+          {NAV[portal].map(({ href, label, icon: Icon }) => (
             <Link
               key={href}
               href={href}

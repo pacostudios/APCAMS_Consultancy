@@ -43,3 +43,9 @@ next-env.d.ts
 # local database
 /data/
 !.env.example
+
+# graphify knowledge graph (rebuild with `graphify update .`)
+graphify-out/
+
+# personal Claude Code instructions
+CLAUDE.local.md

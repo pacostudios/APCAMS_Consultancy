@@ -23,15 +23,15 @@ export default async function AvailabilityPage() {
     <>
       <PageHeader
         title="Availability"
-        description={`When clients can book online. All times are ${zoneLabel()}.`}
+        description={`Business-wide settings. Each staff member has their own weekly hours on their staff page. All times are ${zoneLabel()}.`}
       />
       <div className="grid grid-cols-1 gap-6 xl:grid-cols-5">
-        <Card title="Weekly hours" className="xl:col-span-3">
-          <HoursEditor initial={hours} />
+        <Card title="Default weekly hours (pre-filled for new staff)" className="xl:col-span-3">
+          <HoursEditor initial={hours} submitLabel="Save default hours" />
         </Card>
 
         <div className="space-y-6 xl:col-span-2">
-          <Card title="Close a day">
+          <Card title="Close a day for everyone">
             <ActionForm action={addBlockedDateAction} resetOnSuccess className="space-y-4">
               <div className="grid gap-4 sm:grid-cols-2">
                 <Field label="Date" htmlFor="date">

@@ -10,7 +10,8 @@
     "db:generate": "drizzle-kit generate",
     "db:migrate": "tsx --env-file-if-exists=.env.local scripts/migrate.ts",
     "db:studio": "drizzle-kit studio",
-    "seed": "tsx --env-file-if-exists=.env.local scripts/seed.ts"
+    "seed": "tsx --env-file-if-exists=.env.local scripts/seed.ts",
+    "zoom:check": "tsx --conditions=react-server --env-file-if-exists=.env.local scripts/zoom-check.ts"
   },
   "dependencies": {
     "better-auth": "^1.7.15",
@@ -24,10 +25,12 @@
     "lucide-react": "^0.539.0",
     "motion": "^12.23.12",
     "next": "^16.2.7",
+    "nodemailer": "^10.3.1",
     "react": "^19.2.7",
     "react-dom": "^19.2.7",
     "react-icons": "^5.5.0",
     "server-only": "^0.0.1",
+    "stripe": "^23.1.0",
     "tailwind-merge": "^3.3.1",
     "tailwindcss-animate": "^1.0.7",
     "zod": "^4.6.7"
@@ -36,6 +39,7 @@
     "@eslint/eslintrc": "^3",
     "@types/better-sqlite3": "^9.6.0",
     "@types/node": "^20",
+    "@types/nodemailer": "^8.0.2",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "drizzle-kit": "^0.31.11",

@@ -6,37 +6,21 @@ import { z } from "zod";
 import { db } from "@/db";
 import { availability, blockedDate } from "@/db/schema";
 import { requireAdmin } from "@/lib/admin";
+import { parseHoursForm } from "@/lib/hours";
 import type { ActionResult } from "../_components/ActionForm";
-
-const time = z.string().regex(/^([01]\d|2[0-3]):[0-5]\d$/, "Times must be HH:MM.");
-const hoursSchema = z.array(z.object({ weekday: z.number().int().min(0).max(6), startTime: time, endTime: time }));
 
 export async function saveHoursAction(_: ActionResult, formData: FormData): Promise<ActionResult> {
   await requireAdmin();
-  let rows;
-  try {
-    rows = hoursSchema.parse(JSON.parse(String(formData.get("hours"))));
-  } catch {
-    return { error: "Couldn't read the hours. Check every time is filled in." };
-  }
-
-  for (const r of rows) {
-    if (r.startTime >= r.endTime) return { error: "Each block must end after it starts." };
-  }
-  // Blocks on the same day must not overlap.
-  for (let day = 0; day < 7; day++) {
-    const blocks = rows.filter((r) => r.weekday === day).sort((a, b) => a.startTime.localeCompare(b.startTime));
-    for (let i = 1; i < blocks.length; i++) {
-      if (blocks[i].startTime < blocks[i - 1].endTime) return { error: "Two time blocks on the same day overlap." };
-    }
-  }
+  const parsed = parseHoursForm(formData);
+  if ("error" in parsed) return parsed;
+  const { rows } = parsed;
 
   db.transaction((tx) => {
     tx.delete(availability).run();
     if (rows.length) tx.insert(availability).values(rows).run();
   });
   revalidatePath("/dashboard/availability");
-  return { success: "Working hours saved." };
+  return { success: "Default hours saved. They pre-fill the hours of staff you add next." };
 }
 
 const blockSchema = z.object({
@@ -53,7 +37,7 @@ export async function addBlockedDateAction(_: ActionResult, formData: FormData):
     .onConflictDoUpdate({ target: blockedDate.date, set: { reason: parsed.data.reason } })
     .run();
   revalidatePath("/dashboard/availability");
-  return { success: "Date closed. Existing bookings on that day are not cancelled automatically." };
+  return { success: "Date closed for all staff. Existing bookings on that day are not cancelled automatically." };
 }
 
 export async function removeBlockedDateAction(formData: FormData) {

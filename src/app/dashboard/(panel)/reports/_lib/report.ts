@@ -65,9 +65,9 @@ export function buildReport(range: RangeKey, now = new Date()) {
     const svc = byService.get(b.serviceName) ?? { bookings: 0, revenue: 0 };
     if (b.status !== "cancelled") svc.bookings++;
     if (b.paymentStatus === "paid") {
-      revenue += b.priceCents;
+      revenue += b.amountPaidCents ?? b.priceCents;
       paidCount++;
-      svc.revenue += b.priceCents;
+      svc.revenue += b.amountPaidCents ?? b.priceCents;
     }
     byService.set(b.serviceName, svc);
   }

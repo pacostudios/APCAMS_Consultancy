@@ -9,15 +9,19 @@ import SlotPicker from "./SlotPicker";
 
 type Option = { id: number; name: string };
 type ServiceOption = Option & { priceCents: number; durationMins: number };
+export type StaffOption = Option & { serviceIds: number[] };
 
-export default function NewBookingForm({ clients, services, defaultClientId }: {
+export default function NewBookingForm({ clients, services, staff, defaultClientId }: {
   clients: (Option & { email: string | null; phone: string | null })[];
   services: ServiceOption[];
+  staff: StaffOption[];
   defaultClientId?: number;
 }) {
   const [isNew, setIsNew] = useState(!defaultClientId && clients.length === 0);
   const [serviceId, setServiceId] = useState(String(services[0]?.id ?? ""));
+  const [staffId, setStaffId] = useState("");
   const [mode, setMode] = useState("in_person");
+  const qualified = staff.filter((s) => s.serviceIds.includes(Number(serviceId)));
 
   return (
     <ActionForm action={createBookingAction} className="space-y-8">
@@ -58,7 +62,8 @@ export default function NewBookingForm({ clients, services, defaultClientId }: {
         <legend className="mb-2 text-sm font-semibold text-slate-900">Appointment</legend>
         <div className="grid gap-4 sm:grid-cols-2">
           <Field label="Service" htmlFor="serviceId">
-            <select id="serviceId" name="serviceId" value={serviceId} onChange={(e) => setServiceId(e.target.value)} className={inputClass}>
+            <select id="serviceId" name="serviceId" value={serviceId}
+              onChange={(e) => { setServiceId(e.target.value); setStaffId(""); }} className={inputClass}>
               {services.map((s) => (
                 <option key={s.id} value={s.id}>
                   {s.name} · {s.durationMins} min · {formatAUD(s.priceCents)}
@@ -66,8 +71,15 @@ export default function NewBookingForm({ clients, services, defaultClientId }: {
               ))}
             </select>
           </Field>
+          <Field label="Staff" htmlFor="staffId"
+            hint={qualified.length ? "Auto-assign picks whoever is free then, with the fewest bookings that day." : "No active staff provide this service yet."}>
+            <select id="staffId" name="staffId" value={staffId} onChange={(e) => setStaffId(e.target.value)} className={inputClass}>
+              <option value="">Auto-assign</option>
+              {qualified.map((s) => <option key={s.id} value={s.id}>{s.name}</option>)}
+            </select>
+          </Field>
           <Field label="Date & time" htmlFor="startsAt">
-            <SlotPicker serviceId={serviceId} />
+            <SlotPicker serviceId={serviceId} staffId={staffId} />
           </Field>
           <Field label="Format" htmlFor="mode">
             <select id="mode" name="mode" value={mode} onChange={(e) => setMode(e.target.value)} className={inputClass}>
@@ -82,7 +94,7 @@ export default function NewBookingForm({ clients, services, defaultClientId }: {
             </select>
           </Field>
           {mode === "online" && (
-            <Field label="Meeting link" htmlFor="meetingUrl" hint="Zoom / Google Meet URL">
+            <Field label="Meeting link" htmlFor="meetingUrl" hint="Leave blank for online sessions to create a Zoom meeting automatically">
               <input id="meetingUrl" name="meetingUrl" type="url" placeholder="https://" className={inputClass} />
             </Field>
           )}

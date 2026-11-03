@@ -2,7 +2,7 @@
  * Seeds the database.
  *
  *   npm run seed            → admin user, services, default working hours (safe to re-run)
- *   npm run seed -- --demo  → also adds demo clients and bookings for trying the dashboard
+ *   npm run seed -- --demo  → also adds demo staff, clients and bookings for trying the dashboard
  *
  * Admin credentials come from ADMIN_EMAIL / ADMIN_PASSWORD / ADMIN_NAME.
  */
@@ -11,7 +11,8 @@ import { eq } from "drizzle-orm";
 import { hashPassword } from "better-auth/crypto";
 import { fromZonedTime } from "date-fns-tz";
 import { db } from "../src/db";
-import { account, availability, booking, client, service, user } from "../src/db/schema";
+import { account, availability, booking, client, service, staff, staffHours, staffService, user } from "../src/db/schema";
+import { HOME_SERVICES, SERVICE_CONTENT, SERVICE_SUMMARIES } from "./service-content";
 
 const TZ = process.env.BUSINESS_TIMEZONE ?? "Australia/Sydney";
 
@@ -53,7 +54,31 @@ function seedServices() {
   SERVICES.forEach((s, i) => {
     db.insert(service).values({ ...s, sortOrder: i }).onConflictDoNothing({ target: service.slug }).run();
   });
-  console.log(`✓ Services: ${SERVICES.length}`);
+
+  // Fill page content (only where it's still empty, so edits made in the dashboard are kept).
+  let filled = 0;
+  for (const [slug, c] of Object.entries(SERVICE_CONTENT)) {
+    const row = db.select().from(service).where(eq(service.slug, slug)).get();
+    if (!row || row.tagline) continue;
+    db.update(service)
+      .set({
+        summary: SERVICE_SUMMARIES[slug] ?? row.summary,
+        tagline: c.tagline,
+        description: c.description,
+        includes: c.includes,
+        dimensions: c.dimensions,
+        icon: c.icon,
+        imageUrl: c.image,
+        imageAlt: c.imageAlt,
+        emergencySupport: Boolean(c.emergencySupport),
+        showOnHome: HOME_SERVICES.includes(slug),
+        sortOrder: HOME_SERVICES.includes(slug) ? HOME_SERVICES.indexOf(slug) : row.sortOrder + 10,
+      })
+      .where(eq(service.id, row.id))
+      .run();
+    filled++;
+  }
+  console.log(`✓ Services: ${SERVICES.length}${filled ? ` (page content filled for ${filled})` : ""}`);
 }
 
 function seedAvailability() {
@@ -65,7 +90,42 @@ function seedAvailability() {
   console.log("✓ Default working hours: Mon–Fri 9–5, Sat 10–2");
 }
 
-function seedDemo() {
+const DEMO_STAFF_PASSWORD = "demo-staff-123";
+
+/** Two demo practitioners splitting the services, with the default hours. Returns serviceId → staff ids. */
+async function seedDemoStaff() {
+  const people = [
+    { name: "Dr Sarah Mitchell", email: "sarah@example.com", title: "Clinical Psychologist" },
+    { name: "Daniel Chen", email: "daniel@example.com", title: "Counsellor & Mediator" },
+  ];
+  const services = db.select().from(service).all();
+  const hours = db.select().from(availability).all();
+  const byService = new Map<number, number[]>();
+
+  for (const [i, p] of people.entries()) {
+    let row = db.select({ id: staff.id }).from(staff).innerJoin(user, eq(user.id, staff.userId)).where(eq(user.email, p.email)).get();
+    if (!row) {
+      const id = randomUUID();
+      db.insert(user).values({ id, name: p.name, email: p.email, emailVerified: true, role: "staff" }).run();
+      db.insert(account)
+        .values({ id: randomUUID(), accountId: id, providerId: "credential", userId: id, password: await hashPassword(DEMO_STAFF_PASSWORD) })
+        .run();
+      row = db.insert(staff).values({ userId: id, title: p.title }).returning({ id: staff.id }).get();
+      // Each takes every other service; the first two services are shared so auto-assign has a choice.
+      const mine = services.filter((s, n) => n < 2 || n % 2 === i);
+      db.insert(staffService).values(mine.map((s) => ({ staffId: row!.id, serviceId: s.id }))).run();
+      if (hours.length) db.insert(staffHours).values(hours.map((h) => ({ staffId: row!.id, weekday: h.weekday, startTime: h.startTime, endTime: h.endTime }))).run();
+    }
+    for (const link of db.select().from(staffService).where(eq(staffService.staffId, row.id)).all()) {
+      byService.set(link.serviceId, [...(byService.get(link.serviceId) ?? []), row.id]);
+    }
+  }
+  console.log(`✓ Demo staff: ${people.map((p) => p.email).join(", ")} (password ${DEMO_STAFF_PASSWORD})`);
+  return byService;
+}
+
+async function seedDemo() {
+  const staffByService = await seedDemoStaff();
   if (db.select().from(booking).get()) return console.log("✓ Bookings exist, demo skipped");
 
   const names = [
@@ -105,11 +165,13 @@ function seedDemo() {
       const status = past
         ? roll === 0 ? "cancelled" : roll === 1 ? "no_show" : "completed"
         : roll < 3 ? "pending" : "confirmed";
+      const candidates = staffByService.get(svc.id) ?? [];
       db.insert(booking)
         .values({
           reference: "APC-" + randomBytes(3).toString("hex").toUpperCase(),
           clientId: c.id,
           serviceId: svc.id,
+          staffId: candidates.length ? candidates[(dayOffset + 120 + n) % candidates.length] : null,
           startsAt,
           endsAt: new Date(startsAt.getTime() + svc.durationMins * 60_000),
           status,
@@ -129,7 +191,7 @@ async function main() {
   await seedAdmin();
   seedServices();
   seedAvailability();
-  if (process.argv.includes("--demo")) seedDemo();
+  if (process.argv.includes("--demo")) await seedDemo();
 }
 
 main().catch((err) => {

@@ -150,7 +150,7 @@ export default function V2Service() {
           transition={{ duration: 1 }}
           className="relative"
         >
-          <div className="relative aspect-[4/5] md:aspect-square w-full max-w-[500px] mx-auto lg:ml-auto rounded-t-full rounded-b-[3rem] overflow-hidden shadow-2xl bg-slate-100 flex items-center justify-center">
+          <div className="relative aspect-[1024/603] w-full max-w-[640px] mx-auto lg:ml-auto rounded-[2rem] md:rounded-[3rem] overflow-hidden shadow-2xl bg-slate-100 flex items-center justify-center">
              {SERVICE_PAGE_CONTENT.hero.image ? (
                <Image 
                   src={SERVICE_PAGE_CONTENT.hero.image}

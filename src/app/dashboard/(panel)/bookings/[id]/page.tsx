@@ -3,12 +3,18 @@ import { notFound } from "next/navigation";
 import { asc, eq } from "drizzle-orm";
 import { ArrowLeft, Mail, MapPin, Phone, Video } from "lucide-react";
 import { db } from "@/db";
-import { BOOKING_STATUSES, PAYMENT_STATUSES, booking, client, service, type BookingStatus } from "@/db/schema";
+import { BOOKING_STATUSES, PAYMENT_STATUSES, auditLog, booking, client, service, type BookingStatus } from "@/db/schema";
 import { requireAdmin } from "@/lib/admin";
 import { formatAUD, formatDateTime, formatTime, formatWeekdayDate, toLocalInput, zoneLabel } from "@/lib/format";
 import { ActionForm, SubmitButton } from "../../_components/ActionForm";
-import { Card, Field, PageHeader, PaymentBadge, StatusBadge, bookingStatusLabel, buttonClass, inputClass, paymentStatusLabel } from "../../_components/ui";
-import { rescheduleBookingAction, setBookingStatusAction, updateBookingAction } from "../actions";
+import { isZoomConfigured } from "@/lib/zoom";
+import { stripePaymentUrl } from "@/lib/payments";
+import { releaseExpiredHolds, staffName } from "@/lib/bookings";
+import { listStaff } from "@/lib/staff";
+import { listAudit } from "../../_lib/queries";
+import AuditList from "../../_components/AuditList";
+import { Card, Field, JoinMeetingButton, PageHeader, PaymentBadge, StatusBadge, bookingStatusLabel, buttonClass, inputClass, paymentStatusLabel } from "../../_components/ui";
+import { createZoomMeetingAction, refundBookingAction, rescheduleBookingAction, setBookingStatusAction, updateBookingAction } from "../actions";
 import RescheduleFields from "../_components/RescheduleFields";
 
 export const dynamic = "force-dynamic";
@@ -29,6 +35,7 @@ const QUICK_ACTIONS: Partial<Record<BookingStatus, { status: BookingStatus; labe
 export default async function BookingDetailPage({ params }: { params: Promise<{ id: string }> }) {
   await requireAdmin();
   const { id } = await params;
+  releaseExpiredHolds();
 
   const row = db
     .select({ booking, client, service })
@@ -42,7 +49,12 @@ export default async function BookingDetailPage({ params }: { params: Promise<{ 
 
   const services = db.select({ id: service.id, name: service.name, durationMins: service.durationMins })
     .from(service).orderBy(asc(service.sortOrder)).all();
+  const staff = listStaff({ activeOnly: true }).map((m) => ({ id: m.id, name: m.name, serviceIds: m.serviceIds }));
+  const history = listAudit({ where: eq(auditLog.bookingId, b.id), limit: 100 });
   const quick = QUICK_ACTIONS[b.status] ?? [];
+  const canCreateMeeting =
+    isZoomConfigured() && b.mode === "online" && !b.meetingUrl &&
+    (b.status === "pending" || b.status === "confirmed") && b.endsAt > new Date();
 
   return (
     <>
@@ -54,6 +66,13 @@ export default async function BookingDetailPage({ params }: { params: Promise<{ 
         description={`${b.reference} · ${formatWeekdayDate(b.startsAt)}, ${formatTime(b.startsAt)}–${formatTime(b.endsAt)} ${zoneLabel(b.startsAt)}`}
         actions={
           <>
+            <JoinMeetingButton booking={b} />
+            {canCreateMeeting && (
+              <form action={createZoomMeetingAction}>
+                <input type="hidden" name="id" value={b.id} />
+                <SubmitButton variant="primary"><Video size={16} /> Create Zoom meeting</SubmitButton>
+              </form>
+            )}
             {quick.map((a) => (
               <form key={a.status} action={setBookingStatusAction}>
                 <input type="hidden" name="id" value={b.id} />
@@ -72,7 +91,21 @@ export default async function BookingDetailPage({ params }: { params: Promise<{ 
           <Card title="Summary">
             <dl className="grid grid-cols-2 gap-x-6 gap-y-4 text-sm sm:grid-cols-3">
               <div><dt className="text-slate-500">Status</dt><dd className="mt-1"><StatusBadge status={b.status} /></dd></div>
-              <div><dt className="text-slate-500">Payment</dt><dd className="mt-1"><PaymentBadge status={b.paymentStatus} /></dd></div>
+              <div><dt className="text-slate-500">Payment</dt>
+                <dd className="mt-1 flex flex-wrap items-center gap-2">
+                  <PaymentBadge status={b.paymentStatus} />
+                  {b.paymentMethod && <span className="text-xs text-slate-500">{b.paymentMethod}</span>}
+                </dd>
+              </div>
+              <div><dt className="text-slate-500">Staff</dt>
+                <dd className="mt-1 text-slate-900">
+                  {b.staffId ? (
+                    <Link href={`/dashboard/staff/${b.staffId}`} className="text-[#2B6F6F] hover:underline">{staffName(b.staffId)}</Link>
+                  ) : (
+                    <span className="text-slate-400">Unassigned: pick someone under Reschedule</span>
+                  )}
+                </dd>
+              </div>
               <div><dt className="text-slate-500">Amount</dt><dd className="mt-1 font-medium tabular-nums text-slate-900">{formatAUD(b.priceCents)}</dd></div>
               <div><dt className="text-slate-500">Format</dt>
                 <dd className="mt-1 flex items-center gap-1.5 text-slate-900">
@@ -86,6 +119,16 @@ export default async function BookingDetailPage({ params }: { params: Promise<{ 
                   <dd className="mt-1 truncate"><a href={b.meetingUrl} target="_blank" rel="noreferrer" className="text-[#2B6F6F] hover:underline">{b.meetingUrl}</a></dd>
                 </div>
               )}
+              {b.status === "pending" && b.holdExpiresAt && b.paymentStatus === "unpaid" && (
+                <div className="col-span-full rounded-lg bg-amber-50 px-3 py-2 text-amber-800">
+                  Waiting for the client to pay online. The slot is held until {formatTime(b.holdExpiresAt)}, then released automatically.
+                </div>
+              )}
+              {b.paymentStatus === "paid" && b.status === "cancelled" && b.stripePaymentIntentId && (
+                <div className="col-span-full rounded-lg bg-amber-50 px-3 py-2 text-amber-800">
+                  This booking is cancelled but still paid. Refund it below if the client is owed their money back.
+                </div>
+              )}
               {b.clientNotes && (
                 <div className="col-span-full"><dt className="text-slate-500">Client&apos;s notes</dt>
                   <dd className="mt-1 whitespace-pre-wrap text-slate-900">{b.clientNotes}</dd>
@@ -93,6 +136,38 @@ export default async function BookingDetailPage({ params }: { params: Promise<{ 
               )}
             </dl>
           </Card>
+
+          {b.stripePaymentIntentId && b.paymentStatus !== "unpaid" && (
+            <Card title="Payment">
+              <dl className="grid grid-cols-2 gap-x-6 gap-y-4 text-sm sm:grid-cols-3">
+                <div><dt className="text-slate-500">Status</dt><dd className="mt-1"><PaymentBadge status={b.paymentStatus} /></dd></div>
+                <div><dt className="text-slate-500">Amount paid</dt>
+                  <dd className="mt-1 font-medium tabular-nums text-slate-900">{formatAUD(b.amountPaidCents ?? b.priceCents)}</dd>
+                </div>
+                <div><dt className="text-slate-500">Paid on</dt><dd className="mt-1 text-slate-900">{b.paidAt ? formatDateTime(b.paidAt) : "—"}</dd></div>
+                <div><dt className="text-slate-500">Method</dt><dd className="mt-1 text-slate-900">{b.paymentMethod ?? "Card"}</dd></div>
+                {b.refundedAt && (
+                  <div><dt className="text-slate-500">Refunded on</dt><dd className="mt-1 text-slate-900">{formatDateTime(b.refundedAt)}</dd></div>
+                )}
+                <div className="col-span-full flex flex-wrap gap-4">
+                  {b.receiptUrl && (
+                    <a href={b.receiptUrl} target="_blank" rel="noreferrer" className="text-[#2B6F6F] hover:underline">Receipt</a>
+                  )}
+                  <a href={stripePaymentUrl(b.stripePaymentIntentId)} target="_blank" rel="noreferrer" className="text-[#2B6F6F] hover:underline">
+                    View in Stripe
+                  </a>
+                  <span className="font-mono text-xs leading-5 text-slate-400">{b.stripePaymentIntentId}</span>
+                </div>
+              </dl>
+              {b.paymentStatus === "paid" && (
+                <ActionForm action={refundBookingAction} className="mt-5 flex flex-wrap items-center justify-between gap-4 border-t border-slate-100 pt-5">
+                  <input type="hidden" name="id" value={b.id} />
+                  <p className="text-sm text-slate-600">A refund returns the full amount to the client&apos;s card. It doesn&apos;t cancel the booking.</p>
+                  <SubmitButton variant="danger" confirm={`Refund ${formatAUD(b.amountPaidCents ?? b.priceCents)} to ${c.name}?`}>Refund payment</SubmitButton>
+                </ActionForm>
+              )}
+            </Card>
+          )}
 
           <Card title="Edit booking">
             <ActionForm action={updateBookingAction} className="space-y-4">
@@ -125,12 +200,17 @@ export default async function BookingDetailPage({ params }: { params: Promise<{ 
             </ActionForm>
           </Card>
 
-          <Card title="Reschedule">
+          <Card title="Reschedule or reassign">
             <ActionForm action={rescheduleBookingAction} className="space-y-4">
               <input type="hidden" name="id" value={b.id} />
-              <RescheduleFields services={services} defaultServiceId={String(s.id)} defaultStartsAt={toLocalInput(b.startsAt)} />
-              <div className="flex justify-end"><SubmitButton variant="secondary">Reschedule</SubmitButton></div>
+              <RescheduleFields services={services} staff={staff} defaultServiceId={String(s.id)}
+                defaultStaffId={b.staffId ? String(b.staffId) : ""} defaultStartsAt={toLocalInput(b.startsAt)} />
+              <div className="flex justify-end"><SubmitButton variant="secondary">Save</SubmitButton></div>
             </ActionForm>
+          </Card>
+
+          <Card title="History">
+            <AuditList rows={history} />
           </Card>
         </div>
 

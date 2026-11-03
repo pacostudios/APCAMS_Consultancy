@@ -1,0 +1,1 @@
+ALTER TABLE `booking` ADD `zoom_meeting_id` text;
