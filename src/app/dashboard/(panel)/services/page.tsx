@@ -17,7 +17,6 @@ export default async function ServicesPage() {
     .select({
       id: service.id,
       name: service.name,
-      slug: service.slug,
       priceCents: service.priceCents,
       durationMins: service.durationMins,
       active: service.active,
@@ -44,7 +43,6 @@ export default async function ServicesPage() {
                 <tr key={s.id} className="hover:bg-slate-50">
                   <td className={tdClass}>
                     <div className="font-medium text-slate-900">{s.name}</div>
-                    <div className="text-xs text-slate-500">/service/{s.slug}</div>
                   </td>
                   <td className={`${tdClass} tabular-nums`}>{formatAUD(s.priceCents)}</td>
                   <td className={tdClass}>{s.durationMins} min</td>

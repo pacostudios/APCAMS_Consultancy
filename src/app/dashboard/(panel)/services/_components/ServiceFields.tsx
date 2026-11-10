@@ -1,16 +1,9 @@
 "use client";
 
-import { useState } from "react";
 import type { Service } from "@/db/schema";
 import { Field, inputClass } from "../../_components/ui";
 
-const slugify = (s: string) =>
-  s.toLowerCase().replace(/&/g, "and").replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
-
 export default function ServiceFields({ service }: { service?: Service }) {
-  const [slug, setSlug] = useState(service?.slug ?? "");
-  const [slugEdited, setSlugEdited] = useState(Boolean(service));
-
   return (
     <div className="space-y-4">
       <div className="grid gap-4 sm:grid-cols-2">
@@ -20,20 +13,6 @@ export default function ServiceFields({ service }: { service?: Service }) {
             name="name"
             required
             defaultValue={service?.name}
-            onChange={(e) => !slugEdited && setSlug(slugify(e.target.value))}
-            className={inputClass}
-          />
-        </Field>
-        <Field label="URL slug" htmlFor="slug" hint={`Page address: /service/${slug || "…"}`}>
-          <input
-            id="slug"
-            name="slug"
-            required
-            value={slug}
-            onChange={(e) => {
-              setSlugEdited(true);
-              setSlug(e.target.value);
-            }}
             className={inputClass}
           />
         </Field>
