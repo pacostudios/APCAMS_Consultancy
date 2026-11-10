@@ -1,36 +1,46 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# APCAMS Consultancy
 
-## Getting Started
+Booking website and admin dashboard for APCAMS Consultancy (Sydney, Australia).
 
-First, run the development server:
+**Stack:** Next.js 16 · SQLite (better-sqlite3, WAL) · Drizzle ORM · Better Auth · Tailwind CSS
+
+- Public site: `src/app/(site)`
+- Admin dashboard: `src/app/dashboard` (sign in at `/dashboard/login`)
+- Database schema: `src/db/schema.ts`. Booking rules: `src/lib/bookings.ts`
+
+All times are stored in UTC and shown in the business timezone (`Australia/Sydney` by default). Prices are stored in AUD cents.
+
+## Setup
 
 ```bash
+npm install
+cp .env.example .env.local   # then fill in BETTER_AUTH_SECRET and ADMIN_PASSWORD
+npm run db:migrate           # creates ./data/app.db
+npm run seed                 # admin user, services, default working hours
+npm run seed -- --demo       # optional: demo clients and bookings
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Scripts
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+| Script | What it does |
+|---|---|
+| `npm run dev` | Development server |
+| `npm run build` / `npm start` | Production build / server |
+| `npm run db:generate` | Create a migration after editing `src/db/schema.ts` |
+| `npm run db:migrate` | Apply pending migrations (run on every deploy) |
+| `npm run db:studio` | Browse the database in the browser |
+| `npm run seed` | Create the admin account, services and working hours (safe to re-run) |
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Deploying (VPS)
 
-## Learn More
+The build is `standalone`. On the server:
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+git pull && npm ci && npm run db:migrate && npm run build
+cp -r public .next/standalone/ && cp -r .next/static .next/standalone/.next/
+pm2 reload apcams || pm2 start .next/standalone/server.js --name apcams
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- Set `BETTER_AUTH_URL` to the public site URL (e.g. `https://apcams.com.au`). Sign-in is rejected from any other origin.
+- Keep `DATABASE_PATH` outside the app folder (e.g. `/var/lib/apcams/app.db`) and back it up off the server (Litestream or a nightly `sqlite3 .backup`).

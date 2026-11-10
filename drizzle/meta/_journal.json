@@ -1,0 +1,55 @@
+{
+  "version": "7",
+  "dialect": "sqlite",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "6",
+      "when": 1793555630702,
+      "tag": "0000_fuzzy_miracleman",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "6",
+      "when": 1793592192015,
+      "tag": "0001_booking_zoom_meeting",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1793595499298,
+      "tag": "0002_booking_stripe_payment",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "6",
+      "when": 1793597015118,
+      "tag": "0003_booking_payment_details",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "6",
+      "when": 1793597425767,
+      "tag": "0004_service_content_site_images",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "6",
+      "when": 1793632160527,
+      "tag": "0005_staff_and_audit",
+      "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "6",
+      "when": 1793719397945,
+      "tag": "0006_site_setting",
+      "breakpoints": true
+    }
+  ]
+}

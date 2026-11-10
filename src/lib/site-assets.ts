@@ -25,6 +25,12 @@ export const SITE_ASSETS = {
       src: "/sofa_teal.webp",
       alt: "Alchemy Therapy Space"
     },
+    // Suicide prevention hotline section. Put the video in /public and set `video` (e.g. "/crisis_support.mp4");
+    // until then a placeholder panel shows. The phone number is edited in Dashboard → Settings.
+    crisisSupport: {
+      video: "",
+      poster: "",
+    },
     testimonialAvatars: [
       "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&q=80&w=150",
       "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=150",
@@ -37,7 +43,7 @@ export const SITE_ASSETS = {
   // ==========================================
   ABOUT: {
     hero: {
-      src: "https://images.unsplash.com/photo-1600880292203-757bb62b4baf?auto=format&fit=crop&q=80&w=800",
+      src: "/about_us.jpeg",
       alt: "Clinical Consultation Room"
     },
     philosophy: {
@@ -57,7 +63,7 @@ export const SITE_ASSETS = {
   // ==========================================
   SERVICES_LANDING: {
     hero: {
-      src: "https://images.unsplash.com/photo-1600880292203-757bb62b4baf?auto=format&fit=crop&q=80&w=800",
+      src: "/service.jpeg",
       alt: "Alchemy Therapy Environment"
     },
     blogs: [
