@@ -11,7 +11,7 @@ import { cancelMyBookingAction, resumePaymentAction } from "./actions";
 import SignOutButton from "./SignOutButton";
 
 export const dynamic = "force-dynamic";
-export const metadata = { title: "My account · APCAMS" };
+export const metadata = { title: "My account · Alchemetanoia" };
 
 const STATUS_STYLES: Record<BookingStatus, string> = {
   pending: "bg-amber-50 text-amber-700",

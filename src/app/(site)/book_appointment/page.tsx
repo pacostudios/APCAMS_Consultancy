@@ -7,7 +7,7 @@ import { getUser } from "@/lib/user";
 import BookingForm from "./BookingForm";
 
 export const dynamic = "force-dynamic";
-export const metadata = { title: "Book a session · APCAMS" };
+export const metadata = { title: "Book a session · Alchemetanoia" };
 
 export default async function BookAppointmentPage({ searchParams }: { searchParams: Promise<{ service?: string; payment?: string }> }) {
   const { service: initialSlug, payment } = await searchParams;

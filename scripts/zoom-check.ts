@@ -14,7 +14,7 @@ async function main() {
 
   const startsAt = new Date(Date.now() + 24 * 3_600_000);
   const { meetingId, joinUrl } = await createZoomMeeting({
-    topic: "APCAMS connection test (safe to ignore)",
+    topic: "Alchemetanoia connection test (safe to ignore)",
     startsAt,
     durationMins: 60,
   });

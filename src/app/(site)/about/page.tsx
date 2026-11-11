@@ -124,11 +124,11 @@ export default function V2About() {
               Alchemetanoia
             </h1>
             <p className="text-base md:text-lg font-bold text-teal-700 leading-snug">
-              Alchemy Psychotherapy, Counselling, and Mediation Services (APCAMS)
+              Alchemy Psychotherapy, Counselling, and Mediation Services
             </p>
           </div>
           <p className="text-lg text-slate-500 leading-relaxed font-medium">
-            Welcome to APCAMS, where rigorous, evidence-based clinical science converges with the sacred, transformative art of human healing. Operating under our philosophical anchor, Alchemetanoia, our practice is built upon a foundational premise: that true, lasting psychological health requires both the precision of modern science and the profound, existential awakening of the human spirit.
+            Welcome to Alchemetanoia, where rigorous, evidence-based clinical science converges with the sacred, transformative art of human healing. Grounded in that philosophy, our practice is built upon a foundational premise: that true, lasting psychological health requires both the precision of modern science and the profound, existential awakening of the human spirit.
           </p>
           <div className="pt-4">
             <Link href="/service">
@@ -270,7 +270,7 @@ export default function V2About() {
           
           <div className="relative z-10 grid grid-cols-1 lg:grid-cols-5 gap-10 items-center">
             <div className="lg:col-span-3 space-y-4">
-              <span className="text-teal-100 font-bold uppercase tracking-widest text-xs">Why Choose Alchemetanoia (APCAMS)?</span>
+              <span className="text-teal-100 font-bold uppercase tracking-widest text-xs">Why Choose Alchemetanoia?</span>
               <p className="text-xl md:text-2xl font-serif italic text-teal-50 leading-relaxed">
                 &quot;We do not merely manage symptoms; we facilitate deep, lasting change.&quot;
               </p>

@@ -45,7 +45,7 @@ export async function GET(request: NextRequest) {
   );
 
   const csv = "﻿" + [header.map(csvCell).join(","), ...lines].join("\r\n"); // BOM so Excel reads UTF-8
-  const filename = `apcams-bookings-${range}-${formatInTimeZone(new Date(), tz, "yyyy-MM-dd")}.csv`;
+  const filename = `alchemetanoia-bookings-${range}-${formatInTimeZone(new Date(), tz, "yyyy-MM-dd")}.csv`;
 
   return new Response(csv, {
     headers: {

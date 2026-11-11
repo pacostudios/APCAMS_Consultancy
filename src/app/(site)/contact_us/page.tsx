@@ -27,11 +27,10 @@ const CONTACT_INFO = {
   mobile: "+91 6282584049",
   whatsapp: "+61 498289780",
   emails: [
-    { label: "General", address: "info@apcamservices.com" },
+    { label: "General", address: "info@alchemetanoia.com" },
     { label: "James Varkey", address: "jmsvarkey@gmail.com" },
-    { label: "Bookings", address: "admin@apcamservices.com" },
   ],
-  website: "www.apcamservices.com",
+  website: "www.alchemetanoia.com",
   address: "123 Wellness Street, Sydney, Australia",
   officeHours: [
     { day: "Monday - Friday", hours: "9:00 AM - 8:00 PM" },

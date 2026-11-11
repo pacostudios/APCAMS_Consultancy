@@ -154,13 +154,13 @@ export default function V2Service() {
              {SERVICE_PAGE_CONTENT.hero.image ? (
                <Image 
                   src={SERVICE_PAGE_CONTENT.hero.image}
-                  alt="APCAMS Therapy Room"
+                  alt="Alchemetanoia Therapy Room"
                   fill
                   className="object-cover"
                   priority
                />
              ) : (
-               <span className="text-slate-400 font-bold p-8 text-center uppercase tracking-widest text-sm">APCAMS Therapy Room</span>
+               <span className="text-slate-400 font-bold p-8 text-center uppercase tracking-widest text-sm">Alchemetanoia Therapy Room</span>
              )}
           </div>
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] border border-slate-100 rounded-full -z-10"></div>
@@ -339,7 +339,7 @@ export default function V2Service() {
                 24/7 Crisis Support
                 <span className="px-2 py-0.5 bg-red-100 text-red-600 text-[10px] uppercase tracking-widest rounded-md">Immediate Help</span>
               </h4>
-              <p className="text-slate-500 text-sm font-medium">APCAMS is committed to providing 24/7 suicide prevention support. If you are in immediate distress, please reach out.</p>
+              <p className="text-slate-500 text-sm font-medium">Alchemetanoia is committed to providing 24/7 suicide prevention support. If you are in immediate distress, please reach out.</p>
             </div>
             <button className="px-8 py-4 bg-red-500 text-white rounded-full font-bold text-sm hover:bg-red-600 transition-all">
               GET HELP NOW

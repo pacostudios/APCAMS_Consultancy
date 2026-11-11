@@ -63,7 +63,7 @@ export default function LoginPage() {
           <span className="mb-3 rounded-full bg-[#43A3A3]/10 p-3 text-[#2B6F6F]">
             <Lock size={22} />
           </span>
-          <h1 className="text-xl font-bold text-slate-900">APCAMS Team</h1>
+          <h1 className="text-xl font-bold text-slate-900">Alchemetanoia Team</h1>
           <p className="mt-1 text-sm text-slate-500">Admin and staff sign in</p>
         </div>
         <Suspense>

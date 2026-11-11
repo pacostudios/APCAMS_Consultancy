@@ -3,7 +3,7 @@ import nodemailer, { type Transporter } from "nodemailer";
 
 type Email = { to: string; subject: string; html: string; text: string };
 
-const from = () => process.env.EMAIL_FROM ?? "APCAMS Consultancy <no-reply@apcams.com.au>";
+const from = () => process.env.EMAIL_FROM ?? "Alchemetanoia Consultancy <no-reply@alchemetanoia.com>";
 
 let smtp: Transporter | null = null;
 function smtpTransport() {
