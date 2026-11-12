@@ -383,7 +383,7 @@ export async function attachZoomMeeting(bookingId: number) {
       topic: `${row.serviceName} · ${row.clientName} (${row.b.reference})`,
       startsAt: row.b.startsAt,
       durationMins: Math.round((row.b.endsAt.getTime() - row.b.startsAt.getTime()) / 60_000),
-      agenda: `APCAMS Consultancy session, booking ${row.b.reference}`,
+      agenda: `Alchemetanoia Consultancy session, booking ${row.b.reference}`,
     });
     db.update(booking).set({ zoomMeetingId: meetingId, meetingUrl: joinUrl }).where(eq(booking.id, bookingId)).run();
     return joinUrl;

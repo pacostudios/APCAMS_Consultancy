@@ -44,7 +44,7 @@ export default function Sidebar({ adminName, adminEmail, portal = "admin" }: { a
     <>
       {/* Mobile top bar */}
       <div className="sticky top-0 z-30 flex items-center justify-between bg-[#2B6F6F] px-4 py-3 text-white lg:hidden">
-        <span className="font-bold">APCAMS {badge}</span>
+        <span className="font-bold">ALCHEMETANOIA {badge}</span>
         <button onClick={() => setOpen(true)} aria-label="Open menu" className="rounded p-1 hover:bg-white/10">
           <Menu size={22} />
         </button>
@@ -60,7 +60,7 @@ export default function Sidebar({ adminName, adminEmail, portal = "admin" }: { a
       >
         <div className="flex items-center justify-between border-b border-white/10 px-6 py-5">
           <Link href={home} className="text-xl font-extrabold tracking-wide">
-            APCAMS
+            ALCHEMETANOIA
             <span className="ml-2 rounded bg-white/15 px-1.5 py-0.5 align-middle text-[10px] font-semibold uppercase tracking-wider">{badge}</span>
           </Link>
           <button onClick={() => setOpen(false)} aria-label="Close menu" className="rounded p-1 hover:bg-white/10 lg:hidden">

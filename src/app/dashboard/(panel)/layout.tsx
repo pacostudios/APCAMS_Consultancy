@@ -3,7 +3,7 @@ import { requireAdmin } from "@/lib/admin";
 import Sidebar from "./_components/Sidebar";
 
 export const metadata: Metadata = {
-  title: "Admin · APCAMS",
+  title: "Admin · Alchemetanoia",
   robots: { index: false, follow: false },
 };
 

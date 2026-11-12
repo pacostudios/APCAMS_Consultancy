@@ -242,7 +242,7 @@ export default function V2Home({ hotlinePhone, hotlineTel }: { hotlinePhone: str
         </motion.div>
       </section>
 
-      {/* ABOUT APCAMS SECTION */}
+      {/* ABOUT Alchemetanoia SECTION */}
       <section className="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-12 md:gap-16 items-center">
         <motion.div
           initial={{ opacity: 0, x: -30 }}
@@ -265,12 +265,12 @@ export default function V2Home({ hotlinePhone, hotlineTel }: { hotlinePhone: str
           viewport={{ once: true }}
           className="space-y-6 md:space-y-8 order-1 lg:order-2"
         >
-          <div className="text-teal-600 font-bold tracking-widest uppercase text-xs md:text-sm">About APCAMS</div>
+          <div className="text-teal-600 font-bold tracking-widest uppercase text-xs md:text-sm">About Alchemetanoia</div>
           <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-slate-900 leading-tight tracking-tight">
             Find Your Path to Healing, Wholeness, and Transformation
           </h2>
           <p className="text-base md:text-lg text-slate-600 leading-relaxed font-medium">
-            Welcome to APCAMS. We are a dedicated team of licensed therapists providing compassionate psychotherapy, counselling, and professional mediation services.
+            Welcome to Alchemetanoia. We are a dedicated team of licensed therapists providing compassionate psychotherapy, counselling, and professional mediation services.
           </p>
           <p className="text-base md:text-lg text-slate-600 leading-relaxed font-medium">Whether you are navigating mental health challenges like depression, anxiety, and ADHD, or
             seeking relationship-building, empowerment, and conflict resolution, we are here to support

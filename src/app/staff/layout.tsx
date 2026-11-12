@@ -3,7 +3,7 @@ import { requireStaff } from "@/lib/admin";
 import Sidebar from "@/app/dashboard/(panel)/_components/Sidebar";
 
 export const metadata: Metadata = {
-  title: "Staff · APCAMS",
+  title: "Staff · Alchemetanoia",
   robots: { index: false, follow: false },
 };
 

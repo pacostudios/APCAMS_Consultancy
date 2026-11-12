@@ -83,14 +83,14 @@ export default function V2Navbar({ forceSolid = false }: { forceSolid?: boolean 
         <Link href="/" className={`flex items-center transition-all duration-500 ${isSolid ? "gap-3" : "gap-2"}`}>
           <Image 
             src="/logo.webp" 
-            alt="APCAMS" 
+            alt="Alchemetanoia" 
             width={56} 
             height={56} 
             className={`w-auto object-contain transition-all duration-500 ${isSolid ? "h-11 md:h-12" : "h-9 md:h-10"}`} 
           />
           <div className="flex flex-col leading-tight">
             <span className={`font-extrabold tracking-tight text-slate-900 transition-all duration-500 ${isSolid ? "text-xl md:text-2xl" : "text-lg md:text-xl"}`}>
-              APCAMS
+              ALCHEMETANOIA
             </span>
             <span className={`font-bold tracking-wide text-teal-700 lg:hidden xl:block transition-all duration-500 ${isSolid ? "text-[8px] md:text-[10px]" : "text-[7px] md:text-[8px]"}`}>
               ALCHEMY PSYCHOTHERAPY, COUNSELLING AND MEDIATION SERVICES

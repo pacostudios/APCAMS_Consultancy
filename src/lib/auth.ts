@@ -26,25 +26,25 @@ export const auth = betterAuth({
     onExistingUserSignUp: async ({ user }) => {
       const base = process.env.BETTER_AUTH_URL ?? "http://localhost:3000";
       const { html, text } = simpleEmail({
-        heading: "You already have an APCAMS account",
+        heading: "You already have an Alchemetanoia account",
         body: user.emailVerified
           ? "Someone (hopefully you) tried to register with this email, but it already has an account. Sign in instead, or ignore this email if it wasn't you."
           : "This email already has an account that hasn't been confirmed yet. Sign in and we'll send you a fresh confirmation link. Forgotten the password? Use \"Forgot password?\" on the sign-in page.",
         cta: "Sign in",
         url: `${base}/login`,
       });
-      void sendEmail({ to: user.email, subject: "You already have an APCAMS account", html, text }).catch(console.error);
+      void sendEmail({ to: user.email, subject: "You already have an Alchemetanoia account", html, text }).catch(console.error);
     },
     resetPasswordTokenExpiresIn: 60 * 60, // 1 hour
     revokeSessionsOnPasswordReset: true,
     sendResetPassword: async ({ user, url }) => {
       const { html, text } = simpleEmail({
         heading: "Reset your password",
-        body: "We received a request to reset the password for your APCAMS account. The link is valid for 1 hour. If you didn't ask for this, you can ignore this email.",
+        body: "We received a request to reset the password for your Alchemetanoia account. The link is valid for 1 hour. If you didn't ask for this, you can ignore this email.",
         cta: "Choose a new password",
         url,
       });
-      void sendEmail({ to: user.email, subject: "Reset your APCAMS password", html, text }).catch(console.error);
+      void sendEmail({ to: user.email, subject: "Reset your Alchemetanoia password", html, text }).catch(console.error);
     },
     // The reset link was opened from their inbox, which proves they own the email.
     onPasswordReset: async ({ user }) => {
@@ -61,12 +61,12 @@ export const auth = betterAuth({
     sendVerificationEmail: async ({ user, url }) => {
       const { html, text } = simpleEmail({
         heading: `Welcome, ${user.name}`,
-        body: "Please confirm your email address to finish creating your APCAMS account. You can then book and manage your sessions online.",
+        body: "Please confirm your email address to finish creating your Alchemetanoia account. You can then book and manage your sessions online.",
         cta: "Confirm email",
         url,
       });
       // Not awaited, so response time doesn't reveal whether the email was sent.
-      void sendEmail({ to: user.email, subject: "Confirm your APCAMS account", html, text }).catch(console.error);
+      void sendEmail({ to: user.email, subject: "Confirm your Alchemetanoia account", html, text }).catch(console.error);
     },
   },
   user: {
@@ -93,12 +93,12 @@ export const auth = betterAuth({
         const existing = db.select({ role: schema.user.role }).from(schema.user).where(eq(schema.user.email, email.toLowerCase())).get();
         if (existing && existing.role !== "client") return;
         const { html, text } = codeEmail({
-          heading: "Your APCAMS sign-in code",
+          heading: "Your Alchemetanoia sign-in code",
           body: "Enter this code to continue. It expires in 10 minutes.",
           code: otp,
         });
         // Not awaited, so response time doesn't reveal whether the email was sent.
-        void sendEmail({ to: email, subject: `${otp} is your APCAMS sign-in code`, html, text }).catch(console.error);
+        void sendEmail({ to: email, subject: `${otp} is your Alchemetanoia sign-in code`, html, text }).catch(console.error);
       },
     }),
     nextCookies(), // must stay last

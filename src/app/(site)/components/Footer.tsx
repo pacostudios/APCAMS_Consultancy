@@ -18,8 +18,8 @@ export default function V2Footer() {
       <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-4 gap-12">
         <div className="space-y-4">
           <Link href="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
-            <Image src="/logo.webp" alt="APCAMS" width={44} height={44} className="h-10 w-auto object-contain brightness-0 invert" />
-            <span className="text-2xl font-bold tracking-tighter text-white">APCAMS</span>
+            <Image src="/logo.webp" alt="Alchemetanoia" width={44} height={44} className="h-10 w-auto object-contain brightness-0 invert" />
+            <span className="text-2xl font-bold tracking-tighter text-white">ALCHEMETANOIA</span>
           </Link>
           <p className="text-slate-400 text-sm leading-relaxed">
             Integrating holistic healing and modern science to transform lives through psychotherapy and meditation.
@@ -53,8 +53,8 @@ export default function V2Footer() {
           <h4 className="font-bold mb-6 text-slate-100 uppercase tracking-widest text-xs">Contact</h4>
           <ul className="space-y-4 text-sm text-slate-400 font-medium">
             <li>
-              <a href="mailto:info@apcamservices.com" className="hover:text-teal-400 transition-colors">
-                info@apcamservices.com
+              <a href="mailto:info@alchemetanoia.com" className="hover:text-teal-400 transition-colors">
+                info@alchemetanoia.com
               </a>
             </li>
             <li className="hover:text-teal-400 transition-colors">0490 2082731</li>
@@ -64,7 +64,7 @@ export default function V2Footer() {
       </div>
       
       <div className="max-w-7xl mx-auto px-6 pt-20 mt-20 border-t border-slate-800 flex flex-col md:flex-row justify-between items-center text-[10px] text-slate-500 font-bold tracking-[0.2em] uppercase">
-        <p>© 2026 APCAMS Redesign. All rights reserved.</p>
+        <p>© 2026 Alchemetanoia. All rights reserved.</p>
         <div className="flex space-x-8 mt-4 md:mt-0">
           <Link href="#" className="hover:text-teal-400 transition-colors">Privacy Policy</Link>
           <Link href="#" className="hover:text-teal-400 transition-colors">Terms of Service</Link>

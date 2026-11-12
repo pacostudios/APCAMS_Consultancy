@@ -28,9 +28,9 @@ const SERVICES = [
 ];
 
 async function seedAdmin() {
-  const email = (process.env.ADMIN_EMAIL ?? "admin@apcams.com.au").toLowerCase();
+  const email = (process.env.ADMIN_EMAIL ?? "admin@alchemetanoia.com").toLowerCase();
   const password = process.env.ADMIN_PASSWORD;
-  const name = process.env.ADMIN_NAME ?? "APCAMS Admin";
+  const name = process.env.ADMIN_NAME ?? "Alchemetanoia Admin";
 
   const existing = db.select().from(user).where(eq(user.email, email)).get();
   if (existing) {

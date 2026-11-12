@@ -4,7 +4,7 @@ import "./globals.css";
 import ReactLenis from "lenis/react";
 
 export const metadata: Metadata = {
-  title: "APCAMS",
+  title: "Alchemetanoia",
 };
 
 

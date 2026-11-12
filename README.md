@@ -1,6 +1,6 @@
-# APCAMS Consultancy
+# Alchemetanoia Consultancy
 
-Booking website and admin dashboard for APCAMS Consultancy (Sydney, Australia).
+Booking website and admin dashboard for Alchemetanoia Consultancy (Sydney, Australia).
 
 **Stack:** Next.js 16 · SQLite (better-sqlite3, WAL) · Drizzle ORM · Better Auth · Tailwind CSS
 
@@ -39,8 +39,8 @@ The build is `standalone`. On the server:
 ```bash
 git pull && npm ci && npm run db:migrate && npm run build
 cp -r public .next/standalone/ && cp -r .next/static .next/standalone/.next/
-pm2 reload apcams || pm2 start .next/standalone/server.js --name apcams
+pm2 reload alchemetanoia || pm2 start .next/standalone/server.js --name alchemetanoia
 ```
 
-- Set `BETTER_AUTH_URL` to the public site URL (e.g. `https://apcams.com.au`). Sign-in is rejected from any other origin.
-- Keep `DATABASE_PATH` outside the app folder (e.g. `/var/lib/apcams/app.db`) and back it up off the server (Litestream or a nightly `sqlite3 .backup`).
+- Set `BETTER_AUTH_URL` to the public site URL (e.g. `https://alchemetanoia.com`). Sign-in is rejected from any other origin.
+- Keep `DATABASE_PATH` outside the app folder (e.g. `/var/lib/alchemetanoia/app.db`) and back it up off the server (Litestream or a nightly `sqlite3 .backup`).
