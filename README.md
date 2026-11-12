@@ -42,5 +42,5 @@ cp -r public .next/standalone/ && cp -r .next/static .next/standalone/.next/
 pm2 reload alchemetanoia || pm2 start .next/standalone/server.js --name alchemetanoia
 ```
 
-- Set `BETTER_AUTH_URL` to the public site URL (e.g. `https://alchemetanoia.com`). Sign-in is rejected from any other origin.
+- Set `BETTER_AUTH_URL` to the public site URL (e.g. `https://alchemetanoia.com`). Sign-in is rejected from any other origin unless it's listed (comma-separated) in `BETTER_AUTH_TRUSTED_ORIGINS`, e.g. `https://www.alchemetanoia.com`.
 - Keep `DATABASE_PATH` outside the app folder (e.g. `/var/lib/alchemetanoia/app.db`) and back it up off the server (Litestream or a nightly `sqlite3 .backup`).
