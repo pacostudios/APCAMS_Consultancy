@@ -18,7 +18,7 @@ export const SITE_ASSETS = {
   // ==========================================
   HOME: {
     hero: {
-      src: "/background_image.png",
+      src: "/background_image.webp",
       alt: "Peaceful Meditation"
     },
     aboutPreview: {
@@ -114,7 +114,7 @@ export const SITE_ASSETS = {
       alt: "Emotional Healing Support"
     },
     mediation: {
-      hero: "https://images.unsplash.com/photo-1521791136064-7986c2920216?auto=format&fit=crop&q=80&w=1200",
+      hero: "/mediation.webp",
       alt: "Professional Mediation & Conflict Resolution"
     },
     residentialCouplesTherapy: {

@@ -152,7 +152,7 @@ export const SERVICE_CONTENT: Record<string, ServiceContent> = {
     title: "Mediation & Out-of-Court Settlement",
     tagline: "Professional Conflict Resolution",
     description: "We provide professional facilitation to help resolve conflicts constructively, offering a dignified and effective alternative to costly and stressful court proceedings.",
-    image: "https://images.unsplash.com/photo-1521791136064-7986c2920216?auto=format&fit=crop&q=80&w=1200",
+    image: "/mediation.webp",
     imageAlt: "Professional Mediation & Conflict Resolution",
     icon: "Scale",
     dimensions: [
