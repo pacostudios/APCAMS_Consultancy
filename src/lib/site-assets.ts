@@ -98,7 +98,7 @@ export const SITE_ASSETS = {
       alt: "Compassionate Counseling"
     },
     meditationPrograms: {
-      hero: "https://images.unsplash.com/photo-1506126613408-eca07ce68773?auto=format&fit=crop&q=80&w=1200",
+      hero: "/mediation.webp",
       alt: "Meditation Practice"
     },
     personalGrowth: {

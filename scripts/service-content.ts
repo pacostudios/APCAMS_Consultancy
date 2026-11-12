@@ -62,7 +62,7 @@ export const SERVICE_CONTENT: Record<string, ServiceContent> = {
     title: "Meditation Programs",
     tagline: "Mindful Resilience & Inner Peace",
     description: "Cultivate presence and reduce stress through guided mindfulness training, breathwork, and transformative wellness retreats.",
-    image: "https://images.unsplash.com/photo-1506126613408-eca07ce68773?auto=format&fit=crop&q=80&w=1200",
+    image: "/mediation.webp",
     imageAlt: "Meditation Practice",
     icon: "Compass",
     dimensions: [
