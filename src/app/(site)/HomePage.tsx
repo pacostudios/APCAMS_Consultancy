@@ -174,7 +174,7 @@ export default function V2Home({ hotlinePhone, hotlineTel }: { hotlinePhone: str
         {/* Background Image with Overlay */}
         <div className="absolute inset-0 z-0">
           <Image
-            src="/background_image_2.webp"
+            src="/background_image.webp"
             alt="Healing and Holistic Services"
             fill
             priority
