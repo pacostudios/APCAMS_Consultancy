@@ -6,7 +6,15 @@ import { eq } from "drizzle-orm";
 import { db, schema } from "@/db";
 import { codeEmail, sendEmail, simpleEmail } from "./email";
 
+// Extra origins allowed to call the auth API besides BETTER_AUTH_URL (e.g. www vs apex domain, a LAN IP in dev).
+// Comma-separated in BETTER_AUTH_TRUSTED_ORIGINS.
+const trustedOrigins = (process.env.BETTER_AUTH_TRUSTED_ORIGINS ?? "")
+  .split(",")
+  .map((o) => o.trim().replace(/\/+$/, ""))
+  .filter(Boolean);
+
 export const auth = betterAuth({
+  trustedOrigins,
   database: drizzleAdapter(db, {
     provider: "sqlite",
     schema: {
