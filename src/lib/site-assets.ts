@@ -52,8 +52,8 @@ export const SITE_ASSETS = {
     },
     team: {
       drSarah: {
-        src: "https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&q=80&w=800",
-        alt: "Dr. Sarah Mitchell"
+        src: "/profilePic.jpeg",
+        alt: "Chacko (James) Vadayil Varkey"
       }
     }
   },
