@@ -49,9 +49,9 @@ const SERVICE_PAGE_CONTENT = {
     {
       title: "Meditation & Mindfulness",
       slug: "meditation-programs",
-      desc: "Learn the transformative power of mindfulness through our structured meditation programs designed for stress reduction and emotional balance.",
+      desc: "Cultivate emotional balance, self-regulation, and mental clarity through structured mindfulness practices. We integrate evidence-based meditation techniques to help lower stress, soothe the nervous system, and build long-term psychological resilience.",
       icon: <Leaf className="w-8 h-8 text-teal-600" />,
-      includes: ["Guided Meditation Sessions", "Mindfulness Training", "Stress Reduction Programs", "Wellness Retreats", "Breathwork Techniques", "Daily Practice Support"]
+      includes: ["Guided Mindfulness & Meditation", "Nervous System Regulation", "Stress & Anxiety Reduction", "Breathwork & Somatic Grounding", "Mindful Emotional Integration", "Daily Practice & Integration Tools"]
     },
     {
       title: "Healing & Recovery",
@@ -75,18 +75,18 @@ const SERVICE_PAGE_CONTENT = {
       includes: ["Individual Counseling", "Couples Therapy", "Family Counseling", "Group Sessions", "Relationship Issues", "Communication Skills"]
     },
     {
-      title: "Mediation & Out-of-Court Settlement",
+      title: "Mediation & Family Dispute Resolution",
       slug: "mediation",
-      desc: "We provide professional facilitation to help resolve conflicts constructively, offering an effective alternative to costly and stressful court proceedings.",
+      desc: "We provide professional facilitation to help families and couples resolve conflicts constructively—offering a structured, compassionate alternative to costly and stressful court proceedings.",
       icon: <Scale className="w-8 h-8 text-teal-600" />,
-      includes: ["Family & Marital Disputes", "Financial & Property Disagreements", "Social & Community Conflicts", "Workplace Environment Disputes", "Out-of-Court Settlement", "Conflict Resolution"]
+      includes: ["Parenting Plans & Child Arrangements", "Financial & Property Settlements", "Separation & Marital Mediation", "Family & Intergenerational Disputes", "Legally Recognized FDR Services", "Out-of-Court Conflict Resolution"]
     },
     {
       title: "Residential Couples Therapy",
       slug: "residential-couples-therapy",
-      desc: "An immersive, limited-availability residential program for couples seeking a deeper breakthrough — escape distractions and focus entirely on your relationship. Pre-booking required.",
+      desc: "An immersive, limited-availability retreat designed for couples seeking a profound relational breakthrough. Step away from daily distractions to rebuild intimacy, resolve deep-seated patterns, and reconnect in a dedicated, supportive environment.",
       icon: <Home className="w-8 h-8 text-teal-600" />,
-      includes: ["Intensive Couples Therapy", "Structured Retreat Environment", "Planned Meals & Activities", "Expert Senior Therapist Guidance", "Proven Communication Strategies", "Personalised Relationship Program"]
+      includes: ["Intensive Gottman & Emotion-Focused Therapy", "Private, Structured Retreat Setting", "Custom Relational Assessment & Plan", "Deep Conflict Resolution & Healing", "Communication & Intimacy Rebuilding", "Post-Retreat Integration & Follow-up"]
     },
   ],
   blogs: [

@@ -101,9 +101,9 @@ export default function V2Home({ hotlinePhone, hotlineTel }: { hotlinePhone: str
     },
     {
       id: "05",
-      title: "Mediation & Out-of-Court Settlement",
+      title: "Mediation & Family Dispute Resolution",
       tagline: "Constructive Conflict Resolution",
-      desc: "We provide professional facilitation to resolve family, marital, financial, property, community, and workplace disputes constructively and peacefully.",
+      desc: "We provide professional facilitation to help families and couples resolve conflicts constructively—offering a structured, compassionate alternative to costly and stressful court proceedings.",
       icon: <Scale className="w-8 h-8 text-teal-600" />,
       link: "/service/mediation",
       color: "from-slate-50/50 to-white",
@@ -174,7 +174,7 @@ export default function V2Home({ hotlinePhone, hotlineTel }: { hotlinePhone: str
         {/* Background Image with Overlay */}
         <div className="absolute inset-0 z-0">
           <Image
-            src="/background_image.webp"
+            src="/background_image_2.webp"
             alt="Healing and Holistic Services"
             fill
             priority
@@ -242,49 +242,6 @@ export default function V2Home({ hotlinePhone, hotlineTel }: { hotlinePhone: str
         </motion.div>
       </section>
 
-      {/* ABOUT Alchemetanoia SECTION */}
-      <section className="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-12 md:gap-16 items-center">
-        <motion.div
-          initial={{ opacity: 0, x: -30 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.8 }}
-          viewport={{ once: true }}
-          className="relative aspect-[4/3] rounded-[2rem] md:rounded-[3rem] overflow-hidden shadow-2xl order-2 lg:order-1"
-        >
-          <Image
-            src={SITE_ASSETS.HOME.aboutPreview.src}
-            alt={SITE_ASSETS.HOME.aboutPreview.alt}
-            fill
-            className="object-cover"
-          />
-        </motion.div>
-        <motion.div
-          initial={{ opacity: 0, x: 30 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.8 }}
-          viewport={{ once: true }}
-          className="space-y-6 md:space-y-8 order-1 lg:order-2"
-        >
-          <div className="text-teal-600 font-bold tracking-widest uppercase text-xs md:text-sm">About Alchemetanoia</div>
-          <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-slate-900 leading-tight tracking-tight">
-            Find Your Path to Healing, Wholeness, and Transformation
-          </h2>
-          <p className="text-base md:text-lg text-slate-600 leading-relaxed font-medium">
-            Welcome to Alchemetanoia. We are a dedicated team of licensed therapists providing compassionate psychotherapy, counselling, and professional mediation services.
-          </p>
-          <p className="text-base md:text-lg text-slate-600 leading-relaxed font-medium">Whether you are navigating mental health challenges like depression, anxiety, and ADHD, or
-            seeking relationship-building, empowerment, and conflict resolution, we are here to support
-            you every step of the way.</p>
-          <a
-            href="/about"
-            className="inline-flex items-center gap-2 px-6 py-3 md:px-8 md:py-4 bg-slate-900 text-white rounded-full font-bold text-sm md:text-base hover:bg-teal-600 transition-all group w-fit"
-          >
-            EXPLORE MORE
-            <ArrowUpRight size={20} className="transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
-          </a>
-        </motion.div>
-      </section>
-
       {/* 24/7 SUICIDE & CRISIS SUPPORT */}
       <section aria-labelledby="crisis-support-heading" className="max-w-7xl mx-auto px-6">
         <motion.div
@@ -346,6 +303,49 @@ export default function V2Home({ hotlinePhone, hotlineTel }: { hotlinePhone: str
               </div>
             )}
           </div>
+        </motion.div>
+      </section>
+
+      {/* ABOUT Alchemetanoia SECTION */}
+      <section className="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-12 md:gap-16 items-center">
+        <motion.div
+          initial={{ opacity: 0, x: -30 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.8 }}
+          viewport={{ once: true }}
+          className="relative aspect-[4/3] rounded-[2rem] md:rounded-[3rem] overflow-hidden shadow-2xl order-2 lg:order-1"
+        >
+          <Image
+            src={SITE_ASSETS.HOME.aboutPreview.src}
+            alt={SITE_ASSETS.HOME.aboutPreview.alt}
+            fill
+            className="object-cover"
+          />
+        </motion.div>
+        <motion.div
+          initial={{ opacity: 0, x: 30 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.8 }}
+          viewport={{ once: true }}
+          className="space-y-6 md:space-y-8 order-1 lg:order-2"
+        >
+          <div className="text-teal-600 font-bold tracking-widest uppercase text-xs md:text-sm">About Alchemetanoia</div>
+          <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-slate-900 leading-tight tracking-tight">
+            Find Your Path to Healing, Wholeness, and Transformation
+          </h2>
+          <p className="text-base md:text-lg text-slate-600 leading-relaxed font-medium">
+            Welcome to Alchemetanoia. We are a dedicated team of licensed therapists providing compassionate psychotherapy, counselling, and professional mediation services.
+          </p>
+          <p className="text-base md:text-lg text-slate-600 leading-relaxed font-medium">Whether you are navigating mental health challenges like depression, anxiety, and ADHD, or
+            seeking relationship-building, empowerment, and conflict resolution, we are here to support
+            you every step of the way.</p>
+          <a
+            href="/about"
+            className="inline-flex items-center gap-2 px-6 py-3 md:px-8 md:py-4 bg-slate-900 text-white rounded-full font-bold text-sm md:text-base hover:bg-teal-600 transition-all group w-fit"
+          >
+            EXPLORE MORE
+            <ArrowUpRight size={20} className="transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
+          </a>
         </motion.div>
       </section>
 
