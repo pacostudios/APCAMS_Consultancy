@@ -18,7 +18,7 @@ export const SITE_ASSETS = {
   // ==========================================
   HOME: {
     hero: {
-      src: "/background_image.webp",
+      src: "/background_image_2.webp",
       alt: "Peaceful Meditation"
     },
     aboutPreview: {

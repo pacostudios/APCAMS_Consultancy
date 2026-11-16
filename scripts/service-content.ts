@@ -149,25 +149,25 @@ export const SERVICE_CONTENT: Record<string, ServiceContent> = {
     emergencySupport: true
   },
   "mediation": {
-    title: "Mediation & Out-of-Court Settlement",
+    title: "Mediation & Family Dispute Resolution",
     tagline: "Professional Conflict Resolution",
-    description: "We provide professional facilitation to help resolve conflicts constructively, offering a dignified and effective alternative to costly and stressful court proceedings.",
+    description: "We provide professional facilitation to help families and couples resolve conflicts constructively—offering a structured, compassionate alternative to costly and stressful court proceedings.",
     image: "/mediation.webp",
     imageAlt: "Professional Mediation & Conflict Resolution",
     icon: "Scale",
     dimensions: [
       { name: "Neutral", focus: "Impartial, unbiased facilitation.", method: "Structured Mediation" },
       { name: "Relational", focus: "Communication and boundaries.", method: "Conflict Mapping" },
-      { name: "Legal", focus: "Rights, agreements, and settlement.", method: "Out-of-Court Settlement" },
+      { name: "Legal", focus: "Rights, agreements, and settlement.", method: "Family Dispute Resolution (FDR)" },
       { name: "Restorative", focus: "Repairing relationships and trust.", method: "Reconciliation Support" }
     ],
     includes: [
-      "Family & Marital Disputes",
-      "Financial & Property Disagreements",
-      "Social & Community Conflicts",
-      "Workplace Environment Disputes",
-      "Out-of-Court Settlement",
-      "Conflict Resolution Facilitation"
+      "Parenting Plans & Child Arrangements",
+      "Financial & Property Settlements",
+      "Separation & Marital Mediation",
+      "Family & Intergenerational Disputes",
+      "Legally Recognized FDR Services",
+      "Out-of-Court Conflict Resolution"
     ]
   },
   "residential-couples-therapy": {

@@ -23,7 +23,7 @@ const SERVICES = [
   { slug: "personal-growth", name: "Personal Growth", summary: "Coaching for purpose and direction.", priceCents: 14000, durationMins: 60 },
   { slug: "addiction-support", name: "Addiction Recovery Support", summary: "Structured recovery support.", priceCents: 16000, durationMins: 60 },
   { slug: "healing-recovery", name: "Healing & Recovery", summary: "Trauma-informed healing work.", priceCents: 16000, durationMins: 60 },
-  { slug: "mediation", name: "Mediation & Out-of-Court Settlement", summary: "Facilitated dispute resolution.", priceCents: 25000, durationMins: 90 },
+  { slug: "mediation", name: "Mediation & Family Dispute Resolution", summary: "Family dispute resolution and mediation.", priceCents: 25000, durationMins: 90 },
   { slug: "residential-couples-therapy", name: "Residential Couples Therapy", summary: "Intensive therapy for couples.", priceCents: 30000, durationMins: 120 },
 ];
 
