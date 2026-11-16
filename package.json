@@ -9,9 +9,11 @@
     "lint": "eslint .",
     "deploy": "bash scripts/deploy.sh soft",
     "deploy:hard": "bash scripts/deploy.sh hard",
+    "deploy:hard:db": "bash scripts/deploy.sh hard:db",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "tsx --env-file-if-exists=.env --env-file-if-exists=.env.local scripts/migrate.ts",
     "db:studio": "drizzle-kit studio",
+    "db:backup": "tsx --env-file-if-exists=.env --env-file-if-exists=.env.local scripts/backup-db.ts",
     "seed": "tsx --env-file-if-exists=.env --env-file-if-exists=.env.local scripts/seed.ts",
     "zoom:check": "tsx --conditions=react-server --env-file-if-exists=.env --env-file-if-exists=.env.local scripts/zoom-check.ts"
   },

@@ -49,3 +49,6 @@ graphify-out/
 
 # personal Claude Code instructions
 CLAUDE.local.md
+
+# personal setup notes
+*.local.md
