@@ -3,6 +3,8 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   // Self-contained build for the VPS: `node .next/standalone/server.js`
   output: 'standalone',
+  // Never bundle the SQLite database (or its backups) into the build: the live DB lives in <app>/data/.
+  outputFileTracingExcludes: { '*': ['./data/**'] },
   images: {
     remotePatterns: [
       {

@@ -4,7 +4,7 @@ import fs from "node:fs";
 import path from "node:path";
 import * as schema from "./schema";
 
-const dbPath = process.env.DATABASE_PATH ?? path.join(process.cwd(), "data", "app.db");
+export const dbPath = path.resolve(process.env.DATABASE_PATH ?? path.join(process.cwd(), "data", "app.db"));
 
 function createConnection() {
   fs.mkdirSync(path.dirname(dbPath), { recursive: true });

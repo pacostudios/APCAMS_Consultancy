@@ -25,6 +25,12 @@ function readEnv(file) {
 }
 
 const env = { NODE_ENV: "production", PORT: "6001", ...readEnv(".env"), ...readEnv(".env.local") };
+// The standalone server chdirs into .next/standalone, which every deploy deletes and rebuilds.
+// So the database path must be absolute and outside .next, or the live data would be wiped on deploy.
+env.DATABASE_PATH = path.resolve(__dirname, env.DATABASE_PATH || "data/app.db");
+if (env.DATABASE_PATH.startsWith(path.join(__dirname, ".next"))) {
+  throw new Error(`DATABASE_PATH (${env.DATABASE_PATH}) is inside .next, which deploys delete. Move it.`);
+}
 
 module.exports = {
   apps: [
