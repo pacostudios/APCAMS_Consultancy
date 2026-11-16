@@ -5,8 +5,8 @@ import { db } from "@/db";
 import { booking, client, service } from "@/db/schema";
 import { SYSTEM_ACTOR, logAudit } from "./audit";
 import { attachZoomMeeting, findOverlap, pickStaff, staffName } from "./bookings";
-import { BUSINESS } from "./config";
-import { sendEmail, simpleEmail } from "./email";
+import { BUSINESS, siteUrl } from "./config";
+import { type EmailDetail, sendEmail, simpleEmail } from "./email";
 import { formatAUD, formatTime, formatWeekdayDate, zoneLabel } from "./format";
 import { notifyStaff } from "./staff";
 
@@ -26,7 +26,6 @@ export function stripe() {
   return client_;
 }
 
-const siteUrl = () => process.env.BETTER_AUTH_URL ?? "http://localhost:3000";
 
 /** Stripe's shortest allowed Checkout expiry is 30 minutes; 31 leaves room for clock skew. */
 const CHECKOUT_MINUTES = 31;
@@ -211,17 +210,28 @@ async function sendBookingConfirmation(bookingId: number, meetingUrl: string | n
   if (!row?.email) return;
   const { b } = row;
   const when = `${formatWeekdayDate(b.startsAt)} at ${formatTime(b.startsAt)} ${zoneLabel(b.startsAt)}`;
+  const details: EmailDetail[] = [
+    { label: "Session", value: row.serviceName },
+    { label: "When", value: when },
+    { label: "Reference", value: b.reference },
+    meetingUrl
+      ? { label: "Zoom", value: "Join the meeting", href: meetingUrl }
+      : { label: "Zoom", value: "We'll email your link before the session" },
+  ];
+  if (b.paymentStatus === "paid") {
+    details.push({
+      label: "Paid",
+      value: `${formatAUD(b.amountPaidCents ?? b.priceCents)}${b.paymentMethod ? ` (${b.paymentMethod})` : ""}`,
+    });
+    if (b.receiptUrl) details.push({ label: "Receipt", value: "View receipt", href: b.receiptUrl });
+  }
   const { html, text } = simpleEmail({
     heading: "Your session is booked",
-    body:
-      `${row.serviceName} on ${when} (ref ${b.reference}). ` +
-      (b.paymentStatus === "paid"
-        ? `Payment of ${formatAUD(b.amountPaidCents ?? b.priceCents)} received${b.paymentMethod ? ` (${b.paymentMethod})` : ""}, thank you.${b.receiptUrl ? ` Receipt: ${b.receiptUrl}.` : ""} `
-        : "") +
-      (meetingUrl ? `Join on Zoom: ${meetingUrl}. ` : "We'll send your Zoom link before the session. ") +
-      `You can view or cancel it from your account up to ${BUSINESS.cancelNoticeHours} hours before.`,
+    body: "Thank you for booking with us. Here are your session details. We look forward to seeing you.",
+    details,
     cta: "View my sessions",
     url: `${siteUrl()}/account`,
+    note: `Need to change plans? You can reschedule or cancel from your account up to ${BUSINESS.cancelNoticeHours} hours before your session.`,
   });
   await sendEmail({ to: row.email, subject: `Booking confirmed: ${when}`, html, text });
 }
