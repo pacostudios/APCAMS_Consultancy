@@ -1,4 +1,7 @@
 /** Business settings. The consultancy runs on Sydney time; every date shown or entered is in this zone. */
+/** Public site URL with no trailing slash, so `${siteUrl()}/account` never becomes `//account`. */
+export const siteUrl = () => (process.env.BETTER_AUTH_URL ?? "http://localhost:3000").replace(/\/+$/, "");
+
 export const BUSINESS = {
   name: "Alchemetanoia Consultancy",
   timezone: process.env.BUSINESS_TIMEZONE ?? "Australia/Sydney",

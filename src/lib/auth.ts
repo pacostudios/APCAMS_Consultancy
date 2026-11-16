@@ -4,6 +4,7 @@ import { nextCookies } from "better-auth/next-js";
 import { emailOTP } from "better-auth/plugins";
 import { eq } from "drizzle-orm";
 import { db, schema } from "@/db";
+import { siteUrl } from "./config";
 import { codeEmail, sendEmail, simpleEmail } from "./email";
 
 // Extra origins allowed to call the auth API besides BETTER_AUTH_URL (e.g. www vs apex domain, a LAN IP in dev).
@@ -32,7 +33,7 @@ export const auth = betterAuth({
     // Registering an email that's already taken shows the same "check your inbox" screen (so strangers can't
     // probe which emails have accounts); the real owner gets this email instead of silence.
     onExistingUserSignUp: async ({ user }) => {
-      const base = process.env.BETTER_AUTH_URL ?? "http://localhost:3000";
+      const base = siteUrl();
       const { html, text } = simpleEmail({
         heading: "You already have an Alchemetanoia account",
         body: user.emailVerified

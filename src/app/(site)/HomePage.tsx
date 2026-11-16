@@ -194,7 +194,7 @@ export default function V2Home({ hotlinePhone, hotlineTel }: { hotlinePhone: str
               className="space-y-6"
             >
               <h1 className="text-3xl md:text-4xl lg:text-5xl font-extrabold tracking-tight text-white leading-[1.15] font-outfit">
-                "Transforming Lives Through Integrated and Holistic Healing Services"
+                &ldquo;Transforming Lives Through Integrated and Holistic Healing Services&rdquo;
               </h1>
 
               <p className="text-base md:text-lg text-slate-200 max-w-lg leading-relaxed font-normal">
@@ -220,8 +220,8 @@ export default function V2Home({ hotlinePhone, hotlineTel }: { hotlinePhone: str
         </div>
       </section>
 
-      {/* STATS BAR */}
-      <section className="max-w-6xl mx-auto px-6">
+      {/* STATS BAR (hidden for now; remove the comment wrapper to restore) */}
+      {/* <section className="max-w-6xl mx-auto px-6">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -240,10 +240,10 @@ export default function V2Home({ hotlinePhone, hotlineTel }: { hotlinePhone: str
             </div>
           ))}
         </motion.div>
-      </section>
+      </section> */}
 
-      {/* 24/7 SUICIDE & CRISIS SUPPORT */}
-      <section aria-labelledby="crisis-support-heading" className="max-w-7xl mx-auto px-6">
+      {/* 24/7 SUICIDE & CRISIS SUPPORT (hidden for now; remove the comment wrapper to restore) */}
+      {/* <section aria-labelledby="crisis-support-heading" className="max-w-7xl mx-auto px-6">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -304,7 +304,7 @@ export default function V2Home({ hotlinePhone, hotlineTel }: { hotlinePhone: str
             )}
           </div>
         </motion.div>
-      </section>
+      </section> */}
 
       {/* ABOUT Alchemetanoia SECTION */}
       <section className="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-12 md:gap-16 items-center">

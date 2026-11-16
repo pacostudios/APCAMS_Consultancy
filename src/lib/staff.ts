@@ -5,6 +5,7 @@ import { hashPassword } from "better-auth/crypto";
 import { db } from "@/db";
 import { account, availability, booking, client, service, session, staff, staffHours, staffService, user } from "@/db/schema";
 import { logAudit, type Actor } from "./audit";
+import { siteUrl } from "./config";
 import { sendEmail, simpleEmail } from "./email";
 import { formatTime, formatWeekdayDate, zoneLabel } from "./format";
 
@@ -128,10 +129,17 @@ export async function notifyStaff(bookingId: number, kind: NoticeKind, staffId?:
     const { b } = row;
     const n = NOTICE[kind];
     const when = `${formatWeekdayDate(b.startsAt)} at ${formatTime(b.startsAt)} ${zoneLabel(b.startsAt)}`;
-    const base = process.env.BETTER_AUTH_URL ?? "http://localhost:3000";
+    const base = siteUrl();
     const { html, text } = simpleEmail({
       heading: n.heading,
-      body: `${n.lead}: ${row.serviceName} with ${row.clientName} on ${when} (${b.mode === "online" ? "online" : "in person"}, ref ${b.reference}).`,
+      body: `${n.lead}.`,
+      details: [
+        { label: "Session", value: row.serviceName },
+        { label: "Client", value: row.clientName },
+        { label: "When", value: when },
+        { label: "Mode", value: b.mode === "online" ? "Online" : "In person" },
+        { label: "Reference", value: b.reference },
+      ],
       cta: "Open in staff portal",
       url: `${base}/staff/bookings/${b.id}`,
     });
