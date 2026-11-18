@@ -40,7 +40,7 @@ export const SERVICE_CONTENT: Record<string, ServiceContent> = {
     title: "Counseling Services",
     tagline: "Compassionate Relational Guidance",
     description: "Deep listening and empathy-driven support for individuals, couples, and families to address communication patterns and systemic harmony.",
-    image: "/conseling.webp",
+    image: "/counciling.jpeg",
     imageAlt: "Compassionate Counseling",
     icon: "Heart",
     dimensions: [
