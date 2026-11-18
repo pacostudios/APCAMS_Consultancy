@@ -40,9 +40,9 @@ const SERVICE_PAGE_CONTENT = {
       includes: ["Life Coaching", "Goal Setting & Achievement", "Self-Discovery Sessions", "Confidence Building", "Career Guidance", "Personal Development"]
     },
     {
-      title: "Addiction Support",
+      title: "Addiction & Recovery Support",
       slug: "addiction-support",
-      desc: "Our addiction support services provide evidence-based treatment for substance abuse and behavioral addictions with a focus on long-term recovery.",
+      desc: "Direct, evidence-based care for substance use and behavioral addictions. We provide a safe, non-judgmental space to help you address root causes, rebuild control, and achieve lasting recovery.",
       icon: <ShieldCheck className="w-8 h-8 text-teal-600" />,
       includes: ["Addiction Assessment", "Recovery Planning", "Relapse Prevention", "Support Groups", "Family Support", "Ongoing Monitoring"]
     },

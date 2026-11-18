@@ -90,10 +90,10 @@ export default function V2Navbar({ forceSolid = false }: { forceSolid?: boolean 
           />
           <div className="flex flex-col leading-tight">
             <span className={`font-extrabold tracking-tight text-slate-900 transition-all duration-500 ${isSolid ? "text-xl md:text-2xl" : "text-lg md:text-xl"}`}>
-              ALCHEMETANOIA
+               AlcheMetanoia
             </span>
             <span className={`font-bold tracking-wide text-teal-700 lg:hidden xl:block transition-all duration-500 ${isSolid ? "text-[8px] md:text-[10px]" : "text-[7px] md:text-[8px]"}`}>
-              ALCHEMY PSYCHOTHERAPY, COUNSELLING AND MEDIATION SERVICES
+              ALCHEMETANOIA PSYCHOTHERAPY, COUNSELLING AND MEDIATION SERVICES
             </span>
           </div>
         </Link>

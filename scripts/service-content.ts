@@ -174,7 +174,7 @@ export const SERVICE_CONTENT: Record<string, ServiceContent> = {
     title: "Residential Couples Therapy",
     tagline: "Immersive Relationship Transformation",
     description: "An immersive, limited-availability residential program for couples seeking a deeper breakthrough. Escape external distractions and focus entirely on rebuilding love, connection, and understanding. Pre-booking required.",
-    image: "https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?auto=format&fit=crop&q=80&w=1200",
+    image: "/couples.jpeg",
     imageAlt: "Residential Couples Therapy Retreat",
     icon: "Home",
     dimensions: [
@@ -197,7 +197,7 @@ export const SERVICE_CONTENT: Record<string, ServiceContent> = {
 /** Short card text from the services page. */
 export const SERVICE_SUMMARIES: Record<string, string> = {
   "personal-growth": "Our personal growth programs combine therapeutic insights with life coaching strategies to help you identify your values, set meaningful goals, and create the life you envision.",
-  "addiction-support": "Our addiction support services provide evidence-based treatment for substance abuse and behavioral addictions with a focus on long-term recovery.",
+  "addiction-support": "Direct, evidence-based care for substance use and behavioral addictions. We provide a safe, non-judgmental space to help you address root causes, rebuild control, and achieve lasting recovery.",
   "meditation-programs": "Learn the transformative power of mindfulness through our structured meditation programs designed for stress reduction and emotional balance.",
   "healing-recovery": "Our healing and recovery programs provide compassionate support for those experiencing grief, trauma, or emotional distress.",
   "psychotherapy": "Our psychotherapy services utilize proven therapeutic approaches including CBT, DBT, and mindfulness-based interventions.",
