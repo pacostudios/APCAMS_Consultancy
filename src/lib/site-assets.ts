@@ -118,7 +118,7 @@ export const SITE_ASSETS = {
       alt: "Professional Mediation & Conflict Resolution"
     },
     residentialCouplesTherapy: {
-      hero: "https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?auto=format&fit=crop&q=80&w=1200",
+      hero: "/couples.jpeg",
       alt: "Residential Couples Therapy Retreat"
     }
   },

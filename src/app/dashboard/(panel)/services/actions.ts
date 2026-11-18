@@ -12,7 +12,11 @@ import type { ActionResult } from "../_components/ActionForm";
 const serviceSchema = z.object({
   name: z.string().trim().min(1, "Name is required."),
   summary: z.string().trim().optional().transform((v) => v || null),
-  price: z.coerce.number({ error: "Enter a price." }).min(0, "Price can't be negative."),
+  price: z.coerce
+    .number({ error: "Enter a price." })
+    .min(0, "Price can't be negative.")
+    // Stripe's minimum charge is $0.50 AUD; 0 means a free session that skips payment.
+    .refine((p) => p === 0 || p >= 0.5, "Price must be $0 (free) or at least $0.50."),
   durationMins: z.coerce.number().int().min(15, "Minimum 15 minutes.").max(480, "Maximum 8 hours."),
   sortOrder: z.coerce.number().int().default(0),
   active: z.literal("on").optional().transform((v) => v === "on"),
