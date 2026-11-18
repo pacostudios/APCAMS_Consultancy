@@ -94,7 +94,7 @@ export const SITE_ASSETS = {
       alt: "Clinical Psychotherapy"
     },
     counsellingServices: {
-      hero: "/conseling.webp", // Updated to local as per example
+      hero: "/counciling.jpeg",
       alt: "Compassionate Counseling"
     },
     meditationPrograms: {

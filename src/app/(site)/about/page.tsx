@@ -342,14 +342,10 @@ export default function V2About() {
           
           {/* Founder Image */}
           <div className="relative w-full lg:w-[400px] shrink-0">
-            <div className="aspect-[4/5] rounded-[2rem] overflow-hidden bg-slate-100 relative z-10">
-              <Image 
-                src={SITE_ASSETS.ABOUT.team.drSarah.src}
-                alt={SITE_ASSETS.ABOUT.team.drSarah.alt}
-                fill
-                className="object-cover"
-              />
-            </div>
+            {/* Photo left blank until a new one is ready. To restore, put back:
+                <Image src={SITE_ASSETS.ABOUT.team.drSarah.src} alt={SITE_ASSETS.ABOUT.team.drSarah.alt} fill className="object-cover" /> */}
+            <div className="aspect-[4/5] rounded-[2rem] overflow-hidden bg-slate-100 relative z-10" />
+
           </div>
 
           {/* Founder Bio */}
