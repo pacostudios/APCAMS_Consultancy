@@ -59,16 +59,17 @@ export default function V2Home({ hotlinePhone, hotlineTel }: { hotlinePhone: str
   ];
 
   const services = [
-    {
-      id: "01",
-      title: "24/7 Suicide Prevention Hotline",
-      tagline: "Around-the-Clock Support",
-      desc: "We provide around-the-clock crisis support because your safety and well-being are our highest priorities. If you or a loved one needs immediate help, our compassionate team is always available.",
-      icon: <PhoneCall className="w-8 h-8 text-red-600" />,
-      link: "/contact_us",
-      color: "from-red-50/50 to-white",
-      hoverColor: "hover:bg-red-600 hover:shadow-[0_30px_60px_-15px_rgba(220,38,38,0.35)]"
-    },
+    // 24/7 hotline card hidden for now; uncomment to restore.
+    // {
+    //   id: "01",
+    //   title: "24/7 Suicide Prevention Hotline",
+    //   tagline: "Around-the-Clock Support",
+    //   desc: "We provide around-the-clock crisis support because your safety and well-being are our highest priorities. If you or a loved one needs immediate help, our compassionate team is always available.",
+    //   icon: <PhoneCall className="w-8 h-8 text-red-600" />,
+    //   link: "/contact_us",
+    //   color: "from-red-50/50 to-white",
+    //   hoverColor: "hover:bg-red-600 hover:shadow-[0_30px_60px_-15px_rgba(220,38,38,0.35)]"
+    // },
     {
       id: "02",
       title: "Psychotherapy",

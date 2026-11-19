@@ -323,8 +323,8 @@ export default function V2Service() {
           </div>
         </div>
 
-        {/* 24/7 Support Banner */}
-        <div className="max-w-4xl mx-auto px-6 mt-32 relative z-10">
+        {/* 24/7 Support Banner (hidden for now; remove the comment wrapper to restore) */}
+        {/* <div className="max-w-4xl mx-auto px-6 mt-32 relative z-10">
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -345,7 +345,7 @@ export default function V2Service() {
               GET HELP NOW
             </button>
           </motion.div>
-        </div>
+        </div> */}
       </section>
 
       {/* 4. LATEST BLOGS */}
