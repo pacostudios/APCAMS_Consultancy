@@ -363,7 +363,8 @@ export default function ServiceDetail() {
             </div>
           </div>
 
-          {data.emergencySupport && (
+          {/* 24/7 crisis support box (hidden for now; remove the comment wrapper to restore) */}
+          {/* {data.emergencySupport && (
             <div className="bg-red-50 border border-red-100 rounded-2xl p-6 flex items-start gap-4 shadow-sm">
               <div className="p-2 bg-red-100 rounded-lg text-red-600 shrink-0">
                 <ShieldAlert size={20} />
@@ -375,7 +376,7 @@ export default function ServiceDetail() {
                 </p>
               </div>
             </div>
-          )}
+          )} */}
         </div>
       </section>
     </div>
