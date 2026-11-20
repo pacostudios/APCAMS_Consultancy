@@ -20,6 +20,8 @@ import {
   Globe
 } from "lucide-react";
 import { SITE_ASSETS } from "@/lib/site-assets";
+import { useI18n } from "@/i18n/LanguageProvider";
+import { rich } from "@/i18n/format";
 
 // CONFIGURATION: Update contact info here
 const CONTACT_INFO = {
@@ -27,20 +29,21 @@ const CONTACT_INFO = {
   mobile: "+91 6282584049",
   whatsapp: "+61 498289780",
   emails: [
-    { label: "General", address: "info@alchemetanoia.com" },
+    { label: null, address: "info@alchemetanoia.com" }, // null: "General", translated
     { label: "James Varkey", address: "jmsvarkey@gmail.com" },
   ],
   website: "www.alchemetanoia.com",
   address: "123 Wellness Street, Sydney, Australia",
   officeHours: [
-    { day: "Monday - Friday", hours: "9:00 AM - 8:00 PM" },
-    { day: "Saturday", hours: "10:00 AM - 4:00 PM" },
-    { day: "Sunday", hours: "Closed" }
-  ],
+    { day: "monFri", hours: "9:00 AM - 8:00 PM" },
+    { day: "saturday", hours: "10:00 AM - 4:00 PM" },
+    { day: "sunday", hours: null }
+  ] as const,
   mapIframe: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3323.5828859702816!2d151.207111015202!3d-33.868819680656!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6b12ae401e873099%3A0xc3f83738e4a938c3!2sSydney%20NSW%2C%20Australia!5e0!3m2!1sen!2sus!4v1617809356500!5m2!1sen!2sus"
 };
 
 export default function V2ContactUs() {
+  const { t } = useI18n();
   const [formData, setFormData] = useState({
     fullName: "",
     emailAddress: "",
@@ -66,7 +69,7 @@ export default function V2ContactUs() {
     await new Promise(resolve => setTimeout(resolve, 1500));
     console.log("Form submitted:", formData);
     setIsSubmitting(false);
-    alert("Message sent successfully!");
+    alert(t.contact.sentAlert);
     setFormData({
       fullName: "",
       emailAddress: "",
@@ -89,15 +92,15 @@ export default function V2ContactUs() {
           className="max-w-3xl space-y-6"
         >
           <div className="flex items-center gap-2 text-teal-600 font-bold tracking-widest text-xs uppercase">
-            <span>Home</span>
+            <span>{t.contact.breadcrumbHome}</span>
             <ChevronRight size={14} />
-            <span className="opacity-60">Contact Us</span>
+            <span className="opacity-60">{t.contact.breadcrumbContact}</span>
           </div>
           <h1 className="text-4xl md:text-7xl font-bold tracking-tight text-slate-900 leading-tight">
-            Get in <span className="text-teal-600">Touch</span>
+            {rich(t.contact.title, { highlight: <span className="text-teal-600">{t.contact.titleHighlight}</span> })}
           </h1>
           <p className="text-lg md:text-xl text-slate-500 leading-relaxed font-medium">
-            Ready to begin your healing journey? We&apos;re here to support you every step of the way. Reach out to schedule a consultation or ask any questions.
+            {t.contact.intro}
           </p>
         </motion.div>
       </section>
@@ -115,7 +118,7 @@ export default function V2ContactUs() {
           <div className="space-y-8">
             <h2 className="text-2xl font-bold text-slate-900 flex items-center gap-3">
               <Sparkles className="text-teal-600" />
-              Contact Information
+              {t.contact.infoHeading}
             </h2>
             
             <div className="space-y-6">
@@ -125,13 +128,13 @@ export default function V2ContactUs() {
                   <Phone size={20} />
                 </div>
                 <div>
-                  <h4 className="font-bold text-slate-900 mb-1">Phone</h4>
+                  <h4 className="font-bold text-slate-900 mb-1">{t.contact.phone}</h4>
                   <p className="text-slate-500 font-medium">
-                    <span className="text-slate-400 text-xs uppercase tracking-wide">Landline: </span>
+                    <span className="text-slate-400 text-xs uppercase tracking-wide">{t.contact.landline}</span>
                     {CONTACT_INFO.landline}
                   </p>
                   <p className="text-slate-500 font-medium">
-                    <span className="text-slate-400 text-xs uppercase tracking-wide">Mobile: </span>
+                    <span className="text-slate-400 text-xs uppercase tracking-wide">{t.contact.mobile}</span>
                     {CONTACT_INFO.mobile}
                   </p>
                 </div>
@@ -143,7 +146,7 @@ export default function V2ContactUs() {
                   <MessageCircle size={20} />
                 </div>
                 <div>
-                  <h4 className="font-bold text-slate-900 mb-1">WhatsApp</h4>
+                  <h4 className="font-bold text-slate-900 mb-1">{t.contact.whatsapp}</h4>
                   <p className="text-slate-500 font-medium">{CONTACT_INFO.whatsapp}</p>
                 </div>
               </div>
@@ -154,10 +157,10 @@ export default function V2ContactUs() {
                   <Mail size={20} />
                 </div>
                 <div>
-                  <h4 className="font-bold text-slate-900 mb-2">Email</h4>
+                  <h4 className="font-bold text-slate-900 mb-2">{t.contact.email}</h4>
                   {CONTACT_INFO.emails.map((e, i) => (
                     <p key={i} className="text-slate-500 font-medium">
-                      <span className="text-slate-400 text-xs uppercase tracking-wide">{e.label}: </span>
+                      <span className="text-slate-400 text-xs uppercase tracking-wide">{e.label ?? t.contact.emailGeneral}: </span>
                       <a href={`mailto:${e.address}`} className="hover:text-teal-600 transition-colors">{e.address}</a>
                     </p>
                   ))}
@@ -170,7 +173,7 @@ export default function V2ContactUs() {
                   <Globe size={20} />
                 </div>
                 <div>
-                  <h4 className="font-bold text-slate-900 mb-1">Website</h4>
+                  <h4 className="font-bold text-slate-900 mb-1">{t.contact.website}</h4>
                   <p className="text-slate-500 font-medium">{CONTACT_INFO.website}</p>
                 </div>
               </div>
@@ -181,7 +184,7 @@ export default function V2ContactUs() {
                   <MapPin size={20} />
                 </div>
                 <div>
-                  <h4 className="font-bold text-slate-900 mb-1">Office Address</h4>
+                  <h4 className="font-bold text-slate-900 mb-1">{t.contact.officeAddress}</h4>
                   <p className="text-slate-500 font-medium leading-relaxed">{CONTACT_INFO.address}</p>
                 </div>
               </div>
@@ -192,13 +195,13 @@ export default function V2ContactUs() {
             <div className="absolute top-0 right-0 w-32 h-32 bg-teal-500/20 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
             <h3 className="text-xl font-bold mb-6 flex items-center gap-3">
               <Clock className="text-teal-400" />
-              Office Hours
+              {t.contact.hoursHeading}
             </h3>
             <div className="space-y-4">
               {CONTACT_INFO.officeHours.map((item, i) => (
                 <div key={i} className="flex justify-between items-center border-b border-white/10 pb-4 last:border-0 last:pb-0">
-                  <span className="text-slate-400 text-sm font-medium">{item.day}</span>
-                  <span className="text-teal-400 text-sm font-bold">{item.hours}</span>
+                  <span className="text-slate-400 text-sm font-medium">{t.contact[item.day]}</span>
+                  <span className="text-teal-400 text-sm font-bold">{item.hours ?? t.contact.closed}</span>
                 </div>
               ))}
             </div>
@@ -218,7 +221,7 @@ export default function V2ContactUs() {
                 <div className="space-y-3">
                   <label className="text-xs font-bold text-slate-400 uppercase tracking-widest flex items-center gap-2">
                     <User size={14} className="text-teal-600" />
-                    Full Name
+                    {t.contact.fullName}
                   </label>
                   <input
                     required
@@ -226,14 +229,14 @@ export default function V2ContactUs() {
                     name="fullName"
                     value={formData.fullName}
                     onChange={handleInputChange}
-                    placeholder="Enter your name"
+                    placeholder={t.contact.namePlaceholder}
                     className="w-full px-6 py-4 bg-slate-50 border-0 rounded-2xl focus:ring-2 focus:ring-teal-600 transition-all font-medium text-slate-900"
                   />
                 </div>
                 <div className="space-y-3">
                   <label className="text-xs font-bold text-slate-400 uppercase tracking-widest flex items-center gap-2">
                     <AtSign size={14} className="text-teal-600" />
-                    Email Address
+                    {t.contact.emailAddress}
                   </label>
                   <input
                     required
@@ -251,7 +254,7 @@ export default function V2ContactUs() {
                 <div className="space-y-3">
                   <label className="text-xs font-bold text-slate-400 uppercase tracking-widest flex items-center gap-2">
                     <Smartphone size={14} className="text-teal-600" />
-                    Phone Number
+                    {t.contact.phoneNumber}
                   </label>
                   <input
                     type="tel"
@@ -265,7 +268,7 @@ export default function V2ContactUs() {
                 <div className="space-y-3">
                   <label className="text-xs font-bold text-slate-400 uppercase tracking-widest flex items-center gap-2">
                     <MessageCircle size={14} className="text-teal-600" />
-                    Service Interest
+                    {t.contact.serviceInterest}
                   </label>
                   <select
                     name="serviceInterest"
@@ -273,7 +276,7 @@ export default function V2ContactUs() {
                     onChange={handleInputChange}
                     className="w-full px-6 py-4 bg-slate-50 border-0 rounded-2xl focus:ring-2 focus:ring-teal-600 transition-all font-medium text-slate-900 appearance-none"
                   >
-                    <option value="">Select a service</option>
+                    <option value="">{t.contact.selectService}</option>
                     <option value="psychotherapy">Psychotherapy</option>
                     <option value="counseling">Counseling Services</option>
                     <option value="meditation">Meditation Programs</option>
@@ -287,14 +290,14 @@ export default function V2ContactUs() {
               <div className="space-y-3">
                 <label className="text-xs font-bold text-slate-400 uppercase tracking-widest flex items-center gap-2">
                   <Calendar size={14} className="text-teal-600" />
-                  Preferred Timing
+                  {t.contact.preferredTiming}
                 </label>
                 <input
                   type="text"
                   name="preferredTiming"
                   value={formData.preferredTiming}
                   onChange={handleInputChange}
-                  placeholder="e.g. Weekdays afternoon"
+                  placeholder={t.contact.timingPlaceholder}
                   className="w-full px-6 py-4 bg-slate-50 border-0 rounded-2xl focus:ring-2 focus:ring-teal-600 transition-all font-medium text-slate-900"
                 />
               </div>
@@ -302,14 +305,14 @@ export default function V2ContactUs() {
               <div className="space-y-3">
                 <label className="text-xs font-bold text-slate-400 uppercase tracking-widest flex items-center gap-2">
                   <Send size={14} className="text-teal-600" />
-                  Your Message
+                  {t.contact.yourMessage}
                 </label>
                 <textarea
                   name="message"
                   value={formData.message}
                   onChange={handleInputChange}
                   rows={4}
-                  placeholder="How can we help you?"
+                  placeholder={t.contact.messagePlaceholder}
                   className="w-full px-6 py-4 bg-slate-50 border-0 rounded-2xl focus:ring-2 focus:ring-teal-600 transition-all font-medium text-slate-900 resize-none"
                 ></textarea>
               </div>
@@ -319,7 +322,7 @@ export default function V2ContactUs() {
                 type="submit"
                 className="w-full py-5 bg-slate-900 text-white rounded-full font-bold text-lg hover:bg-teal-600 transition-all flex items-center justify-center gap-3 group disabled:opacity-50"
               >
-                {isSubmitting ? "SENDING..." : "SEND MESSAGE"}
+                {isSubmitting ? t.contact.sending : t.contact.send}
                 <ArrowUpRight className="transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
               </button>
             </form>

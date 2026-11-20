@@ -2,8 +2,11 @@
 
 import Link from "next/link";
 import Image from "next/image";
+import { useI18n } from "@/i18n/LanguageProvider";
 
 export default function V2Footer() {
+  const { t } = useI18n();
+  // Service names stay in English in every language.
   const services = [
     { name: "Psychotherapy", href: "/service/psychotherapy" },
     { name: "Counseling", href: "/service/counselling-services" },
@@ -22,25 +25,25 @@ export default function V2Footer() {
             <span className="text-2xl font-bold tracking-tighter text-white">ALCHEMETANOIA</span>
           </Link>
           <p className="text-slate-400 text-sm leading-relaxed">
-            Integrating holistic healing and modern science to transform lives through psychotherapy and meditation.
+            {t.footer.blurb}
           </p>
         </div>
         
         <div>
-          <h4 className="font-bold mb-6 text-slate-100 uppercase tracking-widest text-xs">Explore</h4>
+          <h4 className="font-bold mb-6 text-slate-100 uppercase tracking-widest text-xs">{t.footer.explore}</h4>
           <ul className="space-y-4 text-sm text-slate-400 font-medium">
-            <li><Link href="/" className="hover:text-teal-400 transition-colors">Home</Link></li>
-            <li><Link href="/about" className="hover:text-teal-400 transition-colors">About Us</Link></li>
-            <li><Link href="/service" className="hover:text-teal-400 transition-colors">Our Services</Link></li>
-            <li><Link href="/contact_us" className="hover:text-teal-400 transition-colors">Contact Us</Link></li>
+            <li><Link href="/" className="hover:text-teal-400 transition-colors">{t.footer.home}</Link></li>
+            <li><Link href="/about" className="hover:text-teal-400 transition-colors">{t.footer.aboutUs}</Link></li>
+            <li><Link href="/service" className="hover:text-teal-400 transition-colors">{t.footer.ourServices}</Link></li>
+            <li><Link href="/contact_us" className="hover:text-teal-400 transition-colors">{t.footer.contactUs}</Link></li>
           </ul>
         </div>
 
         <div>
-          <h4 className="font-bold mb-6 text-slate-100 uppercase tracking-widest text-xs">Services</h4>
+          <h4 className="font-bold mb-6 text-slate-100 uppercase tracking-widest text-xs">{t.footer.services}</h4>
           <ul className="space-y-4 text-sm text-slate-400 font-medium">
             {services.map((service) => (
-              <li key={service.name}>
+              <li key={service.name} lang="en">
                 <Link href={service.href} className="hover:text-teal-400 transition-colors">
                   {service.name}
                 </Link>
@@ -50,7 +53,7 @@ export default function V2Footer() {
         </div>
 
         <div>
-          <h4 className="font-bold mb-6 text-slate-100 uppercase tracking-widest text-xs">Contact</h4>
+          <h4 className="font-bold mb-6 text-slate-100 uppercase tracking-widest text-xs">{t.footer.contact}</h4>
           <ul className="space-y-4 text-sm text-slate-400 font-medium">
             <li>
               <a href="mailto:info@alchemetanoia.com" className="hover:text-teal-400 transition-colors">
@@ -58,16 +61,16 @@ export default function V2Footer() {
               </a>
             </li>
             <li className="hover:text-teal-400 transition-colors">0490 2082731</li>
-            <li className="text-slate-500">Sydney, Australia</li>
+            <li className="text-slate-500">{t.footer.location}</li>
           </ul>
         </div>
       </div>
       
       <div className="max-w-7xl mx-auto px-6 pt-20 mt-20 border-t border-slate-800 flex flex-col md:flex-row justify-between items-center text-[10px] text-slate-500 font-bold tracking-[0.2em] uppercase">
-        <p>© 2026 Alchemetanoia. All rights reserved.</p>
+        <p>{t.footer.rights}</p>
         <div className="flex space-x-8 mt-4 md:mt-0">
-          <Link href="#" className="hover:text-teal-400 transition-colors">Privacy Policy</Link>
-          <Link href="#" className="hover:text-teal-400 transition-colors">Terms of Service</Link>
+          <Link href="#" className="hover:text-teal-400 transition-colors">{t.footer.privacy}</Link>
+          <Link href="#" className="hover:text-teal-400 transition-colors">{t.footer.terms}</Link>
         </div>
       </div>
     </footer>

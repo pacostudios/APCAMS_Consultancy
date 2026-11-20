@@ -9,6 +9,9 @@ import { formatAUD, formatTime, formatWeekdayDate, formatDate, zoneLabel } from 
 import { requireUser } from "@/lib/user";
 import { cancelMyBookingAction, resumePaymentAction } from "./actions";
 import SignOutButton from "./SignOutButton";
+import { getT } from "@/i18n/server";
+import { fmt, rich } from "@/i18n/format";
+import type { Dictionary } from "@/i18n/dictionaries";
 
 export const dynamic = "force-dynamic";
 export const metadata = { title: "My account · Alchemetanoia" };
@@ -31,6 +34,12 @@ export default async function AccountPage({
   const user = await requireUser("/account");
   const me = clientForUser(user);
   const { booked, payment, cancel } = await searchParams;
+  const t = (await getT()).account;
+  const contactLink = (
+    <Link href="/contact_us" className="underline">
+      {t.contactUs}
+    </Link>
+  );
   const now = new Date();
   releaseExpiredHolds(now);
 
@@ -88,8 +97,8 @@ export default async function AccountPage({
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
         <div className="space-y-2">
-          <p className="text-[10px] font-bold text-teal-600 uppercase tracking-[0.2em]">My account</p>
-          <h1 className="text-3xl md:text-5xl font-bold text-slate-900 tracking-tight">Hi, {user.name.split(" ")[0]}</h1>
+          <p className="text-[10px] font-bold text-teal-600 uppercase tracking-[0.2em]">{t.eyebrow}</p>
+          <h1 className="text-3xl md:text-5xl font-bold text-slate-900 tracking-tight">{fmt(t.greeting, { name: user.name.split(" ")[0] })}</h1>
           <p className="text-slate-500 font-medium">{user.email}</p>
         </div>
         <div className="flex flex-wrap gap-3">
@@ -97,7 +106,7 @@ export default async function AccountPage({
             href="/book_appointment"
             className="flex items-center gap-2 px-6 py-3 bg-slate-900 text-white rounded-full font-bold text-xs uppercase tracking-widest hover:bg-teal-600 transition-colors"
           >
-            Book a session <ArrowUpRight size={16} />
+            {t.bookSession} <ArrowUpRight size={16} />
           </Link>
           <SignOutButton />
         </div>
@@ -107,40 +116,38 @@ export default async function AccountPage({
         <div role="status" className="flex items-start gap-4 rounded-[2rem] border border-teal-100 bg-teal-50 p-6">
           <CheckCircle2 className="text-teal-600 shrink-0" size={24} />
           <div>
-            <p className="font-bold text-slate-900">Your session is booked. Reference {justBooked.reference}.</p>
+            <p className="font-bold text-slate-900">{fmt(t.booked, { ref: justBooked.reference })}</p>
             <p className="text-sm text-slate-600 mt-1">
-              {justBooked.meetingUrl
-                ? "Your Zoom link is below. Join a few minutes early and you'll be let in from the waiting room."
-                : "We'll add your Zoom link here before the session."}
+              {justBooked.meetingUrl ? t.bookedZoom : t.bookedNoZoom}
             </p>
           </div>
         </div>
       )}
 
       {payment === "refunded" && (
-        <Notice tone="warn" title="That time was taken while you were paying">
-          Your payment has been refunded in full. It can take 5–10 business days to appear. Please choose another time.
+        <Notice tone="warn" title={t.refundedTitle}>
+          {t.refundedText}
         </Notice>
       )}
       {payment === "processing" && (
-        <Notice tone="info" title="We're confirming your payment">
-          This usually takes a few seconds. Refresh this page shortly; we&apos;ll also email you once it&apos;s confirmed.
+        <Notice tone="info" title={t.processingTitle}>
+          {t.processingText}
         </Notice>
       )}
       {cancel === "failed" && (
-        <Notice tone="warn" title="We couldn't cancel that session">
-          The refund didn&apos;t go through, so your booking is unchanged. Please try again or <Link href="/contact_us" className="underline">contact us</Link>.
+        <Notice tone="warn" title={t.cancelFailedTitle}>
+          {rich(t.cancelFailedText, { link: contactLink })}
         </Notice>
       )}
 
       {/* Upcoming */}
       <section className="space-y-6">
-        <h2 className="text-xl font-bold text-slate-900">Upcoming sessions</h2>
+        <h2 className="text-xl font-bold text-slate-900">{t.upcoming}</h2>
         {upcoming.length === 0 ? (
           <div className="rounded-[2rem] border-2 border-dashed border-slate-100 p-10 text-center space-y-4">
             <CalendarDays className="mx-auto text-slate-300" size={32} />
-            <p className="text-slate-500 font-medium">You have no upcoming sessions.</p>
-            <Link href="/book_appointment" className="inline-block font-bold text-teal-600 hover:underline">Book your first session</Link>
+            <p className="text-slate-500 font-medium">{t.noUpcoming}</p>
+            <Link href="/book_appointment" className="inline-block font-bold text-teal-600 hover:underline">{t.bookFirst}</Link>
           </div>
         ) : (
           <ul className="space-y-4">
@@ -148,18 +155,18 @@ export default async function AccountPage({
               <li key={b.id} className="rounded-[2rem] border border-slate-100 bg-white p-6 md:p-8 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-6">
                 <div className="space-y-3">
                   <div className="flex flex-wrap items-center gap-3">
-                    <h3 className="text-lg font-bold text-slate-900">{b.serviceName}</h3>
+                    <h3 lang="en" className="text-lg font-bold text-slate-900">{b.serviceName}</h3>
                     <span className={`px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest ${STATUS_STYLES[b.status]}`}>
-                      {awaitingPayment(b) ? "awaiting payment" : b.status}
+                      {awaitingPayment(b) ? t.status.awaiting : t.status[b.status]}
                     </span>
-                    {b.paymentStatus === "paid" && <span className="text-[10px] font-bold uppercase tracking-widest text-teal-600">Paid</span>}
+                    {b.paymentStatus === "paid" && <span className="text-[10px] font-bold uppercase tracking-widest text-teal-600">{t.paid}</span>}
                   </div>
                   <p className="flex items-center gap-2 text-slate-600 font-medium">
                     <Clock size={16} className="text-teal-600" />
                     {formatWeekdayDate(b.startsAt)}, {formatTime(b.startsAt)} – {formatTime(b.endsAt)} {zoneLabel(b.startsAt)}
                   </p>
-                  <p className="text-xs text-slate-400 font-bold uppercase tracking-widest">Ref {b.reference}</p>
-                  <PaymentLine b={b} />
+                  <p className="text-xs text-slate-400 font-bold uppercase tracking-widest">{fmt(t.ref, { ref: b.reference })}</p>
+                  <PaymentLine b={b} t={t} />
                 </div>
                 <div className="flex flex-col sm:flex-row gap-3 md:items-center">
                   {awaitingPayment(b) ? (
@@ -167,16 +174,16 @@ export default async function AccountPage({
                       <form action={resumePaymentAction}>
                         <input type="hidden" name="id" value={b.id} />
                         <button className="w-full flex items-center justify-center gap-2 px-6 py-3 bg-teal-600 text-white rounded-full font-bold text-xs uppercase tracking-widest hover:bg-teal-700 transition-colors">
-                          <CreditCard size={16} /> Complete payment
+                          <CreditCard size={16} /> {t.completePayment}
                         </button>
                       </form>
                       <form action={cancelMyBookingAction}>
                         <input type="hidden" name="id" value={b.id} />
                         <button className="w-full px-6 py-3 rounded-full border-2 border-slate-100 text-slate-500 font-bold text-xs uppercase tracking-widest hover:border-red-200 hover:text-red-600 transition-colors">
-                          Release time
+                          {t.releaseTime}
                         </button>
                       </form>
-                      <p className="text-[11px] text-slate-400 max-w-[12rem]">Held for you until {formatTime(b.holdExpiresAt!)}. Pay before then to confirm.</p>
+                      <p className="text-[11px] text-slate-400 max-w-[12rem]">{fmt(t.heldUntil, { time: formatTime(b.holdExpiresAt!) })}</p>
                     </>
                   ) : (
                   <>
@@ -187,23 +194,23 @@ export default async function AccountPage({
                       rel="noreferrer"
                       className="flex items-center justify-center gap-2 px-6 py-3 bg-teal-600 text-white rounded-full font-bold text-xs uppercase tracking-widest hover:bg-teal-700 transition-colors"
                     >
-                      <Video size={16} /> Join Zoom
+                      <Video size={16} /> {t.joinZoom}
                     </a>
                   ) : b.mode === "online" ? (
-                    <p className="text-xs text-slate-500 max-w-[14rem]">Your Zoom link will appear here before the session.</p>
+                    <p className="text-xs text-slate-500 max-w-[14rem]">{t.zoomLater}</p>
                   ) : (
-                    <p className="text-xs text-slate-500">In-person session</p>
+                    <p className="text-xs text-slate-500">{t.inPerson}</p>
                   )}
                   {canCancel(b.startsAt) ? (
                     <form action={cancelMyBookingAction}>
                       <input type="hidden" name="id" value={b.id} />
                       <button className="w-full px-6 py-3 rounded-full border-2 border-slate-100 text-slate-500 font-bold text-xs uppercase tracking-widest hover:border-red-200 hover:text-red-600 transition-colors">
-                        {b.paymentStatus === "paid" ? "Cancel & refund" : "Cancel"}
+                        {b.paymentStatus === "paid" ? t.cancelRefund : t.cancel}
                       </button>
                     </form>
                   ) : (
                     <p className="text-[11px] text-slate-400 max-w-[12rem]">
-                      Less than {BUSINESS.cancelNoticeHours}h away. To change it, please <Link href="/contact_us" className="underline">contact us</Link>.
+                      {rich(t.tooLate, { hours: BUSINESS.cancelNoticeHours, link: contactLink })}
                     </p>
                   )}
                   </>
@@ -218,17 +225,17 @@ export default async function AccountPage({
       {/* History */}
       {past.length > 0 && (
         <section className="space-y-6">
-          <h2 className="text-xl font-bold text-slate-900">Past &amp; cancelled</h2>
+          <h2 className="text-xl font-bold text-slate-900">{t.past}</h2>
           <ul className="divide-y divide-slate-100 rounded-[2rem] border border-slate-100 bg-white">
             {past.map((b) => (
               <li key={b.id} className="flex flex-wrap items-center justify-between gap-3 px-6 py-4">
                 <div>
-                  <p className="font-bold text-slate-800">{b.serviceName}</p>
+                  <p lang="en" className="font-bold text-slate-800">{b.serviceName}</p>
                   <p className="text-sm text-slate-500">{formatDate(b.startsAt)}, {formatTime(b.startsAt)}</p>
-                  <PaymentLine b={b} />
+                  <PaymentLine b={b} t={t} />
                 </div>
                 <span className={`px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest ${STATUS_STYLES[b.status]}`}>
-                  {b.status.replace("_", " ")}
+                  {t.status[b.status]}
                 </span>
               </li>
             ))}
@@ -255,8 +262,10 @@ function Notice({ tone, title, children }: { tone: "warn" | "info"; title: strin
 /** "Paid A$180.00 on 2 Nov 2026 · Visa •••• 4242 · Receipt", or the refund equivalent. */
 function PaymentLine({
   b,
+  t,
 }: {
   b: { paymentStatus: string; amountPaidCents: number | null; paidAt: Date | null; paymentMethod: string | null; receiptUrl: string | null; refundedAt: Date | null };
+  t: Dictionary["account"];
 }) {
   if (b.amountPaidCents == null || b.paymentStatus === "unpaid") return null;
   const amount = formatAUD(b.amountPaidCents);
@@ -264,12 +273,16 @@ function PaymentLine({
     <p className="flex flex-wrap items-center gap-x-2 text-sm text-slate-500">
       <CreditCard size={14} className="text-teal-600" />
       {b.paymentStatus === "refunded"
-        ? `${amount} refunded${b.refundedAt ? ` on ${formatDate(b.refundedAt)}` : ""}`
-        : `Paid ${amount}${b.paidAt ? ` on ${formatDate(b.paidAt)}` : ""}`}
+        ? b.refundedAt
+          ? fmt(t.refundedOn, { amount, date: formatDate(b.refundedAt) })
+          : fmt(t.refunded, { amount })
+        : b.paidAt
+          ? fmt(t.paidOn, { amount, date: formatDate(b.paidAt) })
+          : fmt(t.paidAmount, { amount })}
       {b.paymentMethod && <span>· {b.paymentMethod}</span>}
       {b.receiptUrl && (
         <a href={b.receiptUrl} target="_blank" rel="noreferrer" className="font-bold text-teal-600 hover:underline">
-          · Receipt
+          · {t.receipt}
         </a>
       )}
     </p>

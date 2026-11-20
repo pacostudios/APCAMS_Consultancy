@@ -30,6 +30,9 @@ import { useRouter } from "next/navigation";
 import { authClient } from "@/lib/auth-client";
 import { addDaysToKey, formatAUD, toDateKey, zoneLabel } from "@/lib/format";
 import { bookSessionAction, cancelPendingPaymentAction, resumePaymentAction } from "./actions";
+import { useI18n } from "@/i18n/LanguageProvider";
+import { DATE_LOCALES } from "@/i18n/config";
+import { fmt, rich } from "@/i18n/format";
 
 type Service = { id: number; slug: string; name: string; priceCents: number; durationMins: number };
 type Slot = { start: string; local: string; label: string };
@@ -48,17 +51,17 @@ const ICONS: Record<string, React.ReactNode> = {
 const DAYS_AHEAD = 14;
 
 const PERIODS = [
-  { id: "morning", label: "Morning", test: (h: number) => h < 12 },
-  { id: "afternoon", label: "Afternoon", test: (h: number) => h >= 12 && h < 17 },
-  { id: "evening", label: "Evening", test: (h: number) => h >= 17 },
-];
+  { id: "morning", test: (h: number) => h < 12 },
+  { id: "afternoon", test: (h: number) => h >= 12 && h < 17 },
+  { id: "evening", test: (h: number) => h >= 17 },
+] as const;
 
 /** Day tile labels for a "YYYY-MM-DD" key, independent of the visitor's own timezone. */
-function dayParts(key: string) {
+function dayParts(key: string, locale = "en-AU") {
   const [y, m, d] = key.split("-").map(Number);
   const date = new Date(Date.UTC(y, m - 1, d));
-  const fmt = (o: Intl.DateTimeFormatOptions) => date.toLocaleDateString("en-AU", { ...o, timeZone: "UTC" });
-  return { dayName: fmt({ weekday: "short" }), dayNum: d, month: fmt({ month: "short" }), long: fmt({ weekday: "long", day: "numeric", month: "long" }) };
+  const fmtDate = (o: Intl.DateTimeFormatOptions) => date.toLocaleDateString(locale, { ...o, timeZone: "UTC" });
+  return { dayName: fmtDate({ weekday: "short" }), dayNum: d, month: fmtDate({ month: "short" }), long: fmtDate({ weekday: "long", day: "numeric", month: "long" }) };
 }
 
 export default function BookingForm({
@@ -83,6 +86,9 @@ export default function BookingForm({
   pendingPayment: { serviceName: string; when: string; heldUntil: string } | null;
 }) {
   const router = useRouter();
+  const { t: tr, lang } = useI18n();
+  const t = tr.booking;
+  const locale = DATE_LOCALES[lang];
   const [pendingBusy, startPending] = useTransition();
   const [pendingError, setPendingError] = useState("");
 
@@ -193,7 +199,7 @@ export default function BookingForm({
     setCodeBusy(true);
     const { error } = await authClient.emailOtp.sendVerificationOtp({ email: formData.email.trim(), type: "sign-in" });
     setCodeBusy(false);
-    if (error) return setCodeError(error.status === 429 ? "Too many codes requested. Please wait a minute and try again." : "We couldn't send a code. Please check your email address.");
+    if (error) return setCodeError(error.status === 429 ? t.tooManyCodes : t.codeSendFailed);
     setCode("");
     setCodeSent(true);
   };
@@ -203,7 +209,7 @@ export default function BookingForm({
     setCodeBusy(true);
     const { error } = await authClient.signIn.emailOtp({ email: formData.email.trim(), otp: code.trim(), name: formData.name.trim() });
     setCodeBusy(false);
-    if (error) return setCodeError("That code isn't right or has expired. Check your email or send a new code.");
+    if (error) return setCodeError(t.codeWrong);
     setVerified(true);
     // Picks up the new session (navbar, saved phone/address); the form keeps its state.
     router.refresh();
@@ -253,7 +259,7 @@ export default function BookingForm({
       disabled={!formData.slot || isSubmitting}
       className={`w-full py-5 bg-teal-600 text-white rounded-full font-bold text-lg hover:bg-white hover:text-teal-600 transition-all flex items-center justify-center gap-3 shadow-xl shadow-teal-900/20 disabled:opacity-20 ${className}`}
     >
-      {isSubmitting ? (paysOnline ? "OPENING PAYMENT..." : "BOOKING...") : paysOnline ? "CONTINUE TO PAYMENT" : "CONFIRM APPOINTMENT"}
+      {isSubmitting ? (paysOnline ? t.openingPayment : t.booking) : paysOnline ? t.continueToPayment : t.confirm}
       {isSubmitting ? <Loader2 size={22} className="animate-spin" /> : paysOnline ? <CreditCard size={22} /> : <ArrowUpRight size={22} />}
     </button>
   );
@@ -269,15 +275,18 @@ export default function BookingForm({
     <div className="max-w-7xl mx-auto px-6 pt-28 md:pt-36 pb-12 md:pb-20 min-h-[80vh]">
       {staffEmail && (
         <div role="status" className="max-w-3xl mx-auto mb-10 rounded-2xl border border-amber-100 bg-amber-50 px-5 py-4 text-sm font-medium text-amber-800 flex flex-wrap items-center justify-between gap-3">
-          <span>You&apos;re signed in as {staffEmail} (staff). Sign out to book as a customer.</span>
-          <button type="button" onClick={signOut} className="font-bold text-amber-900 underline">Sign out</button>
+          <span>{fmt(t.staffNotice, { email: staffEmail })}</span>
+          <button type="button" onClick={signOut} className="font-bold text-amber-900 underline">{t.signOut}</button>
         </div>
       )}
       {pendingPayment && (
         <div role="status" className="max-w-3xl mx-auto mb-10 rounded-2xl border border-amber-100 bg-amber-50 px-5 py-4 text-sm font-medium text-amber-800 space-y-3">
           <p>
-            You haven&apos;t paid for <span className="font-bold">{pendingPayment.serviceName}</span> on {pendingPayment.when} yet. We&apos;re holding that
-            time for you until {pendingPayment.heldUntil}. Choosing a new time below cancels it.
+            {rich(t.pendingNotice, {
+              service: <span lang="en" className="font-bold">{pendingPayment.serviceName}</span>,
+              when: pendingPayment.when,
+              until: pendingPayment.heldUntil,
+            })}
           </p>
           {pendingError && <p className="text-red-700">{pendingError}</p>}
           <div className="flex flex-wrap gap-3">
@@ -297,7 +306,7 @@ export default function BookingForm({
               }
               className="px-5 py-2.5 bg-teal-600 text-white rounded-full font-bold text-xs hover:bg-slate-900 transition-all disabled:opacity-40 flex items-center gap-2"
             >
-              {pendingBusy ? <Loader2 size={14} className="animate-spin" /> : <CreditCard size={14} />} CONTINUE TO PAYMENT
+              {pendingBusy ? <Loader2 size={14} className="animate-spin" /> : <CreditCard size={14} />} {t.continueToPayment}
             </button>
             <button
               type="button"
@@ -311,14 +320,14 @@ export default function BookingForm({
               }
               className="px-5 py-2.5 border-2 border-amber-200 text-amber-900 rounded-full font-bold text-xs hover:border-amber-400 transition-all disabled:opacity-40"
             >
-              CANCEL IT
+              {t.cancelIt}
             </button>
           </div>
         </div>
       )}
       {paymentCancelled && (
         <p role="status" className="max-w-3xl mx-auto mb-10 rounded-2xl border border-amber-100 bg-amber-50 px-5 py-4 text-sm font-medium text-amber-800">
-          Payment cancelled, so the time you picked has been released. You can choose a time again below.
+          {t.paymentCancelled}
         </p>
       )}
       {/* PROGRESS STEPPER */}
@@ -332,9 +341,9 @@ export default function BookingForm({
 
         <div className="relative flex justify-between items-start">
           {[
-            { step: 1, label: "Details", icon: <User size={18} /> },
-            { step: 2, label: "Service", icon: <LayoutGrid size={18} /> },
-            { step: 3, label: "Schedule", icon: <CalendarIcon size={18} /> },
+            { step: 1, label: t.steps.details, icon: <User size={18} /> },
+            { step: 2, label: t.steps.service, icon: <LayoutGrid size={18} /> },
+            { step: 3, label: t.steps.schedule, icon: <CalendarIcon size={18} /> },
           ].map((item) => (
             <div key={item.step} className="relative z-10 flex flex-col items-center gap-3">
               <button
@@ -376,22 +385,22 @@ export default function BookingForm({
               {currentStep === 1 && (
                 <div className="space-y-12">
                   <div className="space-y-2">
-                    <h2 className="text-3xl md:text-5xl font-bold text-slate-900 tracking-tight">Your Details</h2>
+                    <h2 className="text-3xl md:text-5xl font-bold text-slate-900 tracking-tight">{t.detailsHeading}</h2>
                     <p className="text-slate-500 font-medium">
-                      {verified ? "Confirm how we can reach you." : "Tell us how to reach you. We'll email you a code to confirm it's you."}
+                      {verified ? t.detailsConfirm : t.detailsIntro}
                     </p>
                   </div>
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div className="space-y-2">
                       <label htmlFor="name" className="text-[10px] font-bold text-slate-400 uppercase tracking-widest flex items-center gap-2">
-                        <User size={14} className="text-teal-600" /> Full Name
+                        <User size={14} className="text-teal-600" /> {t.fullName}
                       </label>
                       <input id="name" name="name" value={formData.name} onChange={handleInputChange} autoComplete="name" placeholder="Jane Citizen" className="w-full px-6 py-4 bg-slate-50 border-2 border-transparent rounded-2xl focus:border-teal-600 transition-all font-medium text-slate-900 outline-none" />
                     </div>
                     <div className="space-y-2">
                       <label htmlFor="email" className="text-[10px] font-bold text-slate-400 uppercase tracking-widest flex items-center gap-2">
-                        <Mail size={14} className="text-teal-600" /> Email
+                        <Mail size={14} className="text-teal-600" /> {t.email}
                       </label>
                       <input
                         id="email"
@@ -409,22 +418,22 @@ export default function BookingForm({
                       />
                       {verified && (
                         <p className="text-xs text-slate-400 font-medium">
-                          Signed in.{" "}
+                          {t.signedIn}{" "}
                           <button type="button" onClick={signOut} className="font-bold text-teal-600 hover:underline">
-                            Not you?
+                            {t.notYou}
                           </button>
                         </p>
                       )}
                     </div>
                     <div className="space-y-2">
                       <label htmlFor="phone" className="text-[10px] font-bold text-slate-400 uppercase tracking-widest flex items-center gap-2">
-                        <Phone size={14} className="text-teal-600" /> Phone Number
+                        <Phone size={14} className="text-teal-600" /> {t.phone}
                       </label>
                       <input id="phone" name="phone" type="tel" value={formData.phone} onChange={handleInputChange} autoComplete="tel" placeholder="04XX XXX XXX" className="w-full px-6 py-4 bg-slate-50 border-2 border-transparent rounded-2xl focus:border-teal-600 transition-all font-medium text-slate-900 outline-none" />
                     </div>
                     <div className="space-y-2">
                       <label htmlFor="address" className="text-[10px] font-bold text-slate-400 uppercase tracking-widest flex items-center gap-2">
-                        <MapPin size={14} className="text-teal-600" /> Residential Address <span className="normal-case tracking-normal font-medium">(optional)</span>
+                        <MapPin size={14} className="text-teal-600" /> {t.address} <span className="normal-case tracking-normal font-medium">{t.optional}</span>
                       </label>
                       <input id="address" name="address" value={formData.address} onChange={handleInputChange} autoComplete="street-address" placeholder="12 Example St, Sydney NSW 2000" className="w-full px-6 py-4 bg-slate-50 border-2 border-transparent rounded-2xl focus:border-teal-600 transition-all font-medium text-slate-900 outline-none" />
                     </div>
@@ -442,10 +451,10 @@ export default function BookingForm({
                         onClick={() => paginate(2)}
                         className="px-10 py-4 bg-slate-900 text-white rounded-full font-bold text-sm hover:bg-teal-600 transition-all flex items-center gap-2 group disabled:opacity-20 shadow-xl shadow-slate-200"
                       >
-                        NEXT: SELECT SERVICE
+                        {t.nextService}
                         <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
                       </button>
-                      {!detailsComplete && <p className="mt-3 text-xs text-slate-400 font-medium">Enter your full name and phone number to continue.</p>}
+                      {!detailsComplete && <p className="mt-3 text-xs text-slate-400 font-medium">{t.needNamePhone}</p>}
                     </div>
                   ) : !codeSent ? (
                     <div className="pt-6 space-y-4">
@@ -457,18 +466,18 @@ export default function BookingForm({
                         onClick={sendCode}
                         className="px-10 py-4 bg-slate-900 text-white rounded-full font-bold text-sm hover:bg-teal-600 transition-all flex items-center gap-2 group disabled:opacity-20 shadow-xl shadow-slate-200"
                       >
-                        {codeBusy ? "SENDING CODE..." : "EMAIL ME A CODE"}
+                        {codeBusy ? t.sendingCode : t.emailCode}
                         {codeBusy ? <Loader2 size={18} className="animate-spin" /> : <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />}
                       </button>
                     </div>
                   ) : (
                     <div className="pt-6 space-y-4 max-w-sm">
                       <p className="text-sm text-slate-600 font-medium">
-                        We&apos;ve emailed a 6-digit code to <span className="font-bold text-slate-900">{formData.email}</span>. It expires in 10 minutes.
+                        {rich(t.codeSent, { email: <span className="font-bold text-slate-900">{formData.email}</span> })}
                       </p>
                       <div className="space-y-2">
                         <label htmlFor="code" className="text-[10px] font-bold text-slate-400 uppercase tracking-widest flex items-center gap-2">
-                          <KeyRound size={14} className="text-teal-600" /> Code
+                          <KeyRound size={14} className="text-teal-600" /> {t.code}
                         </label>
                         <input
                           id="code"
@@ -488,11 +497,11 @@ export default function BookingForm({
                         onClick={verifyCode}
                         className="px-10 py-4 bg-slate-900 text-white rounded-full font-bold text-sm hover:bg-teal-600 transition-all flex items-center gap-2 group disabled:opacity-20 shadow-xl shadow-slate-200"
                       >
-                        {codeBusy ? "CHECKING..." : "VERIFY & CONTINUE"}
+                        {codeBusy ? t.checking : t.verify}
                         {codeBusy ? <Loader2 size={18} className="animate-spin" /> : <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />}
                       </button>
                       <button type="button" onClick={sendCode} disabled={codeBusy} className="text-xs font-bold text-teal-600 hover:underline disabled:opacity-40">
-                        Send a new code
+                        {t.newCode}
                       </button>
                     </div>
                   )}
@@ -504,11 +513,11 @@ export default function BookingForm({
                 <div className="space-y-12">
                   <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                     <div className="space-y-1">
-                      <h2 className="text-3xl md:text-5xl font-bold text-slate-900 tracking-tight">Select Service</h2>
-                      <p className="text-slate-500 font-medium">Choose the session type you wish to book.</p>
+                      <h2 className="text-3xl md:text-5xl font-bold text-slate-900 tracking-tight">{t.serviceHeading}</h2>
+                      <p className="text-slate-500 font-medium">{t.serviceIntro}</p>
                     </div>
                     <button onClick={() => paginate(1)} className="flex items-center gap-2 text-slate-400 font-bold hover:text-teal-600 transition-colors uppercase tracking-widest text-[10px] w-fit">
-                      <ArrowLeft size={14} /> Back to Details
+                      <ArrowLeft size={14} /> {t.backToDetails}
                     </button>
                   </div>
 
@@ -532,9 +541,9 @@ export default function BookingForm({
                           >
                             {ICONS[s.slug] ?? <Sparkles size={18} />}
                           </div>
-                          <span className="text-[10px] md:text-xs font-bold uppercase tracking-wide leading-tight block">{s.name}</span>
+                          <span lang="en" className="text-[10px] md:text-xs font-bold uppercase tracking-wide leading-tight block">{s.name}</span>
                           <span className={`mt-1 block text-[10px] font-medium ${selected ? "text-white/80" : "text-slate-400 group-hover:text-white/80"}`}>
-                            {s.durationMins} min · {formatAUD(s.priceCents)}
+                            {s.durationMins} {t.minutes} · {formatAUD(s.priceCents)}
                           </span>
                         </button>
                       );
@@ -547,7 +556,7 @@ export default function BookingForm({
                       onClick={() => paginate(3)}
                       className="px-10 py-4 bg-slate-900 text-white rounded-full font-bold text-sm hover:bg-teal-600 transition-all flex items-center gap-2 group disabled:opacity-20 shadow-xl shadow-slate-200"
                     >
-                      NEXT: CHOOSE SCHEDULE
+                      {t.nextSchedule}
                       <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
                     </button>
                   </div>
@@ -559,20 +568,20 @@ export default function BookingForm({
                 <div className="space-y-12">
                   <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                     <div className="space-y-1">
-                      <h2 className="text-3xl md:text-5xl font-bold text-slate-900 tracking-tight">Pick a Slot</h2>
+                      <h2 className="text-3xl md:text-5xl font-bold text-slate-900 tracking-tight">{t.scheduleHeading}</h2>
                       <p className="text-slate-500 font-medium">
-                        Available times for {selectedService?.name}, shown in Sydney time ({zoneLabel()}).
+                        {fmt(t.scheduleIntro, { service: selectedService?.name ?? "", zone: zoneLabel() })}
                       </p>
                     </div>
                     <button onClick={() => paginate(2)} className="flex items-center gap-2 text-slate-400 font-bold hover:text-teal-600 transition-colors uppercase tracking-widest text-[10px] w-fit">
-                      <ArrowLeft size={14} /> Back to Service
+                      <ArrowLeft size={14} /> {t.backToService}
                     </button>
                   </div>
 
                   {/* Horizontal Date Picker */}
                   <div className="flex gap-3 overflow-x-auto pb-4 no-scrollbar">
                     {dates.map((key) => {
-                      const day = dayParts(key);
+                      const day = dayParts(key, locale);
                       return (
                         <button
                           key={key}
@@ -594,23 +603,23 @@ export default function BookingForm({
                   <div className="space-y-10 pt-8 border-t border-slate-50">
                     {!formData.date && noAvailability ? (
                       <p className="text-slate-500 font-medium">
-                        No times are available for {selectedService?.name} in the next {DAYS_AHEAD} days. Please contact us and we&apos;ll find a time for you.
+                        {fmt(t.noAvailability, { service: selectedService?.name ?? "", days: DAYS_AHEAD })}
                       </p>
                     ) : !formData.date && !slotsLoading ? (
-                      <p className="text-slate-400 font-medium">Choose a day to see available times.</p>
+                      <p className="text-slate-400 font-medium">{t.chooseDay}</p>
                     ) : slotsLoading || slots === null ? (
                       <p className="flex items-center gap-2 text-slate-400 font-medium">
-                        <Loader2 size={16} className="animate-spin" /> Checking availability…
+                        <Loader2 size={16} className="animate-spin" /> {t.checkingAvailability}
                       </p>
                     ) : slots.length === 0 ? (
-                      <p className="text-slate-500 font-medium">No times left on {dayParts(formData.date).long}. Please try another day.</p>
+                      <p className="text-slate-500 font-medium">{fmt(t.noTimesLeft, { day: dayParts(formData.date, locale).long })}</p>
                     ) : (
                       PERIODS.map((period) => {
                         const inPeriod = slots.filter((s) => period.test(Number(s.local.slice(11, 13))));
                         if (inPeriod.length === 0) return null;
                         return (
                           <div key={period.id} className="space-y-6">
-                            <h4 className="text-[10px] font-bold text-teal-600 uppercase tracking-[0.2em]">{period.label}</h4>
+                            <h4 className="text-[10px] font-bold text-teal-600 uppercase tracking-[0.2em]">{t.periods[period.id]}</h4>
                             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
                               {inPeriod.map((s) => (
                                 <button
@@ -647,38 +656,36 @@ export default function BookingForm({
             <div className="bg-slate-900 rounded-[3rem] p-10 text-white relative overflow-hidden shadow-2xl">
               <div className="absolute top-0 right-0 w-64 h-64 bg-teal-500/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
               <div className="relative z-10 space-y-8">
-                <h3 className="text-2xl font-bold tracking-tight">Booking Summary</h3>
+                <h3 className="text-2xl font-bold tracking-tight">{t.summaryHeading}</h3>
                 <div className="space-y-4">
                   <div className={`p-5 rounded-2xl bg-white/5 border border-white/10 transition-all ${formData.name ? "opacity-100" : "opacity-30"}`}>
-                    <p className="text-[9px] font-bold text-teal-400 uppercase tracking-widest mb-1">Client</p>
-                    <h4 className="font-bold">{formData.name || "Enter your name"}</h4>
+                    <p className="text-[9px] font-bold text-teal-400 uppercase tracking-widest mb-1">{t.client}</p>
+                    <h4 className="font-bold">{formData.name || t.enterName}</h4>
                   </div>
                   <div className={`p-5 rounded-2xl bg-white/5 border border-white/10 transition-all ${selectedService ? "opacity-100" : "opacity-30"}`}>
-                    <p className="text-[9px] font-bold text-teal-400 uppercase tracking-widest mb-1">Service</p>
-                    <h4 className="font-bold">{selectedService?.name || "Select a service"}</h4>
+                    <p className="text-[9px] font-bold text-teal-400 uppercase tracking-widest mb-1">{t.service}</p>
+                    <h4 className="font-bold">{selectedService ? <span lang="en">{selectedService.name}</span> : t.selectAService}</h4>
                     {selectedService && (
                       <p className="text-xs text-slate-400 mt-1">
-                        {selectedService.durationMins} min · {formatAUD(selectedService.priceCents)}
+                        {selectedService.durationMins} {t.minutes} · {formatAUD(selectedService.priceCents)}
                       </p>
                     )}
                   </div>
                   <div className="grid grid-cols-2 gap-4">
                     <div className={`p-5 rounded-2xl bg-white/5 border border-white/10 transition-all ${formData.date ? "opacity-100" : "opacity-30"}`}>
-                      <p className="text-[9px] font-bold text-teal-400 uppercase tracking-widest mb-1">Date</p>
-                      <h4 className="font-bold text-sm">{formData.date ? `${dayParts(formData.date).dayName} ${dayParts(formData.date).dayNum} ${dayParts(formData.date).month}` : "---"}</h4>
+                      <p className="text-[9px] font-bold text-teal-400 uppercase tracking-widest mb-1">{t.date}</p>
+                      <h4 className="font-bold text-sm">{formData.date ? `${dayParts(formData.date, locale).dayName} ${dayParts(formData.date, locale).dayNum} ${dayParts(formData.date, locale).month}` : "---"}</h4>
                     </div>
                     <div className={`p-5 rounded-2xl bg-white/5 border border-white/10 transition-all ${formData.slot ? "opacity-100" : "opacity-30"}`}>
-                      <p className="text-[9px] font-bold text-teal-400 uppercase tracking-widest mb-1">Time</p>
+                      <p className="text-[9px] font-bold text-teal-400 uppercase tracking-widest mb-1">{t.time}</p>
                       <h4 className="font-bold text-sm uppercase">{formData.slot?.label || "---"}</h4>
                     </div>
                   </div>
                   <div className="p-5 rounded-2xl bg-white/5 border border-white/10 flex items-center gap-3">
                     <Video size={18} className="text-teal-400 shrink-0" />
                     <p className="text-xs text-slate-300">
-                      Online session on Zoom.{" "}
-                      {paysOnline
-                        ? "You'll pay securely with Stripe; your time is held for 30 minutes while you do. Your Zoom link appears in your account once paid."
-                        : "Your link appears in your account as soon as you book."}
+                      {t.online}{" "}
+                      {paysOnline ? t.payNote : t.linkNote}
                     </p>
                   </div>
                 </div>
@@ -690,7 +697,7 @@ export default function BookingForm({
                       <ConfirmButton />
                     </>
                   ) : (
-                    <p className="text-[10px] text-center text-slate-500 uppercase tracking-widest font-bold">Secure clinical booking</p>
+                    <p className="text-[10px] text-center text-slate-500 uppercase tracking-widest font-bold">{t.secure}</p>
                   )}
                 </div>
               </div>
@@ -700,7 +707,7 @@ export default function BookingForm({
               <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center text-teal-600 shrink-0 shadow-sm">
                 <Info size={20} />
               </div>
-              <p className="text-xs text-slate-600 leading-relaxed font-medium">Your details are kept private and only used to manage your sessions.</p>
+              <p className="text-xs text-slate-600 leading-relaxed font-medium">{t.privacy}</p>
             </div>
           </div>
         </div>

@@ -29,9 +29,11 @@ import {
 } from "lucide-react";
 import { NumberTicker } from "@/components/magicui/number-ticker";
 import { SITE_ASSETS } from "@/lib/site-assets";
+import { useI18n } from "@/i18n/LanguageProvider";
 
 export default function V2Home({ hotlinePhone, hotlineTel }: { hotlinePhone: string; hotlineTel: string }) {
   const [activeFaq, setActiveFaq] = useState<number | null>(null);
+  const { t } = useI18n();
 
   const testimonials = [
     "Well educated, professional, friendly & responsive to my needs/issues. Such a broad base to help many people with their concerns.",
@@ -122,51 +124,14 @@ export default function V2Home({ hotlinePhone, hotlineTel }: { hotlinePhone: str
     }
   ];
 
-  const whyChooseUs = [
-    {
-      title: "Qualified Expertise",
-      desc: "Our team holds the relevant qualifications, specialized skills, and diverse experience required to support you efficiently and effectively.",
-      icon: <GraduationCap className="w-8 h-8 text-teal-600" />
-    },
-    {
-      title: "Tailored Tools",
-      desc: "We don't believe in one-size-fits-all solutions; we provide practical tools that integrate seamlessly into your daily life.",
-      icon: <Wrench className="w-8 h-8 text-teal-600" />
-    },
-    {
-      title: "Empowering Outcomes",
-      desc: "Our clients consistently report feeling deeply understood, respected, and empowered to make positive changes.",
-      icon: <TrendingUp className="w-8 h-8 text-teal-600" />
-    }
+  const whyIcons = [
+    <GraduationCap key="qualified" className="w-8 h-8 text-teal-600" />,
+    <Wrench key="tools" className="w-8 h-8 text-teal-600" />,
+    <TrendingUp key="outcomes" className="w-8 h-8 text-teal-600" />,
   ];
+  const whyChooseUs = t.home.whyItems.map((item, i) => ({ ...item, icon: whyIcons[i] }));
 
-  const faqs = [
-    {
-      id: 1,
-      q: "What can I expect during my first therapy or counseling session?",
-      a: "In your first session, you’ll have a chance to share your concerns in a safe and confidential space. Your therapist or counselor will work with you to understand your goals and discuss how the process can best support your needs."
-    },
-    {
-      id: 2,
-      q: "How do I know if I need therapy or counseling?",
-      a: "If you're feeling overwhelmed, stuck, anxious, or are struggling with relationships or life transitions, therapy or counseling can provide valuable support and clarity. You don’t need to have a diagnosis—if something feels off, it’s okay to seek help."
-    },
-    {
-      id: 3,
-      q: "What types of meditation do you offer in your programs?",
-      a: "Our meditation programs include mindfulness, breathwork, guided visualization, and body awareness techniques. Each session is designed to support mental clarity, stress reduction, and emotional balance."
-    },
-    {
-      id: 4,
-      q: "Are your services confidential?",
-      a: "Yes, all sessions are completely confidential. Your privacy and trust are essential to the therapeutic process, and we adhere to strict professional and ethical standards."
-    },
-    {
-      id: 5,
-      q: "Do you offer online or remote sessions?",
-      a: "Yes, we offer both in-person and secure online sessions to ensure you can access support wherever you are. Online sessions are just as effective and convenient for those with busy schedules or limited mobility."
-    }
-  ];
+  const faqs = t.home.faqs.map((faq, i) => ({ id: i + 1, ...faq }));
 
   return (
     <div className="space-y-20 md:space-y-32 pb-32">
@@ -195,12 +160,11 @@ export default function V2Home({ hotlinePhone, hotlineTel }: { hotlinePhone: str
               className="space-y-6"
             >
               <h1 className="text-3xl md:text-4xl lg:text-5xl font-extrabold tracking-tight text-white leading-[1.15] font-outfit">
-                &ldquo;Transforming Lives Through Integrated and Holistic Healing Services&rdquo;
+                {t.home.heroTitle}
               </h1>
 
               <p className="text-base md:text-lg text-slate-200 max-w-lg leading-relaxed font-normal">
-                Discover your path to healing and growth through personalized therapy,
-                mindful counseling, and transformative meditation practices.
+                {t.home.heroText}
               </p>
             </motion.div>
 
@@ -212,7 +176,7 @@ export default function V2Home({ hotlinePhone, hotlineTel }: { hotlinePhone: str
             >
               <Link href="/book_appointment">
                 <button className="px-6 py-3.5 md:px-8 md:py-4 bg-teal-600 text-white rounded-full font-bold text-sm md:text-base hover:bg-white hover:text-slate-900 transition-all flex items-center gap-2 group shadow-lg hover:shadow-teal-500/20">
-                  BOOK YOUR SESSION
+                  {t.home.bookSession}
                   <ArrowUpRight size={20} className="transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
                 </button>
               </Link>
@@ -330,21 +294,19 @@ export default function V2Home({ hotlinePhone, hotlineTel }: { hotlinePhone: str
           viewport={{ once: true }}
           className="space-y-6 md:space-y-8 order-1 lg:order-2"
         >
-          <div className="text-teal-600 font-bold tracking-widest uppercase text-xs md:text-sm">About Alchemetanoia</div>
+          <div className="text-teal-600 font-bold tracking-widest uppercase text-xs md:text-sm">{t.home.aboutEyebrow}</div>
           <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-slate-900 leading-tight tracking-tight">
-            Find Your Path to Healing, Wholeness, and Transformation
+            {t.home.aboutHeading}
           </h2>
           <p className="text-base md:text-lg text-slate-600 leading-relaxed font-medium">
-            Welcome to Alchemetanoia. We are a dedicated team of licensed therapists providing compassionate psychotherapy, counselling, and professional mediation services.
+            {t.home.aboutP1}
           </p>
-          <p className="text-base md:text-lg text-slate-600 leading-relaxed font-medium">Whether you are navigating mental health challenges like depression, anxiety, and ADHD, or
-            seeking relationship-building, empowerment, and conflict resolution, we are here to support
-            you every step of the way.</p>
+          <p className="text-base md:text-lg text-slate-600 leading-relaxed font-medium">{t.home.aboutP2}</p>
           <a
             href="/about"
             className="inline-flex items-center gap-2 px-6 py-3 md:px-8 md:py-4 bg-slate-900 text-white rounded-full font-bold text-sm md:text-base hover:bg-teal-600 transition-all group w-fit"
           >
-            EXPLORE MORE
+            {t.home.exploreMore}
             <ArrowUpRight size={20} className="transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
           </a>
         </motion.div>
@@ -353,42 +315,25 @@ export default function V2Home({ hotlinePhone, hotlineTel }: { hotlinePhone: str
       {/* PHILOSOPHY TEASER SECTION */}
       <section className="max-w-7xl mx-auto px-6 space-y-12 md:space-y-16">
         <div className="text-center space-y-4 max-w-3xl mx-auto">
-          <div className="text-teal-600 font-bold tracking-widest uppercase text-xs md:text-sm">Our Philosophy</div>
+          <div className="text-teal-600 font-bold tracking-widest uppercase text-xs md:text-sm">{t.home.philosophyEyebrow}</div>
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-slate-900 tracking-tight font-outfit">
-            The Bio-Psycho-Socio-Spiritual Framework
+            {t.home.philosophyHeading}
           </h2>
           <p className="text-slate-500 max-w-2xl mx-auto text-base md:text-lg">
-            We practice through an integrative lens that recognizes four essential dimensions of the human experience.
+            {t.home.philosophyIntro}
           </p>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {[
-            {
-              title: "Biological",
-              subtitle: "The Body / The Soma",
-              desc: "Nervous system regulation, somatic awareness, and breathwork to calm trauma and anxiety storage.",
-              icon: <Activity className="w-6 h-6 text-teal-600" />
-            },
-            {
-              title: "Psychological",
-              subtitle: "The Mind / The Psyche",
-              desc: "Evidence-based tools (CBT, DBT) and mindfulness to break negative thought patterns and build resilience.",
-              icon: <Brain className="w-6 h-6 text-teal-600" />
-            },
-            {
-              title: "Social",
-              subtitle: "The System / Relationships",
-              desc: "Restoring healthy boundaries, improving communication, and resolving family or marital conflicts.",
-              icon: <Network className="w-6 h-6 text-teal-600" />
-            },
-            {
-              title: "Spiritual",
-              subtitle: "The Essence / The Soul",
-              desc: "Existential exploration, values clarification, and honoring your unique cultural and linguistic heritage.",
-              icon: <Sparkles className="w-6 h-6 text-teal-600" />
-            }
-          ].map((item, i) => (
+          {t.home.pillars.map((pillar, i) => ({
+            ...pillar,
+            icon: [
+              <Activity key="bio" className="w-6 h-6 text-teal-600" />,
+              <Brain key="psych" className="w-6 h-6 text-teal-600" />,
+              <Network key="social" className="w-6 h-6 text-teal-600" />,
+              <Sparkles key="spirit" className="w-6 h-6 text-teal-600" />,
+            ][i],
+          })).map((item, i) => (
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -416,7 +361,7 @@ export default function V2Home({ hotlinePhone, hotlineTel }: { hotlinePhone: str
         <div className="flex justify-center pt-4">
           <Link href="/about#philosophy">
             <button className="inline-flex items-center gap-2 px-8 py-4 bg-slate-950 text-white rounded-full font-bold text-sm md:text-base hover:bg-teal-600 transition-all group shadow-lg">
-              EXPLORE OUR PHILOSOPHY
+              {t.home.explorePhilosophy}
               <ArrowUpRight size={20} className="transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
             </button>
           </Link>
@@ -426,9 +371,9 @@ export default function V2Home({ hotlinePhone, hotlineTel }: { hotlinePhone: str
       {/* SERVICES GRID */}
       <section className="max-w-7xl mx-auto px-6 space-y-12 md:space-y-16">
         <div className="text-center space-y-4">
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-slate-900 tracking-tight">Our Services</h2>
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-slate-900 tracking-tight">{t.home.servicesHeading}</h2>
           <p className="text-slate-500 max-w-xl mx-auto text-base md:text-lg">
-            Comprehensive healing and wellness services designed to support your unique journey of growth, recovery, and transformation.
+            {t.home.servicesIntro}
           </p>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
@@ -454,7 +399,8 @@ export default function V2Home({ hotlinePhone, hotlineTel }: { hotlinePhone: str
                     {service.icon}
                   </div>
                 </div>
-                <div className="space-y-3 md:space-y-4">
+                {/* Service content stays in English in every language. */}
+                <div lang="en" className="space-y-3 md:space-y-4">
                   <span className="text-teal-600 text-xs font-bold uppercase tracking-widest block transition-colors duration-300 group-hover:text-white/80">
                     {service.tagline}
                   </span>
@@ -466,7 +412,7 @@ export default function V2Home({ hotlinePhone, hotlineTel }: { hotlinePhone: str
                   </p>
                 </div>
                 <div className="text-teal-600 font-bold text-xs md:text-sm flex items-center gap-2 group/btn transition-colors duration-300 group-hover:text-white pt-2">
-                  LEARN MORE
+                  {t.home.learnMore}
                   <div className="w-8 h-8 rounded-full border border-teal-100 flex items-center justify-center transition-all duration-300 group-hover:border-white/40 group-hover:bg-white/10">
                     <ChevronRight size={16} className="transition-transform group-hover/btn:translate-x-1" />
                   </div>
@@ -480,9 +426,9 @@ export default function V2Home({ hotlinePhone, hotlineTel }: { hotlinePhone: str
       {/* WHY CHOOSE US */}
       <section className="max-w-7xl mx-auto px-6 space-y-12 md:space-y-16">
         <div className="text-center space-y-4">
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-slate-900 tracking-tight">Why Choose Us?</h2>
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-slate-900 tracking-tight">{t.home.whyHeading}</h2>
           <p className="text-slate-500 max-w-xl mx-auto text-base md:text-lg">
-            We believe in a holistic, integrative approach to mental wellness. When you choose our practice, you benefit from:
+            {t.home.whyIntro}
           </p>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
@@ -510,8 +456,8 @@ export default function V2Home({ hotlinePhone, hotlineTel }: { hotlinePhone: str
       {/* TESTIMONIALS CAROUSEL */}
       <section className="max-w-7xl mx-auto px-6 py-0">
         <div className="mb-6 md:mb-8 text-center">
-          <div className="text-teal-600 font-bold tracking-[0.2em] uppercase text-xs md:text-sm mb-4">Client Stories</div>
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-slate-900 tracking-tight">What Our Clients Say</h2>
+          <div className="text-teal-600 font-bold tracking-[0.2em] uppercase text-xs md:text-sm mb-4">{t.home.testimonialsEyebrow}</div>
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-slate-900 tracking-tight">{t.home.testimonialsHeading}</h2>
         </div>
 
         {/* Container with Mask for fading edges */}
@@ -526,9 +472,9 @@ export default function V2Home({ hotlinePhone, hotlineTel }: { hotlinePhone: str
                 <div>
                   <div className="flex items-center gap-3 mb-6">
                     <Quote className="text-teal-600 w-6 h-6 rotate-180" />
-                    <span className="text-slate-900 font-bold tracking-wide uppercase text-xs">Client Testimonial</span>
+                    <span className="text-slate-900 font-bold tracking-wide uppercase text-xs">{t.home.testimonialLabel}</span>
                   </div>
-                  <p className="text-slate-600 font-medium leading-relaxed text-sm md:text-base mb-8 italic">
+                  <p lang="en" className="text-slate-600 font-medium leading-relaxed text-sm md:text-base mb-8 italic">
                     &quot;{testimonial}&quot;
                   </p>
                 </div>
@@ -551,9 +497,9 @@ export default function V2Home({ hotlinePhone, hotlineTel }: { hotlinePhone: str
                 <div>
                   <div className="flex items-center gap-3 mb-6">
                     <Quote className="text-teal-600 w-6 h-6 rotate-180" />
-                    <span className="text-slate-900 font-bold tracking-wide uppercase text-xs">Client Testimonial</span>
+                    <span className="text-slate-900 font-bold tracking-wide uppercase text-xs">{t.home.testimonialLabel}</span>
                   </div>
-                  <p className="text-slate-600 font-medium leading-relaxed text-sm md:text-base mb-8 italic">
+                  <p lang="en" className="text-slate-600 font-medium leading-relaxed text-sm md:text-base mb-8 italic">
                     &quot;{testimonial}&quot;
                   </p>
                 </div>
@@ -574,9 +520,9 @@ export default function V2Home({ hotlinePhone, hotlineTel }: { hotlinePhone: str
           {/* Left Side: FAQs */}
           <div className="flex-1 w-full space-y-8 md:space-y-12">
             <div className="space-y-4 text-center lg:text-left">
-              <div className="text-teal-600 font-bold tracking-[0.2em] uppercase text-xs md:text-sm">Support</div>
-              <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-slate-900 tracking-tight">Frequently Asked Questions</h2>
-              <p className="text-slate-500 text-base md:text-lg lg:text-xl max-w-xl mx-auto lg:mx-0">Real support for real concerns. Find answers to common questions about our therapeutic process.</p>
+              <div className="text-teal-600 font-bold tracking-[0.2em] uppercase text-xs md:text-sm">{t.home.faqEyebrow}</div>
+              <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-slate-900 tracking-tight">{t.home.faqHeading}</h2>
+              <p className="text-slate-500 text-base md:text-lg lg:text-xl max-w-xl mx-auto lg:mx-0">{t.home.faqIntro}</p>
             </div>
 
             <div className="space-y-4">
@@ -629,7 +575,7 @@ export default function V2Home({ hotlinePhone, hotlineTel }: { hotlinePhone: str
               <div className="absolute inset-0 bg-gradient-to-t from-slate-900/40 to-transparent"></div>
               <div className="absolute bottom-10 left-10 right-10 p-8 bg-white/10 backdrop-blur-md rounded-2xl border border-white/20">
                 <p className="text-white font-medium italic text-lg leading-relaxed">
-                  &quot;The first step towards healing is understanding. We&apos;re here to guide you through every question.&quot;
+                  &quot;{t.home.faqQuote}&quot;
                 </p>
               </div>
             </div>
@@ -665,10 +611,10 @@ export default function V2Home({ hotlinePhone, hotlineTel }: { hotlinePhone: str
 
               <div className="space-y-4">
                 <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white tracking-tight leading-tight">
-                  Ready to begin your healing journey?
+                  {t.home.ctaHeading}
                 </h2>
                 <p className="text-teal-50 text-base md:text-lg lg:text-xl font-medium opacity-90 max-w-lg">
-                  Book your confidential consultation with our experienced therapist today.
+                  {t.home.ctaText}
                 </p>
               </div>
             </div>
@@ -676,7 +622,7 @@ export default function V2Home({ hotlinePhone, hotlineTel }: { hotlinePhone: str
             <div className="shrink-0 w-full lg:w-auto mt-4 lg:mt-0">
               <Link href="/book_appointment">
                 <button className="w-full lg:w-auto px-8 py-4 md:px-12 md:py-6 bg-slate-900 text-white rounded-full font-bold text-sm md:text-lg hover:bg-white hover:text-teal-600 transition-all shadow-xl hover:shadow-2xl flex items-center justify-center gap-3 group/btn">
-                  SCHEDULE CONSULTATION
+                  {t.home.ctaButton}
                   <ArrowUpRight size={20} className="md:w-6 md:h-6 transition-transform group-hover/btn:translate-x-1 group-hover/btn:-translate-y-1" />
                 </button>
               </Link>
