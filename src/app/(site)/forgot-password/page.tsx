@@ -4,11 +4,15 @@ import { useState } from "react";
 import Link from "next/link";
 import { authClient } from "@/lib/auth-client";
 import { AuthCard, FormMessage, authButton, authInput, authLabel } from "../components/AuthCard";
+import { useI18n } from "@/i18n/LanguageProvider";
+import { rich } from "@/i18n/format";
 
 export default function ForgotPasswordPage() {
   const [sentTo, setSentTo] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const { t: tr } = useI18n();
+  const t = tr.auth.forgot;
 
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -17,33 +21,38 @@ export default function ForgotPasswordPage() {
     setError("");
     const { error } = await authClient.requestPasswordReset({ email, redirectTo: "/reset-password" });
     setLoading(false);
-    if (error) return setError(error.message ?? "Something went wrong. Please try again.");
+    if (error) return setError(error.message ?? t.failed);
     setSentTo(email);
   }
 
   return (
-    <AuthCard title="Forgot your password?" subtitle="Enter your email and we'll send you a link to choose a new one.">
+    <AuthCard title={t.title} subtitle={t.subtitle}>
       {sentTo ? (
         <div className="space-y-6 text-center">
           {/* Same message whether or not the account exists, so the form can't be used to look up emails. */}
           <FormMessage tone="success">
-            If <strong>{sentTo}</strong> has an account, a reset link is on its way. It&apos;s valid for 1 hour.
+            {rich(t.sent, { email: <strong>{sentTo}</strong> })}
           </FormMessage>
-          <Link href="/login" className="inline-block font-bold text-teal-600 hover:underline text-sm">Back to sign in</Link>
+          <Link href="/login" className="inline-block font-bold text-teal-600 hover:underline text-sm">{t.backToSignIn}</Link>
         </div>
       ) : (
         <form onSubmit={onSubmit} className="space-y-5">
           {error && <FormMessage tone="error">{error}</FormMessage>}
           <div className="space-y-2">
-            <label htmlFor="email" className={authLabel}>Email</label>
+            <label htmlFor="email" className={authLabel}>{tr.auth.email}</label>
             <input id="email" name="email" type="email" autoComplete="email" required className={authInput} />
           </div>
           <button type="submit" disabled={loading} className={authButton}>
-            {loading ? "SENDING…" : "SEND RESET LINK"}
+            {loading ? t.sending : t.send}
           </button>
           <p className="text-center text-sm text-slate-500">
-            Remembered it?{" "}
-            <Link href="/login" className="font-bold text-teal-600 hover:underline">Sign in</Link>
+            {rich(t.remembered, {
+              link: (
+                <Link href="/login" className="font-bold text-teal-600 hover:underline">
+                  {tr.auth.signInLink}
+                </Link>
+              ),
+            })}
           </p>
         </form>
       )}

@@ -76,3 +76,22 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* Malayalam / Hindi on the public site (language switcher). English pages are untouched by these rules.
+   DM Sans stays first so English words (service names, numbers) look the same; Indic letters fall through to Noto. */
+.v2-redesign:lang(ml) {
+  font-family: var(--font-dm-sans), var(--font-noto-ml), sans-serif;
+}
+.v2-redesign:lang(hi) {
+  font-family: var(--font-dm-sans), var(--font-noto-hi), sans-serif;
+}
+/* Letter-spacing breaks joined letters in these scripts, and their tall glyphs need more line height.
+   Text marked lang="en" inside the page (service content) keeps its English styling. */
+.v2-redesign *:lang(ml),
+.v2-redesign *:lang(hi) {
+  letter-spacing: normal !important;
+}
+.v2-redesign :is(h1, h2, h3, h4):lang(ml),
+.v2-redesign :is(h1, h2, h3, h4):lang(hi) {
+  line-height: 1.35 !important;
+}

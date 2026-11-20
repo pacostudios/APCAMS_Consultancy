@@ -1,24 +1,14 @@
-"use client";
-
 import React from "react";
-import V2Navbar from "./components/Navbar";
-import V2Footer from "./components/Footer";
-import ScrollToTop from "./components/ScrollToTop";
-import { usePathname } from "next/navigation";
+import { LanguageProvider } from "@/i18n/LanguageProvider";
+import { getLang } from "@/i18n/server";
+import SiteShell from "./SiteShell";
 
-export default function V2Layout({ children }: { children: React.ReactNode }) {
-  const pathname = usePathname();
-  // Force solid navbar for service detail pages
-  const isServiceDetailPage = pathname.startsWith("/service/");
-
+// Reads the visitor's language cookie so pages are rendered in their language from the first paint.
+export default async function V2Layout({ children }: { children: React.ReactNode }) {
+  const lang = await getLang();
   return (
-    <div className="v2-redesign min-h-screen flex flex-col font-[family-name:var(--font-dm-sans)]">
-      <ScrollToTop />
-      <V2Navbar forceSolid={isServiceDetailPage} />
-      <main className="flex-grow">
-        {children}
-      </main>
-      <V2Footer />
-    </div>
+    <LanguageProvider initialLang={lang}>
+      <SiteShell>{children}</SiteShell>
+    </LanguageProvider>
   );
 }

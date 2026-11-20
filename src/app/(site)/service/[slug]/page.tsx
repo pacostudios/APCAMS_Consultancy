@@ -129,7 +129,7 @@ const serviceData: Record<string, ServiceDetailData> = {
     ]
   },
   "addiction-support": {
-    title: "Addiction Recovery Support",
+    title: "Addiction & Recovery Support",
     tagline: "Sustainable Path to Recovery",
     description: "Evidence-based treatment for substance abuse and behavioral addictions, focusing on reclaiming your agency and rebuilding your life.",
     image: SITE_ASSETS.SERVICE_DETAILS.addictionSupport.hero,
@@ -223,7 +223,7 @@ export default function ServiceDetail() {
 
   if (!data) {
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center p-6 text-center">
+      <div lang="en" className="min-h-screen flex flex-col items-center justify-center p-6 text-center">
         <h1 className="text-4xl font-bold mb-4">Service Not Found</h1>
         <button 
           onClick={() => router.push("/service")}
@@ -236,7 +236,8 @@ export default function ServiceDetail() {
   }
 
   return (
-    <div className="space-y-20 md:space-y-32 pb-32">
+    // Service content stays in English in every language.
+    <div lang="en" className="space-y-20 md:space-y-32 pb-32">
       {/* Hero Section - Solid Navbar adjustment */}
       <section className="relative min-h-[60vh] pt-28 md:pt-36 flex items-center bg-slate-900 overflow-hidden flex items-center justify-center">
         <div className="absolute inset-0 z-0">

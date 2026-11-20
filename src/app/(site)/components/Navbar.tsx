@@ -7,6 +7,8 @@ import { usePathname, useRouter } from "next/navigation";
 import { Menu, X, ChevronDown, Sparkles, Brain, Heart, Compass, Target, ShieldCheck } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 import { authClient } from "@/lib/auth-client";
+import { useI18n } from "@/i18n/LanguageProvider";
+import LanguageSwitcher from "./LanguageSwitcher";
 
 export default function V2Navbar({ forceSolid = false }: { forceSolid?: boolean }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -15,16 +17,19 @@ export default function V2Navbar({ forceSolid = false }: { forceSolid?: boolean 
   const [isServicesOpen, setIsServicesOpen] = useState(false);
   const pathname = usePathname();
   const { data: session, isPending: sessionLoading } = authClient.useSession();
+  const { t, lang } = useI18n();
+  // Malayalam and Hindi labels are wider: tighten the desktop bar between 1024px and 1280px so it still fits.
+  const linkText = lang === "en" ? "text-sm" : "text-xs xl:text-sm";
 
   // Signed-in admins go to the admin dashboard, customers to their account.
   const role = (session?.user as { role?: string } | undefined)?.role;
   const accountLink = !session
-    ? { name: "Login", href: "/login" }
+    ? { name: t.nav.login, href: "/login" }
     : role === "admin"
-      ? { name: "Dashboard", href: "/dashboard" }
+      ? { name: t.nav.dashboard, href: "/dashboard" }
       : role === "staff"
-        ? { name: "Staff Portal", href: "/staff" }
-        : { name: "My Account", href: "/account" };
+        ? { name: t.nav.staffPortal, href: "/staff" }
+        : { name: t.nav.myAccount, href: "/account" };
 
   const router = useRouter();
   const signOut = async () => {
@@ -43,8 +48,8 @@ export default function V2Navbar({ forceSolid = false }: { forceSolid?: boolean 
   }, []);
 
   const navLinks = [
-    { name: "Home", href: "/" },
-    { name: "About", href: "/about" },
+    { name: t.nav.home, href: "/" },
+    { name: t.nav.about, href: "/about" },
   ];
 
   const services = [
@@ -52,7 +57,7 @@ export default function V2Navbar({ forceSolid = false }: { forceSolid?: boolean 
     { name: "Counseling", href: "/service/counselling-services", icon: <Heart size={16} /> },
     { name: "Meditation", href: "/service/meditation-programs", icon: <Compass size={16} /> },
     { name: "Personal Growth", href: "/service/personal-growth", icon: <Target size={16} /> },
-    { name: "Addiction Recovery Support", href: "/service/addiction-support", icon: <ShieldCheck size={16} /> },
+    { name: "Addiction & Recovery Support", href: "/service/addiction-support", icon: <ShieldCheck size={16} /> },
     { name: "Healing & Transformation", href: "/service/healing-recovery", icon: <Sparkles size={16} /> },
   ];
 
@@ -93,18 +98,18 @@ export default function V2Navbar({ forceSolid = false }: { forceSolid?: boolean 
                AlcheMetanoia
             </span>
             <span className={`font-bold tracking-wide text-teal-700 lg:hidden xl:block transition-all duration-500 ${isSolid ? "text-[8px] md:text-[10px]" : "text-[7px] md:text-[8px]"}`}>
-              ALCHEMETANOIA PSYCHOTHERAPY, COUNSELLING AND MEDIATION SERVICES
+              {t.nav.tagline}
             </span>
           </div>
         </Link>
 
         {/* Desktop Links */}
-        <div className="hidden lg:flex items-center gap-5 xl:gap-8 whitespace-nowrap">
+        <div className={`hidden lg:flex items-center xl:gap-8 whitespace-nowrap ${lang === "en" ? "gap-5" : "gap-3"}`}>
           {navLinks.map((link) => (
             <Link
-              key={link.name}
+              key={link.href}
               href={link.href}
-              className={`text-sm font-semibold transition-colors hover:text-teal-600 ${
+              className={`${linkText} font-semibold transition-colors hover:text-teal-600 ${
                 isActive(link.href) ? "text-teal-600" : "text-slate-600"
               }`}
             >
@@ -119,11 +124,11 @@ export default function V2Navbar({ forceSolid = false }: { forceSolid?: boolean 
             onMouseLeave={() => setIsServicesOpen(false)}
           >
             <button
-              className={`text-sm font-semibold transition-colors hover:text-teal-600 flex items-center gap-1 uppercase ${
+              className={`${linkText} font-semibold transition-colors hover:text-teal-600 flex items-center gap-1 uppercase ${
                 pathname.startsWith("/service") ? "text-teal-600" : "text-slate-600"
               }`}
             >
-              Services
+              {t.nav.services}
               <ChevronDown size={14} className={`transition-transform duration-200 ${isServicesOpen ? "rotate-180" : ""}`} />
             </button>
 
@@ -134,7 +139,7 @@ export default function V2Navbar({ forceSolid = false }: { forceSolid?: boolean 
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: 10 }}
                   transition={{ duration: 0.2 }}
-                  className="absolute top-full left-0 mt-2 w-64 bg-white rounded-2xl shadow-xl border border-slate-100 overflow-hidden"
+                  className="absolute top-full left-0 mt-2 w-max min-w-64 bg-white rounded-2xl shadow-xl border border-slate-100 overflow-hidden"
                 >
                   <div className="p-2">
                     {services.map((service) => (
@@ -144,7 +149,7 @@ export default function V2Navbar({ forceSolid = false }: { forceSolid?: boolean 
                         className="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-teal-50 text-slate-600 hover:text-teal-700 transition-colors"
                         onClick={() => setIsServicesOpen(false)}
                       >
-                        <div className="text-teal-600">{service.icon}</div>
+                        <div className="text-teal-600 shrink-0">{service.icon}</div>
                         <span className="text-sm font-bold">{service.name}</span>
                       </Link>
                     ))}
@@ -154,7 +159,7 @@ export default function V2Navbar({ forceSolid = false }: { forceSolid?: boolean 
                         className="flex items-center justify-center px-4 py-2 text-xs font-bold text-teal-600 hover:bg-teal-50 rounded-lg transition-colors"
                         onClick={() => setIsServicesOpen(false)}
                       >
-                        VIEW ALL SERVICES
+                        {t.nav.viewAllServices.toUpperCase()}
                       </Link>
                     </div>
                   </div>
@@ -165,27 +170,30 @@ export default function V2Navbar({ forceSolid = false }: { forceSolid?: boolean 
 
           <Link
             href="/contact_us"
-            className={`text-sm font-semibold transition-colors hover:text-teal-600 ${
+            className={`${linkText} font-semibold transition-colors hover:text-teal-600 ${
               isActive("/contact_us") ? "text-teal-600" : "text-slate-600"
             }`}
           >
-            CONTACT US
+            {t.nav.contact.toUpperCase()}
           </Link>
 
           <Link
             href="/book_appointment"
             className={`bg-slate-900 text-white font-bold rounded-full hover:bg-teal-600 transition-all transform hover:scale-105 duration-500 whitespace-nowrap flex items-center justify-center ${
-              isSolid ? "px-6 py-2.5 text-sm" : "px-5 py-2 text-sm"
+              lang !== "en" ? "px-4 py-2 text-xs xl:px-6 xl:text-sm" : isSolid ? "px-6 py-2.5 text-sm" : "px-5 py-2 text-sm"
             }`}
           >
-            BOOK YOUR SESSION
+            {t.nav.bookSession.toUpperCase()}
           </Link>
         </div>
 
-        {/* Mobile Toggle */}
-        <button className="lg:hidden" onClick={() => setIsOpen(!isOpen)}>
-          {isOpen ? <X size={28} /> : <Menu size={28} />}
-        </button>
+        {/* Mobile: language + menu toggle */}
+        <div className="lg:hidden flex items-center gap-1">
+          <LanguageSwitcher />
+          <button onClick={() => setIsOpen(!isOpen)}>
+            {isOpen ? <X size={28} /> : <Menu size={28} />}
+          </button>
+        </div>
       </div>
 
         {/* Account island: Login, or My Account + Sign out */}
@@ -194,6 +202,7 @@ export default function V2Navbar({ forceSolid = false }: { forceSolid?: boolean 
             isSolid ? "" : `${islandClass} rounded-full py-2 px-6 xl:px-8`
           }`}
         >
+          <LanguageSwitcher className="mr-3 xl:mr-4" />
           <div className={`flex items-center gap-5 xl:gap-6 transition-opacity ${sessionLoading ? "opacity-0" : "opacity-100"}`}>
             <Link
               href={accountLink.href}
@@ -206,7 +215,7 @@ export default function V2Navbar({ forceSolid = false }: { forceSolid?: boolean 
             </Link>
             {session && (
               <button type="button" onClick={signOut} className="text-sm font-semibold text-slate-600 hover:text-teal-600 transition-colors uppercase">
-                Sign out
+                {t.nav.signOut}
               </button>
             )}
           </div>
@@ -224,7 +233,7 @@ export default function V2Navbar({ forceSolid = false }: { forceSolid?: boolean 
             <div className="p-6 flex flex-col space-y-4">
               {navLinks.map((link) => (
                 <Link
-                  key={link.name}
+                  key={link.href}
                   href={link.href}
                   className={`text-lg font-bold ${
                     isActive(link.href) ? "text-teal-600" : "text-slate-900"
@@ -240,7 +249,7 @@ export default function V2Navbar({ forceSolid = false }: { forceSolid?: boolean 
                   onClick={() => setIsMobileServicesOpen(!isMobileServicesOpen)}
                   className="w-full flex items-center justify-between text-lg font-bold text-slate-900"
                 >
-                  Services
+                  {t.nav.services}
                   <ChevronDown size={20} className={`transition-transform duration-300 ${isMobileServicesOpen ? "rotate-180" : ""}`} />
                 </button>
                 
@@ -260,7 +269,7 @@ export default function V2Navbar({ forceSolid = false }: { forceSolid?: boolean 
                             className="flex items-center gap-3 py-3 text-slate-600 font-bold text-sm hover:text-teal-600 transition-colors"
                             onClick={() => setIsOpen(false)}
                           >
-                            <div className="text-teal-600">{service.icon}</div>
+                            <div className="text-teal-600 shrink-0">{service.icon}</div>
                             {service.name}
                           </Link>
                         ))}
@@ -269,7 +278,7 @@ export default function V2Navbar({ forceSolid = false }: { forceSolid?: boolean 
                           className="py-3 text-teal-600 font-bold text-xs uppercase tracking-widest pl-7"
                           onClick={() => setIsOpen(false)}
                         >
-                          View All Services
+                          {t.nav.viewAllServices}
                         </Link>
                       </div>
                     </motion.div>
@@ -284,7 +293,7 @@ export default function V2Navbar({ forceSolid = false }: { forceSolid?: boolean 
                 }`}
                 onClick={() => setIsOpen(false)}
               >
-                Contact Us
+                {t.nav.contact}
               </Link>
 
               {!sessionLoading && (
@@ -301,7 +310,7 @@ export default function V2Navbar({ forceSolid = false }: { forceSolid?: boolean 
 
               {session && (
                 <button type="button" onClick={signOut} className="text-left text-lg font-bold text-slate-900 hover:text-teal-600">
-                  Sign out
+                  {t.nav.signOut}
                 </button>
               )}
 
@@ -310,7 +319,7 @@ export default function V2Navbar({ forceSolid = false }: { forceSolid?: boolean 
                 className="w-full py-4 bg-teal-600 text-white text-center font-bold rounded-xl"
                 onClick={() => setIsOpen(false)}
               >
-                Book Appointment
+                {t.nav.bookAppointment}
               </Link>
             </div>
           </motion.div>

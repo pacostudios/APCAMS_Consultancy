@@ -23,86 +23,34 @@ import {
   RefreshCcw
 } from "lucide-react";
 import { SITE_ASSETS } from "@/lib/site-assets";
+import { useI18n } from "@/i18n/LanguageProvider";
+import { rich } from "@/i18n/format";
 
 export default function V2About() {
+  const { t } = useI18n();
+  // "Alchemy" and "Metanoia" are the source words of the name, so they stay as they are.
   const etymology = [
-    {
-      title: "Alchemy",
-      subtitle: "The Clinical Process",
-      desc: "In the psychological tradition, alchemy represents the intentional, highly structured process of taking life's heaviest, most disorienting emotional burdens—trauma, grief, and fragmentation—and working through them within a safe, therapeutic container to forge resilience, self-mastery, and psychological integration.",
-      icon: <FlaskConical className="w-7 h-7 text-teal-600" />
-    },
-    {
-      title: "Metanoia",
-      subtitle: "The Holistic Transformation",
-      desc: "It represents a radical turning-around, a change of heart, and a reorientation of one's entire life towards the truth. A profound and fundamental turning point of the mind and heart. Rooted in both classical philosophy and modern depth psychology, it signifies the moment where rigid cognitive patterns dissolve, making space for a renewed worldview, authentic self-discovery, and deep psychospiritual alignment.",
-      icon: <RefreshCcw className="w-7 h-7 text-teal-600" />
-    }
+    { title: "Alchemy", subtitle: t.about.alchemySubtitle, desc: t.about.alchemyDesc, icon: <FlaskConical className="w-7 h-7 text-teal-600" /> },
+    { title: "Metanoia", subtitle: t.about.metanoiaSubtitle, desc: t.about.metanoiaDesc, icon: <RefreshCcw className="w-7 h-7 text-teal-600" /> },
   ];
 
-  const frameworkPillars = [
-    {
-      number: "1",
-      title: "Biological",
-      clinical: "Somatic regulation, nervous system mapping, and the physiological processing of stress and trauma.",
-      resonance: "Honouring the body as the physical vessel of lived experience and meaning making.",
-      icon: <Activity className="w-7 h-7 text-teal-600" />
-    },
-    {
-      number: "2",
-      title: "Psychological",
-      clinical: "Evidence-based methodologies including Cognitive Behavioural Therapy (CBT), Acceptance and Commitment Therapy (ACT), and psychodynamic exploration.",
-      resonance: "Re-authoring internal narratives and cultivating deep cognitive flexibility and self-compassion.",
-      icon: <Brain className="w-7 h-7 text-teal-600" />
-    },
-    {
-      number: "3",
-      title: "Social",
-      clinical: "Interpersonal effectiveness, systemic family dynamics, and healthy relational boundary-setting.",
-      resonance: "Fostering authentic community, empathetic connection, and peaceful dispute resolution.",
-      icon: <Network className="w-7 h-7 text-teal-600" />
-    },
-    {
-      number: "4",
-      title: "Spiritual",
-      clinical: "Existential psychology, meaning-making, and values clarification.",
-      resonance: "Respecting individual worldview, transcendent purpose, and deeply held personal beliefs.",
-      icon: <Sparkles className="w-7 h-7 text-teal-600" />
-    }
+  const pillarIcons = [
+    <Activity key="bio" className="w-7 h-7 text-teal-600" />,
+    <Brain key="psych" className="w-7 h-7 text-teal-600" />,
+    <Network key="social" className="w-7 h-7 text-teal-600" />,
+    <Sparkles key="spirit" className="w-7 h-7 text-teal-600" />,
   ];
+  const frameworkPillars = t.about.pillars.map((pillar, i) => ({ ...pillar, number: String(i + 1), icon: pillarIcons[i] }));
 
-  const values = [
-    {
-      label: "Curious Compassion",
-      desc: "Approaching every individual's unique story with deep empathy and an open, non-judgmental desire to understand.",
-      icon: <HeartHandshake className="w-8 h-8 text-teal-700" />
-    },
-    {
-      label: "Commitment & Dedication",
-      desc: "Showing unwavering support and presence throughout your entire journey of healing and transformation.",
-      icon: <Lightbulb className="w-8 h-8 text-teal-700" />
-    },
-    {
-      label: "Authenticity in Everything",
-      desc: "Fostering an environment built on genuine connection, honesty, and transparent care.",
-      icon: <Sparkles className="w-8 h-8 text-teal-700" />
-    },
-    {
-      label: "Driving for Excellence",
-      desc: "Combining evidence-based therapeutic science with high-quality holistic practices to deliver the best possible care.",
-      icon: <Star className="w-8 h-8 text-teal-700" />
-    },
-    {
-      label: "Unconditional Positive Regard",
-      desc: "Providing complete acceptance and support, ensuring you always feel safe, respected, and valued exactly as you are.",
-      icon: <Users className="w-8 h-8 text-teal-700" />
-    },
-    {
-      label: "Unconditional Love",
-      desc: "The ultimate foundation of our practice, bringing deep compassion and warmth to the healing process.",
-      icon: <Award className="w-8 h-8 text-teal-700" />
-    },
+  const valueIcons = [
+    <HeartHandshake key="compassion" className="w-8 h-8 text-teal-700" />,
+    <Lightbulb key="commitment" className="w-8 h-8 text-teal-700" />,
+    <Sparkles key="authenticity" className="w-8 h-8 text-teal-700" />,
+    <Star key="excellence" className="w-8 h-8 text-teal-700" />,
+    <Users key="regard" className="w-8 h-8 text-teal-700" />,
+    <Award key="love" className="w-8 h-8 text-teal-700" />,
   ];
+  const values = t.about.values.map((value, i) => ({ ...value, icon: valueIcons[i] }));
 
   return (
     <div className="space-y-24 md:space-y-32 pb-32 pt-28 md:pt-36">
@@ -117,23 +65,23 @@ export default function V2About() {
         >
           <div className="inline-flex items-center gap-2 px-4 py-2 bg-teal-50 text-teal-700 rounded-full text-xs font-bold tracking-wide">
             <Leaf size={16} />
-            ABOUT US
+            {t.about.badge}
           </div>
           <div className="space-y-3">
             <h1 className="text-4xl md:text-6xl font-bold tracking-tight text-slate-900 leading-tight">
               Alchemetanoia
             </h1>
             <p className="text-base md:text-lg font-bold text-teal-700 leading-snug">
-              Alchemy Psychotherapy, Counselling, and Mediation Services
+              {t.about.tagline}
             </p>
           </div>
           <p className="text-lg text-slate-500 leading-relaxed font-medium">
-            Welcome to Alchemetanoia, where rigorous, evidence-based clinical science converges with the sacred, transformative art of human healing. Grounded in that philosophy, our practice is built upon a foundational premise: that true, lasting psychological health requires both the precision of modern science and the profound, existential awakening of the human spirit.
+            {t.about.intro}
           </p>
           <div className="pt-4">
             <Link href="/service">
               <button className="inline-flex px-8 py-4 bg-teal-600 text-white rounded-full font-bold text-sm hover:bg-slate-900 transition-all items-center gap-2 group shadow-lg shadow-teal-100">
-                EXPLORE OUR SERVICES
+                {t.about.exploreServices}
                 <ArrowUpRight size={18} className="transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
               </button>
             </Link>
@@ -165,9 +113,9 @@ export default function V2About() {
       <section id="philosophy" className="max-w-7xl mx-auto px-6 space-y-20 md:space-y-28">
         {/* Header Block */}
         <div className="text-center space-y-6 max-w-3xl mx-auto">
-          <div className="text-teal-600 font-bold tracking-widest uppercase text-xs md:text-sm">Our Philosophy</div>
+          <div className="text-teal-600 font-bold tracking-widest uppercase text-xs md:text-sm">{t.about.philosophyEyebrow}</div>
           <h2 className="text-3xl md:text-5xl font-bold text-slate-900 tracking-tight leading-tight font-outfit">
-            The Etymology of Transformation: Alchemy &amp; Metanoia
+            {t.about.philosophyHeading}
           </h2>
           <div className="flex items-center justify-center gap-4 text-teal-200">
             <div className="h-px w-12 bg-slate-200"></div>
@@ -175,7 +123,7 @@ export default function V2About() {
             <div className="h-px w-12 bg-slate-200"></div>
           </div>
           <p className="text-base md:text-lg text-slate-600 leading-relaxed font-medium">
-            The name Alchemetanoia bridges ancient philosophical tradition with contemporary psychological evolution:
+            {t.about.philosophyIntro}
           </p>
         </div>
 
@@ -207,10 +155,10 @@ export default function V2About() {
 
           <div className="max-w-4xl mx-auto text-center space-y-4">
             <p className="text-base md:text-lg text-slate-600 leading-relaxed font-medium">
-              Together, <span className="font-bold text-slate-900">Alchemetanoia</span> captures the exact arc of healing: a psychologically and spiritually informed, soulful journey from suffering to profound personal renewal. It is capturing the essence of existential, Jungian, and transpersonal psychotherapies to describe a deep psychological breakdown and subsequent breakthrough.
+              {rich(t.about.together, { name: <span className="font-bold text-slate-900">Alchemetanoia</span> })}
             </p>
             <p className="text-lg md:text-xl font-serif italic text-teal-700 leading-relaxed">
-              It marks a moment when an old, false identity shatters so a healthier, more integrated self can emerge.
+              {t.about.togetherQuote}
             </p>
           </div>
         </div>
@@ -218,10 +166,10 @@ export default function V2About() {
         {/* The Bio-Psycho-Socio-Spiritual Framework */}
         <div className="space-y-12">
           <div className="text-center space-y-4 max-w-3xl mx-auto">
-            <div className="text-teal-600 font-bold tracking-widest uppercase text-xs md:text-sm">Our Theoretical Foundation</div>
-            <h3 className="text-2xl md:text-3xl font-bold text-slate-900 font-outfit">The Bio-Psycho-Socio-Spiritual Framework</h3>
+            <div className="text-teal-600 font-bold tracking-widest uppercase text-xs md:text-sm">{t.about.foundationEyebrow}</div>
+            <h3 className="text-2xl md:text-3xl font-bold text-slate-900 font-outfit">{t.about.foundationHeading}</h3>
             <p className="text-slate-600 text-sm md:text-base leading-relaxed font-medium">
-              We reject rigid, one-size-fits-all modalities. Instead, our clinical work is anchored in a comprehensive, multidimensional framework that honours the whole person with all of their strength and vulnerabilities:
+              {t.about.foundationIntro}
             </p>
           </div>
 
@@ -244,11 +192,11 @@ export default function V2About() {
                     <h4 className="font-bold text-slate-950 text-xl leading-tight font-outfit">{pillar.title}</h4>
                   </div>
                   <div className="space-y-1">
-                    <span className="text-[11px] font-bold text-slate-400 uppercase tracking-widest">Scientific &amp; Clinical Focus</span>
+                    <span className="text-[11px] font-bold text-slate-400 uppercase tracking-widest">{t.about.clinicalFocus}</span>
                     <p className="text-sm md:text-base text-slate-600 leading-relaxed font-medium">{pillar.clinical}</p>
                   </div>
                   <div className="space-y-1">
-                    <span className="text-[11px] font-bold text-slate-400 uppercase tracking-widest">Existential &amp; Spiritual Resonance</span>
+                    <span className="text-[11px] font-bold text-slate-400 uppercase tracking-widest">{t.about.spiritualResonance}</span>
                     <p className="text-sm md:text-base text-slate-600 leading-relaxed font-medium">{pillar.resonance}</p>
                   </div>
                 </div>
@@ -270,24 +218,24 @@ export default function V2About() {
           
           <div className="relative z-10 grid grid-cols-1 lg:grid-cols-5 gap-10 items-center">
             <div className="lg:col-span-3 space-y-4">
-              <span className="text-teal-100 font-bold uppercase tracking-widest text-xs">Why Choose Alchemetanoia?</span>
+              <span className="text-teal-100 font-bold uppercase tracking-widest text-xs">{t.about.whyEyebrow}</span>
               <p className="text-xl md:text-2xl font-serif italic text-teal-50 leading-relaxed">
-                &quot;We do not merely manage symptoms; we facilitate deep, lasting change.&quot;
+                &quot;{t.about.whyQuote}&quot;
               </p>
               <p className="text-sm md:text-base text-teal-50 leading-relaxed opacity-95">
-                Whether you are navigating clinical mental health challenges such as anxiety, depression, or ADHD, repairing complex relational fractures within the marriage or relationship, or seeking compassionate mediation to resolve disputes outside the courtroom, our practice provides a confidential, highly professional sanctuary.
+                {t.about.whyText}
               </p>
             </div>
 
             <div className="lg:col-span-2 bg-white/10 backdrop-blur-md rounded-2xl p-6 md:p-8 border border-white/20 space-y-4">
-              <h4 className="font-bold text-lg text-white font-outfit">Clarity, Purpose &amp; Integration</h4>
+              <h4 className="font-bold text-lg text-white font-outfit">{t.about.whyBoxTitle}</h4>
               <p className="text-xs md:text-sm text-teal-50 leading-relaxed opacity-90">
-                By blending empirical psychological rigor with a compassionate reverence for your individual human story, we walk beside you as you reclaim your agency, restore your inner equilibrium, and step forward into a life of clarity, purpose, and integration.
+                {t.about.whyBoxText}
               </p>
               <div className="pt-2">
                 <Link href="/book_appointment">
                   <button className="w-full py-3 bg-white text-teal-700 rounded-full font-bold text-xs md:text-sm hover:bg-slate-900 hover:text-white transition-all flex items-center justify-center gap-2 group/btn">
-                    BEGIN YOUR JOURNEY FORWARD
+                    {t.about.beginJourney}
                     <ArrowUpRight size={16} className="transition-transform group-hover/btn:translate-x-1 group-hover/btn:-translate-y-1" />
                   </button>
                 </Link>
@@ -311,7 +259,7 @@ export default function V2About() {
           
           <div className="relative z-10 space-y-12">
             <div className="text-center space-y-4">
-              <h2 className="text-3xl md:text-4xl font-bold text-slate-900 tracking-tight">Our Core Values</h2>
+              <h2 className="text-3xl md:text-4xl font-bold text-slate-900 tracking-tight">{t.about.valuesHeading}</h2>
               <div className="flex items-center justify-center gap-4 text-teal-200">
                 <div className="h-px w-8 bg-slate-200"></div>
                 <Leaf size={16} className="text-teal-600" />
@@ -351,10 +299,10 @@ export default function V2About() {
           {/* Founder Bio */}
           <div className="flex-1 space-y-8 relative z-10">
             <div className="space-y-2">
-              <div className="text-teal-600 font-bold tracking-widest uppercase text-xs">Meet Our Founder</div>
+              <div className="text-teal-600 font-bold tracking-widest uppercase text-xs">{t.about.founderEyebrow}</div>
               <h2 className="text-3xl md:text-5xl font-bold text-slate-900 tracking-tight">Chacko (James) Vadayil Varkey</h2>
-              <p className="text-xl text-slate-500 font-medium">Clinical Psychotherapist & Accredited FDRP</p>
-              <p className="text-sm text-slate-400 font-medium leading-relaxed">
+              <p className="text-xl text-slate-500 font-medium">{t.about.founderRole}</p>
+              <p lang="en" className="text-sm text-slate-400 font-medium leading-relaxed">
                 B.Ph. &middot; B.A (English) &middot; LL.B &middot; Cert CPE &middot; Master of Criminal Justice (MCJ) &middot; M.A (Theology) &middot; Master of Psychotherapy &amp; Counselling &middot; Grad Dip. in Family Law (FDRP)
               </p>
             </div>
@@ -363,10 +311,10 @@ export default function V2About() {
 
             <div className="space-y-4 text-slate-600 leading-relaxed">
               <p>
-                Chacko is a clinical psychotherapist credentialed with PACFA and an Accredited Family Dispute Resolution Practitioner. His multi-disciplinary background spans theology, criminology, psychology, and family law.
+                {t.about.founderBio1}
               </p>
               <p>
-                He specializes in working with individuals, families, and couples from diverse cultural and linguistic backgrounds. His spiritually integrative approach focuses on creating a safe, non-judgmental environment to navigate trauma, anxiety, and complex relationships.
+                {t.about.founderBio2}
               </p>
             </div>
 
@@ -375,19 +323,19 @@ export default function V2About() {
                 <div className="bg-slate-50 p-3 rounded-xl">
                   <GraduationCap className="w-6 h-6 text-teal-600" />
                 </div>
-                <span className="text-sm font-bold text-slate-800">Clinical<br/>Psychotherapist</span>
+                <span className="text-sm font-bold text-slate-800">{t.about.founderBadges[0][0]}<br/>{t.about.founderBadges[0][1]}</span>
               </div>
               <div className="flex flex-col items-start md:items-center text-left md:text-center space-y-2">
                 <div className="bg-slate-50 p-3 rounded-xl">
                   <Award className="w-6 h-6 text-teal-600" />
                 </div>
-                <span className="text-sm font-bold text-slate-800">12+ Years<br/>Experience</span>
+                <span className="text-sm font-bold text-slate-800">{t.about.founderBadges[1][0]}<br/>{t.about.founderBadges[1][1]}</span>
               </div>
               <div className="flex flex-col items-start md:items-center text-left md:text-center space-y-2">
                 <div className="bg-slate-50 p-3 rounded-xl">
                   <Users className="w-6 h-6 text-teal-600" />
                 </div>
-                <span className="text-sm font-bold text-slate-800">Family<br/>Mediation</span>
+                <span className="text-sm font-bold text-slate-800">{t.about.founderBadges[2][0]}<br/>{t.about.founderBadges[2][1]}</span>
               </div>
             </div>
           </div>
@@ -399,9 +347,9 @@ export default function V2About() {
           <div className="bg-white border border-slate-100 rounded-[2rem] p-8 md:p-10 shadow-lg shadow-slate-100/30 flex flex-col space-y-6">
             <h3 className="text-lg md:text-xl font-bold text-slate-900 flex items-center gap-3 border-b border-slate-50 pb-4 font-outfit">
               <GraduationCap className="text-teal-600 w-5 h-5 shrink-0" />
-              Credentials & Education
+              {t.about.credentialsHeading}
             </h3>
-            <ul className="space-y-3.5 flex-grow">
+            <ul lang="en" className="space-y-3.5 flex-grow">
               {[
                 "Master of Psychotherapy & Counselling",
                 "Grad Dip. in Family Law (Family Dispute Resolution Practitioner - FDRP)",
@@ -424,25 +372,25 @@ export default function V2About() {
           <div className="bg-white border border-slate-100 rounded-[2rem] p-8 md:p-10 shadow-lg shadow-slate-100/30 flex flex-col space-y-6">
             <h3 className="text-lg md:text-xl font-bold text-slate-900 flex items-center gap-3 border-b border-slate-50 pb-4 font-outfit">
               <Award className="text-teal-600 w-5 h-5 shrink-0" />
-              Professional Accreditations
+              {t.about.accreditationsHeading}
             </h3>
             <div className="space-y-6 flex-grow">
               <div className="space-y-2">
                 <h4 className="font-bold text-slate-950 text-sm md:text-base flex items-center gap-2 font-outfit">
                   <div className="w-1.5 h-1.5 rounded-full bg-teal-500"></div>
-                  Clinical Psychotherapist
+                  {t.about.accreditations[0].title}
                 </h4>
                 <p className="text-xs md:text-sm text-slate-500 leading-relaxed pl-3.5 font-medium">
-                  Credentialed with the Psychotherapy and Counselling Federation of Australia (PACFA).
+                  {t.about.accreditations[0].desc}
                 </p>
               </div>
               <div className="space-y-2">
                 <h4 className="font-bold text-slate-950 text-sm md:text-base flex items-center gap-2 font-outfit">
                   <div className="w-1.5 h-1.5 rounded-full bg-teal-500"></div>
-                  Accredited FDRP
+                  {t.about.accreditations[1].title}
                 </h4>
                 <p className="text-xs md:text-sm text-slate-500 leading-relaxed pl-3.5 font-medium">
-                  Certified Family Dispute Resolution Practitioner, qualified to provide family mediation and dispute resolution services.
+                  {t.about.accreditations[1].desc}
                 </p>
               </div>
             </div>
@@ -452,15 +400,10 @@ export default function V2About() {
           <div className="bg-white border border-slate-100 rounded-[2rem] p-8 md:p-10 shadow-lg shadow-slate-100/30 flex flex-col space-y-6">
             <h3 className="text-lg md:text-xl font-bold text-slate-900 flex items-center gap-3 border-b border-slate-50 pb-4 font-outfit">
               <Sparkles className="text-teal-600 w-5 h-5 shrink-0" />
-              Specialization & Approach
+              {t.about.specializationHeading}
             </h3>
             <div className="grid grid-cols-1 gap-5 flex-grow">
-              {[
-                { title: "Diverse Clientele", desc: "Specializes in working with individuals, couples, and families from a wide range of cultural, spiritual, and linguistic backgrounds." },
-                { title: "Spiritually Integrative Care", desc: "Blends psychological frameworks with a spiritually inclusive perspective to support holistic healing." },
-                { title: "Clinical Focus", desc: "Focuses on guiding clients through trauma, anxiety, and complex interpersonal or familial relationship dynamics." },
-                { title: "Therapeutic Environment", desc: "Emphasizes building a safe, unbiased, and deeply respectful space for authentic healing." }
-              ].map((spec, i) => (
+              {t.about.specializations.map((spec, i) => (
                 <div key={i} className="space-y-1">
                   <h4 className="font-bold text-slate-950 text-xs md:text-sm flex items-center gap-2 font-outfit">
                     <div className="w-1.5 h-1.5 rounded-full bg-teal-500"></div>
