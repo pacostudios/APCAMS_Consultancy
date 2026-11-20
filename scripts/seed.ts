@@ -21,7 +21,7 @@ const SERVICES = [
   { slug: "counselling-services", name: "Counselling Services", summary: "Supportive one-on-one counselling.", priceCents: 15000, durationMins: 60 },
   { slug: "meditation-programs", name: "Meditation Programs", summary: "Guided meditation and mindfulness.", priceCents: 9000, durationMins: 60 },
   { slug: "personal-growth", name: "Personal Growth", summary: "Coaching for purpose and direction.", priceCents: 14000, durationMins: 60 },
-  { slug: "addiction-support", name: "Addiction Recovery Support", summary: "Structured recovery support.", priceCents: 16000, durationMins: 60 },
+  { slug: "addiction-support", name: "Addiction & Recovery Support", summary: "Structured recovery support.", priceCents: 16000, durationMins: 60 },
   { slug: "healing-recovery", name: "Healing & Recovery", summary: "Trauma-informed healing work.", priceCents: 16000, durationMins: 60 },
   { slug: "mediation", name: "Mediation & Family Dispute Resolution", summary: "Family dispute resolution and mediation.", priceCents: 25000, durationMins: 90 },
   { slug: "residential-couples-therapy", name: "Residential Couples Therapy", summary: "Intensive therapy for couples.", priceCents: 30000, durationMins: 120 },

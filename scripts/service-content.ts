@@ -62,7 +62,7 @@ export const SERVICE_CONTENT: Record<string, ServiceContent> = {
     title: "Meditation Programs",
     tagline: "Mindful Resilience & Inner Peace",
     description: "Cultivate presence and reduce stress through guided mindfulness training, breathwork, and transformative wellness retreats.",
-    image: "/mediation.webp",
+    image: "/meditation.webp",
     imageAlt: "Meditation Practice",
     icon: "Compass",
     dimensions: [
@@ -103,7 +103,7 @@ export const SERVICE_CONTENT: Record<string, ServiceContent> = {
     ]
   },
   "addiction-support": {
-    title: "Addiction Recovery Support",
+    title: "Addiction & Recovery Support",
     tagline: "Sustainable Path to Recovery",
     description: "Evidence-based treatment for substance abuse and behavioral addictions, focusing on reclaiming your agency and rebuilding your life.",
     image: "https://images.unsplash.com/photo-1515377905703-c4788e51af15?auto=format&fit=crop&q=80&w=1200",

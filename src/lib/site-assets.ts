@@ -98,7 +98,7 @@ export const SITE_ASSETS = {
       alt: "Compassionate Counseling"
     },
     meditationPrograms: {
-      hero: "/mediation.webp",
+      hero: "/meditation.webp",
       alt: "Meditation Practice"
     },
     personalGrowth: {
