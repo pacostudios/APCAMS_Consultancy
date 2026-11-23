@@ -95,3 +95,8 @@
 .v2-redesign :is(h1, h2, h3, h4):lang(hi) {
   line-height: 1.35 !important;
 }
+/* Long Malayalam and Hindi words wrap instead of spilling out of narrow columns. */
+.v2-redesign :is(main, footer):lang(ml),
+.v2-redesign :is(main, footer):lang(hi) {
+  overflow-wrap: break-word;
+}
