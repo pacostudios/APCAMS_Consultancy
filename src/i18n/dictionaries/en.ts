@@ -40,9 +40,9 @@ export const en = {
   },
 
   home: {
-    heroTitle: "“Transforming Lives Through Integrated and Holistic Healing Services”",
+    heroTitle: "“Integrated Psychotherapy, Counselling & Holistic Healing”",
     heroText:
-      "Discover your path to healing and growth through personalized therapy, mindful counseling, and transformative meditation practices.",
+      "Restoring balance across mind, body, relationship, and spirit through evidence-based therapy, systemic counselling, and transformative mindfulness.",
     bookSession: "BOOK YOUR SESSION",
     aboutEyebrow: "About Alchemetanoia",
     aboutHeading: "Find Your Path to Healing, Wholeness, and Transformation",
@@ -133,9 +133,9 @@ export const en = {
 
   about: {
     badge: "ABOUT US",
-    tagline: "Alchemy Psychotherapy, Counselling, and Mediation Services",
+    tagline: "AlcheMetanoia Psychotherapy, Counselling, and Mediation Services",
     intro:
-      "Welcome to Alchemetanoia, where rigorous, evidence-based clinical science converges with the sacred, transformative art of human healing. Grounded in that philosophy, our practice is built upon a foundational premise: that true, lasting psychological health requires both the precision of modern science and the profound, existential awakening of the human spirit.",
+      "Welcome to AlcheMetanoia, where rigorous, evidence-based clinical science converges with the transformative art of human healing.\nOur practice is built on a foundational principle: true, lasting psychological well-being requires both the precision of modern clinical science and the profound, existential awakening of the human spirit and wisdom.",
     exploreServices: "EXPLORE OUR SERVICES",
     philosophyEyebrow: "Our Philosophy",
     philosophyHeading: "The Etymology of Transformation: Alchemy & Metanoia",
