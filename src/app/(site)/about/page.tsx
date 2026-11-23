@@ -53,7 +53,7 @@ export default function V2About() {
   const values = t.about.values.map((value, i) => ({ ...value, icon: valueIcons[i] }));
 
   return (
-    <div className="space-y-24 md:space-y-32 pb-32 pt-28 md:pt-36">
+    <div className="space-y-24 md:space-y-32 pb-32 pt-28 md:pt-36 overflow-x-clip">
       
       {/* 1. HERO / ABOUT INTRO */}
       <section className="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">

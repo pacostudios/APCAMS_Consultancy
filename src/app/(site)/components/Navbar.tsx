@@ -7,8 +7,57 @@ import { usePathname, useRouter } from "next/navigation";
 import { Menu, X, ChevronDown, Sparkles, Brain, Heart, Compass, Target, ShieldCheck } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 import { authClient } from "@/lib/auth-client";
+import type { Lang } from "@/i18n/config";
 import { useI18n } from "@/i18n/LanguageProvider";
 import LanguageSwitcher from "./LanguageSwitcher";
+
+/** Desktop navbar sizing, so the logo, links and account area never overlap. */
+function navFit(lang: Lang, signedIn: boolean, solid: boolean) {
+  const base = { desktop: "hidden lg:flex", mobile: "lg:hidden", accountGap: "gap-5 xl:gap-6", accountText: "text-sm", islandPad: "px-6 xl:px-8" };
+  const floatingTag = "text-[7px] md:text-[8px] lg:hidden xl:block";
+  const solidTag = "text-[8px] md:text-[10px] lg:hidden xl:block";
+  const tight = { accountGap: "gap-3 xl:gap-4", accountText: "text-xs xl:text-sm", islandPad: "px-5" };
+
+  if (lang === "ml" && signedIn)
+    return {
+      ...base,
+      ...tight,
+      accountText: solid ? "text-xs 2xl:text-sm" : "text-xs",
+      // Doesn't fit between 1024px and 1280px: use the menu button there instead.
+      desktop: "hidden xl:flex",
+      mobile: "xl:hidden",
+      link: solid ? "text-xs 2xl:text-sm" : "text-xs",
+      gap: solid ? "gap-4 2xl:gap-6" : "gap-4",
+      button: solid ? "px-4 py-2 text-xs 2xl:px-6 2xl:text-sm" : "px-4 py-2 text-xs",
+      tagline: solid ? "text-[8px] md:text-[10px] xl:hidden 2xl:block" : "text-[7px] md:text-[8px] xl:hidden",
+    };
+  if (lang === "ml")
+    return {
+      ...base,
+      link: "text-xs xl:text-sm",
+      gap: solid ? "gap-3 xl:gap-5 2xl:gap-8" : "gap-3 xl:gap-5",
+      button: "px-4 py-2 text-xs xl:px-5 xl:text-sm",
+      tagline: solid ? solidTag : floatingTag,
+    };
+  if (lang === "hi")
+    return { ...base, link: "text-xs xl:text-sm", gap: "gap-3 xl:gap-8", button: "px-4 py-2 text-xs xl:px-6 xl:text-sm", tagline: solid ? solidTag : floatingTag };
+  if (signedIn)
+    return {
+      ...base,
+      ...tight,
+      link: "text-xs min-[1366px]:text-sm",
+      gap: solid ? "gap-3 xl:gap-5 2xl:gap-8" : "gap-3 xl:gap-5",
+      button: "px-4 py-2 text-xs min-[1366px]:px-5 min-[1366px]:text-sm",
+      tagline: solid ? "text-[8px] min-[1440px]:text-[10px] lg:hidden xl:block xl:whitespace-nowrap" : `${floatingTag} xl:whitespace-nowrap`,
+    };
+  return {
+    ...base,
+    link: "text-sm",
+    gap: "gap-5 xl:gap-6 min-[1366px]:gap-8",
+    button: solid ? "px-6 py-2.5 text-sm" : "px-5 py-2 text-sm",
+    tagline: `${solid ? solidTag : floatingTag} xl:whitespace-nowrap`,
+  };
+}
 
 export default function V2Navbar({ forceSolid = false }: { forceSolid?: boolean }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -18,8 +67,9 @@ export default function V2Navbar({ forceSolid = false }: { forceSolid?: boolean 
   const pathname = usePathname();
   const { data: session, isPending: sessionLoading } = authClient.useSession();
   const { t, lang } = useI18n();
-  // Malayalam and Hindi labels are wider: tighten the desktop bar between 1024px and 1280px so it still fits.
-  const linkText = lang === "en" ? "text-sm" : "text-xs xl:text-sm";
+  // How much the desktop bar has to fit depends on the language (Malayalam is widest) and on being signed in
+  // (My Account + Sign out). The floating bar never grows past 1280px, so only the solid bar relaxes at 2xl.
+  const fit = navFit(lang, Boolean(session), scrolled || forceSolid || isOpen || pathname !== "/");
 
   // Signed-in admins go to the admin dashboard, customers to their account.
   const role = (session?.user as { role?: string } | undefined)?.role;
@@ -97,19 +147,19 @@ export default function V2Navbar({ forceSolid = false }: { forceSolid?: boolean 
             <span className={`font-extrabold tracking-tight text-slate-900 transition-all duration-500 ${isSolid ? "text-xl md:text-2xl" : "text-lg md:text-xl"}`}>
                AlcheMetanoia
             </span>
-            <span className={`font-bold tracking-wide text-teal-700 lg:hidden xl:block transition-all duration-500 ${isSolid ? "text-[8px] md:text-[10px]" : "text-[7px] md:text-[8px]"}`}>
+            <span className={`font-bold tracking-wide text-teal-700 transition-all duration-500 ${fit.tagline}`}>
               {t.nav.tagline}
             </span>
           </div>
         </Link>
 
         {/* Desktop Links */}
-        <div className={`hidden lg:flex items-center xl:gap-8 whitespace-nowrap ${lang === "en" ? "gap-5" : "gap-3"}`}>
+        <div className={`${fit.desktop} items-center whitespace-nowrap ${fit.gap}`}>
           {navLinks.map((link) => (
             <Link
               key={link.href}
               href={link.href}
-              className={`${linkText} font-semibold transition-colors hover:text-teal-600 ${
+              className={`${fit.link} font-semibold transition-colors hover:text-teal-600 ${
                 isActive(link.href) ? "text-teal-600" : "text-slate-600"
               }`}
             >
@@ -124,7 +174,7 @@ export default function V2Navbar({ forceSolid = false }: { forceSolid?: boolean 
             onMouseLeave={() => setIsServicesOpen(false)}
           >
             <button
-              className={`${linkText} font-semibold transition-colors hover:text-teal-600 flex items-center gap-1 uppercase ${
+              className={`${fit.link} font-semibold transition-colors hover:text-teal-600 flex items-center gap-1 uppercase ${
                 pathname.startsWith("/service") ? "text-teal-600" : "text-slate-600"
               }`}
             >
@@ -170,7 +220,7 @@ export default function V2Navbar({ forceSolid = false }: { forceSolid?: boolean 
 
           <Link
             href="/contact_us"
-            className={`${linkText} font-semibold transition-colors hover:text-teal-600 ${
+            className={`${fit.link} font-semibold transition-colors hover:text-teal-600 ${
               isActive("/contact_us") ? "text-teal-600" : "text-slate-600"
             }`}
           >
@@ -180,7 +230,7 @@ export default function V2Navbar({ forceSolid = false }: { forceSolid?: boolean 
           <Link
             href="/book_appointment"
             className={`bg-slate-900 text-white font-bold rounded-full hover:bg-teal-600 transition-all transform hover:scale-105 duration-500 whitespace-nowrap flex items-center justify-center ${
-              lang !== "en" ? "px-4 py-2 text-xs xl:px-6 xl:text-sm" : isSolid ? "px-6 py-2.5 text-sm" : "px-5 py-2 text-sm"
+              fit.button
             }`}
           >
             {t.nav.bookSession.toUpperCase()}
@@ -188,7 +238,7 @@ export default function V2Navbar({ forceSolid = false }: { forceSolid?: boolean 
         </div>
 
         {/* Mobile: language + menu toggle */}
-        <div className="lg:hidden flex items-center gap-1">
+        <div className={`${fit.mobile} flex items-center gap-1`}>
           <LanguageSwitcher />
           <button onClick={() => setIsOpen(!isOpen)}>
             {isOpen ? <X size={28} /> : <Menu size={28} />}
@@ -198,23 +248,23 @@ export default function V2Navbar({ forceSolid = false }: { forceSolid?: boolean 
 
         {/* Account island: Login, or My Account + Sign out */}
         <div
-          className={`hidden lg:flex shrink-0 items-center whitespace-nowrap transition-[padding,border-radius] duration-500 ${
-            isSolid ? "" : `${islandClass} rounded-full py-2 px-6 xl:px-8`
+          className={`${fit.desktop} shrink-0 items-center whitespace-nowrap transition-[padding,border-radius] duration-500 ${
+            isSolid ? "" : `${islandClass} rounded-full py-2 ${fit.islandPad}`
           }`}
         >
           <LanguageSwitcher className="mr-3 xl:mr-4" />
-          <div className={`flex items-center gap-5 xl:gap-6 transition-opacity ${sessionLoading ? "opacity-0" : "opacity-100"}`}>
+          <div className={`flex items-center ${fit.accountGap} transition-opacity ${sessionLoading ? "opacity-0" : "opacity-100"}`}>
             <Link
               href={accountLink.href}
               aria-busy={sessionLoading}
-              className={`text-sm font-semibold transition-colors hover:text-teal-600 uppercase ${
+              className={`${fit.accountText} font-semibold transition-colors hover:text-teal-600 uppercase ${
                 pathname.startsWith(accountLink.href) ? "text-teal-600" : "text-slate-600"
               }`}
             >
               {accountLink.name}
             </Link>
             {session && (
-              <button type="button" onClick={signOut} className="text-sm font-semibold text-slate-600 hover:text-teal-600 transition-colors uppercase">
+              <button type="button" onClick={signOut} className={`${fit.accountText} font-semibold text-slate-600 hover:text-teal-600 transition-colors uppercase`}>
                 {t.nav.signOut}
               </button>
             )}
@@ -228,7 +278,7 @@ export default function V2Navbar({ forceSolid = false }: { forceSolid?: boolean 
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
-            className="lg:hidden absolute top-full left-0 right-0 bg-white border-b overflow-hidden shadow-xl"
+            className={`${fit.mobile} absolute top-full left-0 right-0 bg-white border-b overflow-hidden shadow-xl`}
           >
             <div className="p-6 flex flex-col space-y-4">
               {navLinks.map((link) => (
