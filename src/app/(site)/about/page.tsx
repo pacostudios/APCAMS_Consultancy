@@ -75,7 +75,7 @@ export default function V2About() {
               {t.about.tagline}
             </p>
           </div>
-          <p className="text-lg text-slate-500 leading-relaxed font-medium">
+          <p className="text-lg text-slate-500 leading-relaxed font-medium whitespace-pre-line">
             {t.about.intro}
           </p>
           <div className="pt-4">
