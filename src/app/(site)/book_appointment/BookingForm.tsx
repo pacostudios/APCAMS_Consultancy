@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useMemo, useRef, useState, useTransition } from "react";
+import React, { useEffect, useMemo, useRef, useState, useSyncExternalStore, useTransition } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import {
   Calendar as CalendarIcon,
@@ -28,14 +28,18 @@ import {
 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { authClient } from "@/lib/auth-client";
-import { addDaysToKey, formatAUD, toDateKey, zoneLabel } from "@/lib/format";
+import { addDaysToKey, formatAUD } from "@/lib/format";
+import { dateKeyIn, dayIn, deviceZone, zoneName } from "@/lib/timezone";
 import { bookSessionAction, cancelPendingPaymentAction, resumePaymentAction } from "./actions";
 import { useI18n } from "@/i18n/LanguageProvider";
 import { DATE_LOCALES } from "@/i18n/config";
 import { fmt, rich } from "@/i18n/format";
 
 type Service = { id: number; slug: string; name: string; priceCents: number; durationMins: number };
+/** `local` and `label` are in the visitor's zone. */
 type Slot = { start: string; local: string; label: string };
+
+const noSubscribe = () => () => {};
 
 const ICONS: Record<string, React.ReactNode> = {
   psychotherapy: <Brain size={18} />,
@@ -66,6 +70,7 @@ function dayParts(key: string, locale = "en-AU") {
 
 export default function BookingForm({
   services,
+  businessZone,
   initialSlug,
   defaults,
   paymentsEnabled,
@@ -75,6 +80,8 @@ export default function BookingForm({
   pendingPayment,
 }: {
   services: Service[];
+  /** The practice's IANA zone, passed in because the browser can't read BUSINESS_TIMEZONE. */
+  businessZone: string;
   initialSlug: string;
   defaults: { name: string; phone: string; address: string };
   paymentsEnabled: boolean;
@@ -89,6 +96,9 @@ export default function BookingForm({
   const { t: tr, lang } = useI18n();
   const t = tr.booking;
   const locale = DATE_LOCALES[lang];
+  // The visitor's own zone. The server can't know it, so the first paint uses business time.
+  const detected = useSyncExternalStore(noSubscribe, deviceZone, () => null);
+  const zone = detected ?? businessZone;
   const [pendingBusy, startPending] = useTransition();
   const [pendingError, setPendingError] = useState("");
 
@@ -137,9 +147,11 @@ export default function BookingForm({
   const selectedService = services.find((s) => s.id === formData.serviceId);
   const paysOnline = paymentsEnabled && (selectedService?.priceCents ?? 0) > 0;
   const dates = useMemo(() => {
-    const today = toDateKey(new Date());
+    const today = dateKeyIn(new Date(), zone);
     return Array.from({ length: DAYS_AHEAD }, (_, i) => addDaysToKey(today, i));
-  }, []);
+  }, [zone]);
+  // Offsets depend on the date (daylight saving), so describe the zone as of the chosen time.
+  const zoneMoment = formData.slot ? new Date(formData.slot.start) : slots?.length ? new Date(slots[0].start) : new Date();
 
   // Opening the schedule without a day picked: jump to the first day that has free times.
   const [noAvailability, setNoAvailability] = useState(false);
@@ -148,7 +160,7 @@ export default function BookingForm({
     const controller = new AbortController();
     setNoAvailability(false);
     setSlotsLoading(true);
-    fetch(`/api/slots?first=1&days=${DAYS_AHEAD}&service=${formData.serviceId}`, { signal: controller.signal })
+    fetch(`/api/slots?first=1&days=${DAYS_AHEAD}&service=${formData.serviceId}&tz=${encodeURIComponent(zone)}`, { signal: controller.signal })
       .then((r) => r.json())
       .then((data: { date: string | null }) => {
         if (data.date) setFormData((f) => (f.date ? f : { ...f, date: data.date!, slot: null }));
@@ -157,7 +169,7 @@ export default function BookingForm({
       .catch(() => {})
       .finally(() => setSlotsLoading(false));
     return () => controller.abort();
-  }, [currentStep, formData.serviceId, formData.date]);
+  }, [currentStep, formData.serviceId, formData.date, zone]);
 
   // Keep the chosen day visible in the horizontal date strip (the first free day may be off to the right).
   useEffect(() => {
@@ -171,7 +183,7 @@ export default function BookingForm({
     const controller = new AbortController();
     setSlotsLoading(true);
     setSlots(null);
-    fetch(`/api/slots?date=${formData.date}&service=${formData.serviceId}`, { signal: controller.signal })
+    fetch(`/api/slots?date=${formData.date}&service=${formData.serviceId}&tz=${encodeURIComponent(zone)}`, { signal: controller.signal })
       .then((r) => r.json())
       .then((data: { slots?: Slot[] }) => setSlots(data.slots ?? []))
       .catch((e) => {
@@ -179,7 +191,7 @@ export default function BookingForm({
       })
       .finally(() => setSlotsLoading(false));
     return () => controller.abort();
-  }, [formData.serviceId, formData.date, slotsVersion]);
+  }, [formData.serviceId, formData.date, slotsVersion, zone]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -235,6 +247,7 @@ export default function BookingForm({
         name: formData.name,
         phone: formData.phone,
         address: formData.address,
+        timezone: detected,
         website,
         elapsedMs: Date.now() - mountedAt.current,
       });
@@ -570,8 +583,9 @@ export default function BookingForm({
                     <div className="space-y-1">
                       <h2 className="text-3xl md:text-5xl font-bold text-slate-900 tracking-tight">{t.scheduleHeading}</h2>
                       <p className="text-slate-500 font-medium">
-                        {fmt(t.scheduleIntro, { service: selectedService?.name ?? "", zone: zoneLabel() })}
+                        {fmt(t.scheduleIntro, { service: selectedService?.name ?? "" })}
                       </p>
+                      <p className="text-sm font-bold text-teal-700">{fmt(t.yourZone, { zone: zoneName(zoneMoment, zone) })}</p>
                     </div>
                     <button onClick={() => paginate(2)} className="flex items-center gap-2 text-slate-400 font-bold hover:text-teal-600 transition-colors uppercase tracking-widest text-[10px] w-fit">
                       <ArrowLeft size={14} /> {t.backToService}
@@ -641,6 +655,14 @@ export default function BookingForm({
 
                   {/* Mobile Only Submit Button */}
                   <div className="pt-8 lg:hidden space-y-4">
+                    {/* Phones don't show the summary sidebar, so repeat the chosen time here. */}
+                    {formData.slot && (
+                      <div className="rounded-2xl bg-slate-900 p-5 text-white">
+                        <p className="text-[9px] font-bold text-teal-400 uppercase tracking-widest mb-1">{t.yourTime}</p>
+                        <p className="font-bold text-sm">{dayIn(new Date(formData.slot.start), zone, locale)}, {formData.slot.label}</p>
+                        <p className="text-xs text-slate-400">{zoneName(zoneMoment, zone)}</p>
+                      </div>
+                    )}
                     <ErrorMessage />
                     <ConfirmButton />
                   </div>
@@ -679,6 +701,7 @@ export default function BookingForm({
                     <div className={`p-5 rounded-2xl bg-white/5 border border-white/10 transition-all ${formData.slot ? "opacity-100" : "opacity-30"}`}>
                       <p className="text-[9px] font-bold text-teal-400 uppercase tracking-widest mb-1">{t.time}</p>
                       <h4 className="font-bold text-sm uppercase">{formData.slot?.label || "---"}</h4>
+                      {formData.slot && <p className="text-xs text-slate-400 mt-1">{zoneName(zoneMoment, zone)}</p>}
                     </div>
                   </div>
                   <div className="p-5 rounded-2xl bg-white/5 border border-white/10 flex items-center gap-3">

@@ -33,13 +33,13 @@ const CONTACT_INFO = {
     { label: "James Varkey", address: "jmsvarkey@gmail.com" },
   ],
   website: "www.alchemetanoia.com",
-  address: "123 Wellness Street, Sydney, Australia",
+  address: "42 Mosaic Street East, Shelley WA 6148",
   officeHours: [
     { day: "monFri", hours: "9:00 AM - 8:00 PM" },
     { day: "saturday", hours: "10:00 AM - 4:00 PM" },
     { day: "sunday", hours: null }
   ] as const,
-  mapIframe: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3323.5828859702816!2d151.207111015202!3d-33.868819680656!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6b12ae401e873099%3A0xc3f83738e4a938c3!2sSydney%20NSW%2C%20Australia!5e0!3m2!1sen!2sus!4v1617809356500!5m2!1sen!2sus"
+  mapIframe: "https://www.google.com/maps?q=42+Mosaic+Street+East,+Shelley+WA+6148,+Australia&z=15&output=embed"
 };
 
 export default function V2ContactUs() {

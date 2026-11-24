@@ -6,7 +6,7 @@ import { db } from "@/db";
 import { auditLog, booking, client, service } from "@/db/schema";
 import { requireStaff } from "@/lib/admin";
 import { releaseExpiredHolds } from "@/lib/bookings";
-import { formatDateTime, formatTime, formatWeekdayDate, toLocalInput, zoneLabel } from "@/lib/format";
+import { clientWhen, formatDateTime, formatTime, formatWeekdayDate, toLocalInput, zoneLabel } from "@/lib/format";
 import { ActionForm, SubmitButton } from "@/app/dashboard/(panel)/_components/ActionForm";
 import AuditList from "@/app/dashboard/(panel)/_components/AuditList";
 import { Card, Field, JoinMeetingButton, PageHeader, StatusBadge } from "@/app/dashboard/(panel)/_components/ui";
@@ -42,7 +42,7 @@ export default async function StaffBookingPage({ params }: { params: Promise<{ i
       </Link>
       <PageHeader
         title={`${s.name} with ${c.name}`}
-        description={`${b.reference} · ${formatWeekdayDate(b.startsAt)}, ${formatTime(b.startsAt)}–${formatTime(b.endsAt)} ${zoneLabel(b.startsAt)}`}
+        description={`${b.reference} · ${formatWeekdayDate(b.startsAt)}, ${formatTime(b.startsAt)}–${formatTime(b.endsAt)} ${zoneLabel()}`}
         actions={<JoinMeetingButton booking={b} />}
       />
 
@@ -57,6 +57,7 @@ export default async function StaffBookingPage({ params }: { params: Promise<{ i
                 </dd>
               </div>
               <div><dt className="text-slate-500">Duration</dt><dd className="mt-1 text-slate-900">{Math.round((b.endsAt.getTime() - b.startsAt.getTime()) / 60000)} min</dd></div>
+              {clientWhen(b) && <div className="col-span-full"><dt className="text-slate-500">Client&apos;s time</dt><dd className="mt-1 text-slate-900">{clientWhen(b, b.endsAt)}</dd></div>}
               <div><dt className="text-slate-500">Booked on</dt><dd className="mt-1 text-slate-900">{formatDateTime(b.createdAt)}</dd></div>
               {b.meetingUrl && (
                 <div className="col-span-full"><dt className="text-slate-500">Meeting link</dt>

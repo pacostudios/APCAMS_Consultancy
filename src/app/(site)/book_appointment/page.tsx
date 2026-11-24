@@ -1,7 +1,9 @@
 import { and, asc, eq, gt } from "drizzle-orm";
 import { db } from "@/db";
 import { booking, client, service } from "@/db/schema";
-import { formatTime, formatWeekdayDate, zoneLabel } from "@/lib/format";
+import { BUSINESS } from "@/lib/config";
+import { businessWhen, clientWhen } from "@/lib/format";
+import { timeIn } from "@/lib/timezone";
 import { isStripeConfigured } from "@/lib/payments";
 import { getUser } from "@/lib/user";
 import BookingForm from "./BookingForm";
@@ -31,7 +33,7 @@ export default async function BookAppointmentPage({ searchParams }: { searchPara
   // A booking they left at the Stripe page (e.g. pressed Back) that is still holding its slot.
   const hold = saved
     ? db
-        .select({ startsAt: booking.startsAt, holdExpiresAt: booking.holdExpiresAt, serviceName: service.name })
+        .select({ startsAt: booking.startsAt, holdExpiresAt: booking.holdExpiresAt, clientTimezone: booking.clientTimezone, serviceName: service.name })
         .from(booking)
         .innerJoin(service, eq(service.id, booking.serviceId))
         .where(and(eq(booking.clientId, saved.id), eq(booking.status, "pending"), eq(booking.paymentStatus, "unpaid"), gt(booking.holdExpiresAt, new Date())))
@@ -40,14 +42,15 @@ export default async function BookAppointmentPage({ searchParams }: { searchPara
   const pendingPayment = hold
     ? {
         serviceName: hold.serviceName,
-        when: `${formatWeekdayDate(hold.startsAt)}, ${formatTime(hold.startsAt)} ${zoneLabel(hold.startsAt)}`,
-        heldUntil: formatTime(hold.holdExpiresAt!),
+        when: clientWhen(hold) ?? businessWhen(hold.startsAt),
+        heldUntil: timeIn(hold.holdExpiresAt!, hold.clientTimezone ?? BUSINESS.timezone),
       }
     : null;
 
   return (
     <BookingForm
       services={services}
+      businessZone={BUSINESS.timezone}
       initialSlug={initialSlug ?? ""}
       paymentsEnabled={isStripeConfigured()}
       paymentCancelled={payment === "cancelled"}

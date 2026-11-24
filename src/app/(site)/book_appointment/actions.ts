@@ -11,6 +11,7 @@ import { actorFrom } from "@/lib/audit";
 import { BUSINESS } from "@/lib/config";
 import { toDateKey } from "@/lib/format";
 import { HOLD_MS, finaliseConfirmedBooking, isStripeConfigured, releaseCheckout, startCheckout, stripe } from "@/lib/payments";
+import { normalizeZone } from "@/lib/timezone";
 import { getUser } from "@/lib/user";
 
 const inputSchema = z.object({
@@ -22,6 +23,8 @@ const inputSchema = z.object({
     .trim()
     .regex(/^\+?[\d\s()-]{8,20}$/, "Enter a valid phone number."),
   address: z.string().trim().max(200).optional(),
+  // The device's zone, only used for display. An unknown one is ignored rather than blocking the booking.
+  timezone: z.string().nullish(),
   // Spam traps: `website` is a hidden field humans never fill; `elapsedMs` is time spent on the form.
   website: z.string().optional(),
   elapsedMs: z.number(),
@@ -94,6 +97,7 @@ export async function bookSessionAction(input: BookSessionInput): Promise<{ erro
       mode: "online",
       status: needsPayment ? "pending" : "confirmed",
       holdExpiresAt: needsPayment ? new Date(Date.now() + HOLD_MS) : null,
+      clientTimezone: normalizeZone(d.timezone),
       actor: actorFrom(user),
     });
   } catch (e) {

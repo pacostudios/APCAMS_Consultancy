@@ -210,6 +210,8 @@ export type CreateBookingInput = {
   adminNotes?: string | null;
   meetingUrl?: string | null;
   holdExpiresAt?: Date | null;
+  /** The customer's IANA zone, already validated. */
+  clientTimezone?: string | null;
   actor: Actor;
 };
 
@@ -247,6 +249,7 @@ export function createBooking(input: CreateBookingInput) {
         adminNotes: input.adminNotes || null,
         meetingUrl: input.meetingUrl || null,
         holdExpiresAt: input.holdExpiresAt ?? null,
+        clientTimezone: input.clientTimezone ?? null,
       })
       .returning()
       .get();

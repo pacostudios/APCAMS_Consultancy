@@ -7,7 +7,7 @@ import { SYSTEM_ACTOR, logAudit } from "./audit";
 import { attachZoomMeeting, findOverlap, pickStaff, staffName } from "./bookings";
 import { BUSINESS, siteUrl } from "./config";
 import { type EmailDetail, sendEmail, simpleEmail } from "./email";
-import { formatAUD, formatTime, formatWeekdayDate, zoneLabel } from "./format";
+import { businessWhen, clientWhen, formatAUD } from "./format";
 import { notifyStaff } from "./staff";
 
 /*
@@ -63,7 +63,7 @@ export async function startCheckout(bookingId: number, customerEmail: string) {
           unit_amount: b.priceCents,
           product_data: {
             name: `${serviceName} (online session)`,
-            description: `${formatWeekdayDate(b.startsAt)}, ${formatTime(b.startsAt)} ${zoneLabel(b.startsAt)} · Ref ${b.reference}`,
+            description: `${clientWhen(b) ?? businessWhen(b.startsAt)} · Ref ${b.reference}`,
           },
         },
       },
@@ -209,10 +209,12 @@ async function sendBookingConfirmation(bookingId: number, meetingUrl: string | n
     .get();
   if (!row?.email) return;
   const { b } = row;
-  const when = `${formatWeekdayDate(b.startsAt)} at ${formatTime(b.startsAt)} ${zoneLabel(b.startsAt)}`;
+  const theirs = clientWhen(b);
+  const ours = businessWhen(b.startsAt);
   const details: EmailDetail[] = [
     { label: "Session", value: row.serviceName },
-    { label: "When", value: when },
+    { label: theirs ? "Your time" : "When", value: theirs ?? ours },
+    ...(theirs ? [{ label: "Australia time", value: ours }] : []),
     { label: "Reference", value: b.reference },
     meetingUrl
       ? { label: "Zoom", value: "Join the meeting", href: meetingUrl }
@@ -233,5 +235,5 @@ async function sendBookingConfirmation(bookingId: number, meetingUrl: string | n
     url: `${siteUrl()}/account`,
     note: `Need to change plans? You can reschedule or cancel from your account up to ${BUSINESS.cancelNoticeHours} hours before your session.`,
   });
-  await sendEmail({ to: row.email, subject: `Booking confirmed: ${when}`, html, text });
+  await sendEmail({ to: row.email, subject: `Booking confirmed: ${theirs ?? ours}`, html, text });
 }

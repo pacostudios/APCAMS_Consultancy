@@ -20,6 +20,7 @@ export function listBookings({ where, order = "asc", limit, offset }: {
       endsAt: booking.endsAt,
       status: booking.status,
       mode: booking.mode,
+      clientTimezone: booking.clientTimezone,
       priceCents: booking.priceCents,
       paymentStatus: booking.paymentStatus,
       meetingUrl: booking.meetingUrl,
