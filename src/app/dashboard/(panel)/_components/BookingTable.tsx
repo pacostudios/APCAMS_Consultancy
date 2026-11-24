@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Video, MapPin } from "lucide-react";
-import { formatAUD, formatDate, formatTime } from "@/lib/format";
+import { clientWhen, formatAUD, formatDate, formatTime, zoneLabel } from "@/lib/format";
 import type { BookingRow } from "../_lib/queries";
 import { JoinMeetingButton, PaymentBadge, StatusBadge, Table, tdClass } from "./ui";
 
@@ -19,9 +19,10 @@ export default function BookingTable({ rows, showPayment = true, portal = "admin
           <td className={tdClass}>
             <div className="font-medium text-slate-900">{formatDate(b.startsAt)}</div>
             <div className="flex items-center gap-1 text-xs text-slate-500">
-              {formatTime(b.startsAt)}
+              {formatTime(b.startsAt)} {zoneLabel()}
               {b.mode === "online" ? <Video size={12} aria-label="Online" /> : <MapPin size={12} aria-label="In person" />}
             </div>
+            {clientWhen(b) && <div className="mt-0.5 text-xs text-slate-400">Client: {clientWhen(b)}</div>}
           </td>
           <td className={tdClass}>
             {admin ? (

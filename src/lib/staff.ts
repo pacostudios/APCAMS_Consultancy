@@ -7,7 +7,7 @@ import { account, availability, booking, client, service, session, staff, staffH
 import { logAudit, type Actor } from "./audit";
 import { siteUrl } from "./config";
 import { sendEmail, simpleEmail } from "./email";
-import { formatTime, formatWeekdayDate, zoneLabel } from "./format";
+import { businessWhen, clientWhen, formatWeekdayDate } from "./format";
 
 export class StaffError extends Error {}
 
@@ -128,7 +128,7 @@ export async function notifyStaff(bookingId: number, kind: NoticeKind, staffId?:
 
     const { b } = row;
     const n = NOTICE[kind];
-    const when = `${formatWeekdayDate(b.startsAt)} at ${formatTime(b.startsAt)} ${zoneLabel(b.startsAt)}`;
+    const theirs = clientWhen(b);
     const base = siteUrl();
     const { html, text } = simpleEmail({
       heading: n.heading,
@@ -136,7 +136,8 @@ export async function notifyStaff(bookingId: number, kind: NoticeKind, staffId?:
       details: [
         { label: "Session", value: row.serviceName },
         { label: "Client", value: row.clientName },
-        { label: "When", value: when },
+        { label: "When", value: businessWhen(b.startsAt) },
+        ...(theirs ? [{ label: "Client's time", value: theirs }] : []),
         { label: "Mode", value: b.mode === "online" ? "Online" : "In person" },
         { label: "Reference", value: b.reference },
       ],

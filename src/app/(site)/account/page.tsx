@@ -5,7 +5,8 @@ import { db } from "@/db";
 import { booking, service, type BookingStatus } from "@/db/schema";
 import { clientForUser, releaseExpiredHolds } from "@/lib/bookings";
 import { BUSINESS } from "@/lib/config";
-import { formatAUD, formatTime, formatWeekdayDate, formatDate, zoneLabel } from "@/lib/format";
+import { businessWhen, clientWhen, formatAUD, formatDate, formatTime } from "@/lib/format";
+import { timeIn } from "@/lib/timezone";
 import { requireUser } from "@/lib/user";
 import { cancelMyBookingAction, resumePaymentAction } from "./actions";
 import SignOutButton from "./SignOutButton";
@@ -50,6 +51,7 @@ export default async function AccountPage({
     endsAt: booking.endsAt,
     status: booking.status,
     mode: booking.mode,
+    clientTimezone: booking.clientTimezone,
     meetingUrl: booking.meetingUrl,
     paymentStatus: booking.paymentStatus,
     holdExpiresAt: booking.holdExpiresAt,
@@ -163,8 +165,11 @@ export default async function AccountPage({
                   </div>
                   <p className="flex items-center gap-2 text-slate-600 font-medium">
                     <Clock size={16} className="text-teal-600" />
-                    {formatWeekdayDate(b.startsAt)}, {formatTime(b.startsAt)} – {formatTime(b.endsAt)} {zoneLabel(b.startsAt)}
+                    {clientWhen(b, b.endsAt) ?? businessWhen(b.startsAt, b.endsAt)}
                   </p>
+                  {clientWhen(b) && (
+                    <p className="pl-6 text-sm text-slate-400 font-medium">{fmt(t.australiaTime, { when: businessWhen(b.startsAt, b.endsAt) })}</p>
+                  )}
                   <p className="text-xs text-slate-400 font-bold uppercase tracking-widest">{fmt(t.ref, { ref: b.reference })}</p>
                   <PaymentLine b={b} t={t} />
                 </div>
@@ -183,7 +188,7 @@ export default async function AccountPage({
                           {t.releaseTime}
                         </button>
                       </form>
-                      <p className="text-[11px] text-slate-400 max-w-[12rem]">{fmt(t.heldUntil, { time: formatTime(b.holdExpiresAt!) })}</p>
+                      <p className="text-[11px] text-slate-400 max-w-[12rem]">{fmt(t.heldUntil, { time: timeIn(b.holdExpiresAt!, b.clientTimezone ?? BUSINESS.timezone) })}</p>
                     </>
                   ) : (
                   <>
@@ -231,7 +236,7 @@ export default async function AccountPage({
               <li key={b.id} className="flex flex-wrap items-center justify-between gap-3 px-6 py-4">
                 <div>
                   <p lang="en" className="font-bold text-slate-800">{b.serviceName}</p>
-                  <p className="text-sm text-slate-500">{formatDate(b.startsAt)}, {formatTime(b.startsAt)}</p>
+                  <p className="text-sm text-slate-500">{clientWhen(b) ?? `${formatDate(b.startsAt)}, ${formatTime(b.startsAt)}`}</p>
                   <PaymentLine b={b} t={t} />
                 </div>
                 <span className={`px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest ${STATUS_STYLES[b.status]}`}>

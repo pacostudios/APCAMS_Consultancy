@@ -44,7 +44,7 @@ export default async function OverviewPage() {
     <>
       <PageHeader
         title={`${greeting}, ${admin.name.split(" ")[0]}`}
-        description={`${formatWeekdayDate(now)} · times shown in ${zoneLabel(now)}`}
+        description={`${formatWeekdayDate(now)} · times shown in ${zoneLabel()}`}
         actions={<Link href="/dashboard/bookings/new" className={buttonClass.primary}>New booking</Link>}
       />
 

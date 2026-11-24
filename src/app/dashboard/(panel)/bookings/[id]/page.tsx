@@ -5,7 +5,7 @@ import { ArrowLeft, Mail, MapPin, Phone, Video } from "lucide-react";
 import { db } from "@/db";
 import { BOOKING_STATUSES, PAYMENT_STATUSES, auditLog, booking, client, service, type BookingStatus } from "@/db/schema";
 import { requireAdmin } from "@/lib/admin";
-import { formatAUD, formatDateTime, formatTime, formatWeekdayDate, toLocalInput, zoneLabel } from "@/lib/format";
+import { clientWhen, formatAUD, formatDateTime, formatTime, formatWeekdayDate, toLocalInput, zoneLabel } from "@/lib/format";
 import { ActionForm, SubmitButton } from "../../_components/ActionForm";
 import { isZoomConfigured } from "@/lib/zoom";
 import { stripePaymentUrl } from "@/lib/payments";
@@ -63,7 +63,7 @@ export default async function BookingDetailPage({ params }: { params: Promise<{ 
       </Link>
       <PageHeader
         title={`${s.name} with ${c.name}`}
-        description={`${b.reference} · ${formatWeekdayDate(b.startsAt)}, ${formatTime(b.startsAt)}–${formatTime(b.endsAt)} ${zoneLabel(b.startsAt)}`}
+        description={`${b.reference} · ${formatWeekdayDate(b.startsAt)}, ${formatTime(b.startsAt)}–${formatTime(b.endsAt)} ${zoneLabel()}`}
         actions={
           <>
             <JoinMeetingButton booking={b} />
@@ -113,6 +113,7 @@ export default async function BookingDetailPage({ params }: { params: Promise<{ 
                 </dd>
               </div>
               <div><dt className="text-slate-500">Duration</dt><dd className="mt-1 text-slate-900">{Math.round((b.endsAt.getTime() - b.startsAt.getTime()) / 60000)} min</dd></div>
+              {clientWhen(b) && <div className="col-span-full"><dt className="text-slate-500">Client&apos;s time</dt><dd className="mt-1 text-slate-900">{clientWhen(b, b.endsAt)}</dd></div>}
               <div><dt className="text-slate-500">Booked on</dt><dd className="mt-1 text-slate-900">{formatDateTime(b.createdAt)}</dd></div>
               {b.meetingUrl && (
                 <div className="col-span-full"><dt className="text-slate-500">Meeting link</dt>

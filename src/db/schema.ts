@@ -218,6 +218,8 @@ export const booking = sqliteTable(
     endsAt: integer("ends_at", { mode: "timestamp_ms" }).notNull(),
     status: text("status", { enum: BOOKING_STATUSES }).notNull().default("pending"),
     mode: text("mode", { enum: BOOKING_MODES }).notNull().default("in_person"),
+    // The customer's IANA zone when they booked ("Asia/Kolkata"). Null for older bookings and ones made by staff.
+    clientTimezone: text("client_timezone"),
     // Price is copied from the service at booking time so later price changes don't rewrite history.
     priceCents: integer("price_cents").notNull(),
     paymentStatus: text("payment_status", { enum: PAYMENT_STATUSES }).notNull().default("unpaid"),
