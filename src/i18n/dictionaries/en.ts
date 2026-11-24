@@ -9,7 +9,7 @@ export const en = {
   },
 
   nav: {
-    tagline: "ALCHEMETANOIA PSYCHOTHERAPY, COUNSELLING AND MEDIATION SERVICES",
+    tagline: "PSYCHOTHERAPY, COUNSELLING AND MEDIATION SERVICES",
     home: "Home",
     about: "About",
     services: "Services",
