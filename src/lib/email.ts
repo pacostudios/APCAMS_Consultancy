@@ -73,7 +73,7 @@ const BRAND = {
   font: "'Helvetica Neue',Helvetica,Arial,sans-serif",
 };
 
-/** One row in a details table, e.g. { label: "When", value: "Mon 3 Mar, 10:00 AEDT" }. `href` makes the value a link. */
+/** One row in a details table, e.g. { label: "When", value: "Mon, 3 Mar, 10:00 am Perth time" }. `href` makes the value a link. */
 export type EmailDetail = { label: string; value: string; href?: string };
 
 /** Wraps content in the branded shell: header, white card, footer. `preheader` is the inbox preview line. */

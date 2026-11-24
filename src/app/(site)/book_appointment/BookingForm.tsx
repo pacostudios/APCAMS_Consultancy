@@ -448,7 +448,7 @@ export default function BookingForm({
                       <label htmlFor="address" className="text-[10px] font-bold text-slate-400 uppercase tracking-widest flex items-center gap-2">
                         <MapPin size={14} className="text-teal-600" /> {t.address} <span className="normal-case tracking-normal font-medium">{t.optional}</span>
                       </label>
-                      <input id="address" name="address" value={formData.address} onChange={handleInputChange} autoComplete="street-address" placeholder="12 Example St, Sydney NSW 2000" className="w-full px-6 py-4 bg-slate-50 border-2 border-transparent rounded-2xl focus:border-teal-600 transition-all font-medium text-slate-900 outline-none" />
+                      <input id="address" name="address" value={formData.address} onChange={handleInputChange} autoComplete="street-address" placeholder="12 Example St, Perth WA 6000" className="w-full px-6 py-4 bg-slate-50 border-2 border-transparent rounded-2xl focus:border-teal-600 transition-all font-medium text-slate-900 outline-none" />
                     </div>
                     {/* Honeypot: hidden from people, tempting to bots. */}
                     <div aria-hidden="true" className="absolute -left-[9999px] h-0 w-0 overflow-hidden">
