@@ -1,6 +1,6 @@
 # Alchemetanoia Consultancy
 
-Booking website and admin dashboard for Alchemetanoia Consultancy (Sydney, Australia).
+Booking website and admin dashboard for Alchemetanoia Consultancy (Perth, Australia).
 
 **Stack:** Next.js 16 · SQLite (better-sqlite3, WAL) · Drizzle ORM · Better Auth · Tailwind CSS
 
@@ -8,7 +8,7 @@ Booking website and admin dashboard for Alchemetanoia Consultancy (Sydney, Austr
 - Admin dashboard: `src/app/dashboard` (sign in at `/dashboard/login`)
 - Database schema: `src/db/schema.ts`. Booking rules: `src/lib/bookings.ts`
 
-All times are stored in UTC and shown in the business timezone (`Australia/Sydney` by default). Prices are stored in AUD cents.
+All times are stored in UTC and shown in the business timezone (`Australia/Perth` by default). Prices are stored in AUD cents.
 
 ## Setup
 

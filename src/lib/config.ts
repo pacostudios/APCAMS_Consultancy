@@ -1,10 +1,10 @@
-/** Business settings. The consultancy runs on Sydney time; every date shown or entered is in this zone. */
+/** Business settings. The practice runs on Perth time (no daylight saving); dates shown or entered use this zone unless marked as the client's. */
 /** Public site URL with no trailing slash, so `${siteUrl()}/account` never becomes `//account`. */
 export const siteUrl = () => (process.env.BETTER_AUTH_URL ?? "http://localhost:3000").replace(/\/+$/, "");
 
 export const BUSINESS = {
   name: "Alchemetanoia Consultancy",
-  timezone: process.env.BUSINESS_TIMEZONE ?? "Australia/Sydney",
+  timezone: process.env.BUSINESS_TIMEZONE ?? "Australia/Perth",
   currency: "AUD",
   locale: "en-AU",
   /** Customers can cancel online up to this many hours before a session. */

@@ -19,10 +19,10 @@ export const formatTime = (d: Date) =>
 
 export const formatDateTime = (d: Date) => `${formatDate(d)}, ${formatTime(d)}`;
 
-/** "Sydney time". Clearer than AEDT/AEST for readers outside Australia. */
+/** "Perth time". Clearer than AEDT/AEST for readers outside Australia. */
 export const zoneLabel = () => `${zoneCity(TZ)} time`;
 
-/** "Tue, 25 Nov, 5:00 pm Sydney time" */
+/** "Tue, 25 Nov, 5:00 pm Perth time" */
 export const businessWhen = (start: Date, end?: Date) =>
   `${formatWeekdayDate(start)}, ${formatTime(start)}${end ? ` – ${formatTime(end)}` : ""} ${zoneLabel()}`;
 

@@ -14,7 +14,7 @@ import { db } from "../src/db";
 import { account, availability, booking, client, service, staff, staffHours, staffService, user } from "../src/db/schema";
 import { HOME_SERVICES, SERVICE_CONTENT, SERVICE_SUMMARIES } from "./service-content";
 
-const TZ = process.env.BUSINESS_TIMEZONE ?? "Australia/Sydney";
+const TZ = process.env.BUSINESS_TIMEZONE ?? "Australia/Perth";
 
 const SERVICES = [
   { slug: "psychotherapy", name: "Psychotherapy", summary: "Science-backed clinical healing.", priceCents: 18000, durationMins: 60 },
